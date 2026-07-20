@@ -2,50 +2,104 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Triathlon Dashboard — Артур Голубев</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Triathlon — Артур Голубев</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1117; color: #e0e0e0; }
-    .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 24px 32px; border-bottom: 2px solid #e94560; }
-    .header h1 { font-size: 22px; font-weight: 700; color: #fff; }
-    .header .sub { color: #a0a0b0; font-size: 14px; margin-top: 4px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1117; color: #e0e0e0; -webkit-font-smoothing: antialiased; }
+
+    .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 20px; border-bottom: 2px solid #e94560; }
+    .header h1 { font-size: 20px; font-weight: 700; color: #fff; }
+    .header .sub { color: #a0a0b0; font-size: 13px; margin-top: 4px; }
     .countdown { display: inline-block; background: #e94560; color: #fff; padding: 4px 12px; border-radius: 16px; font-weight: 700; font-size: 13px; margin-top: 8px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; padding: 20px; max-width: 1400px; margin: 0 auto; }
-    .card { background: #1a1a2e; border-radius: 12px; padding: 20px; border: 1px solid #2a2a4a; }
-    .card h2 { font-size: 15px; color: #a0a0b0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
-    .stat-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
-    .stat { background: #16213e; border-radius: 8px; padding: 12px 16px; flex: 1; min-width: 100px; }
-    .stat .val { font-size: 24px; font-weight: 700; color: #fff; }
-    .stat .label { font-size: 11px; color: #808090; margin-top: 2px; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; padding: 12px; max-width: 1400px; margin: 0 auto; }
+    .card { background: #1a1a2e; border-radius: 12px; padding: 16px; border: 1px solid #2a2a4a; }
+    .card h2 { font-size: 13px; color: #a0a0b0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .card.wide { grid-column: 1 / -1; }
+    .card.today { border-color: #e94560; border-width: 2px; order: -1; }
+
+    .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .stat { background: #16213e; border-radius: 8px; padding: 10px 12px; flex: 1; min-width: 80px; }
+    .stat .val { font-size: 20px; font-weight: 700; color: #fff; }
+    .stat .label { font-size: 10px; color: #808090; margin-top: 2px; }
     .stat.green .val { color: #4ade80; }
     .stat.red .val { color: #f87171; }
     .stat.blue .val { color: #60a5fa; }
     .stat.yellow .val { color: #fbbf24; }
-    .chart-wrap { position: relative; height: 260px; }
-    .card.wide { grid-column: 1 / -1; }
-    .race-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .race-table th { text-align: left; color: #808090; padding: 6px 8px; border-bottom: 1px solid #2a2a4a; font-weight: 600; }
-    .race-table td { padding: 6px 8px; border-bottom: 1px solid #1f1f3a; }
+    .stat.cyan .val { color: #67e8f9; }
+
+    .chart-wrap { position: relative; height: 220px; }
+
+    .today-plan { list-style: none; }
+    .today-plan li { padding: 10px 12px; background: #16213e; border-radius: 8px; margin-bottom: 8px; font-size: 14px; line-height: 1.5; }
+    .today-plan .time { color: #fbbf24; font-weight: 600; font-size: 13px; }
+    .today-plan .type { font-weight: 700; color: #fff; }
+    .today-plan .details { color: #a0a0b0; font-size: 12px; margin-top: 4px; }
+    .today-plan .rest { color: #4ade80; font-style: italic; }
+
+    .week-row { display: flex; gap: 4px; margin-bottom: 8px; }
+    .week-day { flex: 1; text-align: center; padding: 8px 2px; background: #16213e; border-radius: 6px; font-size: 11px; }
+    .week-day .day-name { color: #808090; font-size: 10px; }
+    .week-day .day-icon { font-size: 16px; margin: 4px 0; }
+    .week-day.done { border: 1px solid #4ade80; }
+    .week-day.today-mark { border: 2px solid #e94560; }
+    .week-day.rest-day { opacity: 0.5; }
+
+    .race-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .race-table th { text-align: left; color: #808090; padding: 6px 6px; border-bottom: 1px solid #2a2a4a; font-weight: 600; font-size: 11px; }
+    .race-table td { padding: 6px 6px; border-bottom: 1px solid #1f1f3a; white-space: nowrap; }
     .race-table tr.pr td { color: #4ade80; font-weight: 600; }
-    .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
-    .tag.swim { background: #164e63; color: #67e8f9; }
-    .tag.bike { background: #3b3416; color: #fbbf24; }
-    .tag.run { background: #2a1a1a; color: #f87171; }
-    .footer { text-align: center; padding: 20px; color: #505060; font-size: 12px; }
-    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; padding: 12px; } .header { padding: 16px; } }
+
+    .footer { text-align: center; padding: 16px; color: #505060; font-size: 11px; }
+
+    @media (max-width: 700px) {
+      .grid { grid-template-columns: 1fr; gap: 10px; padding: 10px; }
+      .header { padding: 16px; }
+      .header h1 { font-size: 18px; }
+      .stat .val { font-size: 18px; }
+      .stat { padding: 8px 10px; min-width: 70px; }
+      .chart-wrap { height: 200px; }
+      .race-table { font-size: 11px; }
+      .race-table td, .race-table th { padding: 5px 4px; }
+    }
+
+    @media (max-width: 380px) {
+      .stat .val { font-size: 16px; }
+      .stat .label { font-size: 9px; }
+      .stat { padding: 6px 8px; min-width: 60px; }
+    }
   </style>
 </head>
 <body>
 
 <div class="header">
   <h1>Triathlon Dashboard</h1>
-  <div class="sub">Артур Голубев &middot; Half Ironman 113 &middot; Цель: sub-5:00</div>
+  <div class="sub">Артур Голубев &middot; Half Ironman 113 &middot; sub-5:00</div>
   <div class="countdown" id="countdown"></div>
 </div>
 
 <div class="grid">
+
+  <!-- Today's training - always first -->
+  <div class="card today wide" id="todayCard">
+    <h2 id="todayTitle">Сегодня</h2>
+    <div id="todayContent"></div>
+  </div>
+
+  <!-- Week overview -->
+  <div class="card wide">
+    <h2>Неделя 2 (19-25 июля)</h2>
+    <div class="week-row" id="weekRow"></div>
+    <div class="stat-row">
+      <div class="stat green"><div class="val" id="weekDone">0/6</div><div class="label">Тренировок</div></div>
+      <div class="stat blue"><div class="val">~6.5ч</div><div class="label">План</div></div>
+      <div class="stat red"><div class="val" id="weekRunKm">27</div><div class="label">Бег, км</div></div>
+      <div class="stat yellow"><div class="val">1</div><div class="label">Вело</div></div>
+      <div class="stat cyan"><div class="val">2</div><div class="label">Плав ОВ</div></div>
+    </div>
+  </div>
 
   <!-- Key metrics -->
   <div class="card">
@@ -56,7 +110,7 @@
       <div class="stat yellow"><div class="val">80.1</div><div class="label">Вес, кг</div></div>
     </div>
     <div class="stat-row">
-      <div class="stat"><div class="val">5:05</div><div class="label">ПАНО темп/км</div></div>
+      <div class="stat"><div class="val">5:05</div><div class="label">ПАНО /км</div></div>
       <div class="stat"><div class="val">175</div><div class="label">ПАНО ЧСС</div></div>
       <div class="stat"><div class="val">7</div><div class="label">Стартов</div></div>
     </div>
@@ -67,25 +121,25 @@
     <h2>Неделя 1 (12-19 июля)</h2>
     <div class="stat-row">
       <div class="stat green"><div class="val">5/5</div><div class="label">Тренировок</div></div>
-      <div class="stat blue"><div class="val">5:00</div><div class="label">Общее время</div></div>
+      <div class="stat blue"><div class="val">5:00</div><div class="label">Время</div></div>
       <div class="stat"><div class="val">3404</div><div class="label">Калории</div></div>
     </div>
     <div class="stat-row">
-      <div class="stat run"><div class="val">24.3</div><div class="label">Бег, км</div></div>
-      <div class="stat bike"><div class="val">67.9</div><div class="label">Вело, км</div></div>
-      <div class="stat swim"><div class="val">730</div><div class="label">Плав, м</div></div>
+      <div class="stat red"><div class="val">24.3</div><div class="label">Бег, км</div></div>
+      <div class="stat yellow"><div class="val">67.9</div><div class="label">Вело, км</div></div>
+      <div class="stat cyan"><div class="val">730</div><div class="label">Плав, м</div></div>
     </div>
   </div>
 
   <!-- Aerobic efficiency chart -->
   <div class="card">
-    <h2>Аэробная эффективность (темп при ЧСС)</h2>
+    <h2>Аэробная эффективность</h2>
     <div class="chart-wrap"><canvas id="efficiencyChart"></canvas></div>
   </div>
 
   <!-- Weekly volume chart -->
   <div class="card">
-    <h2>Тренировочный объём по неделям</h2>
+    <h2>Объём по неделям</h2>
     <div class="chart-wrap"><canvas id="volumeChart"></canvas></div>
   </div>
 
@@ -97,19 +151,19 @@
 
   <!-- Training by sport -->
   <div class="card">
-    <h2>Распределение по видам (июль)</h2>
+    <h2>По видам (июль)</h2>
     <div class="chart-wrap"><canvas id="sportChart"></canvas></div>
   </div>
 
   <!-- HR zones -->
   <div class="card">
-    <h2>ЧСС на тренировках (июль)</h2>
+    <h2>ЧСС на тренировках</h2>
     <div class="chart-wrap"><canvas id="hrChart"></canvas></div>
   </div>
 
   <!-- Swim progression -->
   <div class="card">
-    <h2>Плавание ОВ: прогресс дистанции</h2>
+    <h2>Плавание: прогресс</h2>
     <div class="chart-wrap"><canvas id="swimChart"></canvas></div>
   </div>
 
@@ -119,22 +173,85 @@
     <div style="overflow-x:auto">
     <table class="race-table">
       <tr><th>Старт</th><th>Дата</th><th>t°C</th><th>Итого</th><th>Плав</th><th>Вело</th><th>Бег</th></tr>
-      <tr><td>Ironstar Геленджик</td><td>01.06.24</td><td>23</td><td>5:23:51</td><td>43:41</td><td>2:41:33</td><td>1:54:16</td></tr>
-      <tr><td>Медный всадник СПб</td><td>20.07.24</td><td>23</td><td>5:15:05</td><td>42:57</td><td>2:29:36</td><td>1:53:30</td></tr>
-      <tr class="pr"><td>Ironstar Москва</td><td>25.08.24</td><td>28</td><td>5:06:26</td><td>39:31</td><td>2:20:01</td><td>2:00:55</td></tr>
-      <tr><td>Медный всадник СПб</td><td>12.07.25</td><td>32</td><td>5:29:57</td><td>38:08</td><td>2:38:31</td><td>2:05:53</td></tr>
-      <tr><td>Ironstar Н.Новгород</td><td>03.08.25</td><td>29</td><td>5:07:07</td><td>38:52</td><td>2:32:56</td><td>1:48:52*</td></tr>
-      <tr><td>БМТ Москва</td><td>30.05.26</td><td>14</td><td>5:36:41</td><td>41:33</td><td>2:52:50</td><td>1:55:55</td></tr>
+      <tr><td>Геленджик</td><td>06.24</td><td>23</td><td>5:23:51</td><td>43:41</td><td>2:41:33</td><td>1:54:16</td></tr>
+      <tr><td>МВ СПб</td><td>07.24</td><td>23</td><td>5:15:05</td><td>42:57</td><td>2:29:36</td><td>1:53:30</td></tr>
+      <tr class="pr"><td>Москва</td><td>08.24</td><td>28</td><td>5:06:26</td><td>39:31</td><td>2:20:01</td><td>2:00:55</td></tr>
+      <tr><td>МВ СПб</td><td>07.25</td><td>32</td><td>5:29:57</td><td>38:08</td><td>2:38:31</td><td>2:05:53</td></tr>
+      <tr><td>НН</td><td>08.25</td><td>29</td><td>5:07:07</td><td>38:52</td><td>2:32:56</td><td>1:48:52*</td></tr>
+      <tr><td>БМТ Мск</td><td>05.26</td><td>14</td><td>5:36:41</td><td>41:33</td><td>2:52:50</td><td>1:55:55</td></tr>
     </table>
     </div>
-    <div style="margin-top:8px;font-size:11px;color:#606070">* укороченная дистанция бега (~20.3 км). Зелёным — ЛР 5:06:26</div>
+    <div style="margin-top:6px;font-size:10px;color:#606070">* укорочен. бег. Зелёным — ЛР</div>
   </div>
 
 </div>
 
-<div class="footer">Данные: Garmin Connect &middot; Обновление: 20.07.2026</div>
+<div class="footer">Garmin Connect &middot; 20.07.2026</div>
 
 <script>
+// Training plan data
+const weekPlan = [
+  { day: 'Вс', date: '19.07', trainings: [{ time: '12:00', type: 'swim', name: 'Плавание ОВ карьер', details: '40 мин, 1200м, RPE 5-6, дыхание на 3' }] },
+  { day: 'Пн', date: '20.07', trainings: [] },
+  { day: 'Вт', date: '21.07', trainings: [{ time: '6:15', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.5 км, ЧСС 136-150' }] },
+  { day: 'Ср', date: '22.07', trainings: [{ time: '20:30', type: 'bike', name: 'Вело станок интервалы', details: '50 мин, 4x3\' Z3 / 2\' отдых, каденс 85+' }] },
+  { day: 'Чт', date: '23.07', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый', details: '55 мин, 30\' темп 5:50-6:10/км' }] },
+  { day: 'Пт', date: '24.07', trainings: [] },
+  { day: 'Сб', date: '25.07', trainings: [
+    { time: '8:00', type: 'run', name: 'Длинный бег Z2', details: '75 мин, ~12-13 км, ЧСС 136-150' },
+    { time: '12:00', type: 'swim', name: 'Плавание ОВ карьер', details: '45 мин, 1500м (3x600), RPE 5-6' }
+  ] },
+];
+
+const typeEmoji = { run: '\u{1F3C3}', bike: '\u{1F6B4}', swim: '\u{1F3CA}' };
+const typeColor = { run: '#f87171', bike: '#fbbf24', swim: '#67e8f9' };
+
+// Determine today
+const now = new Date();
+const msk = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+const todayDate = String(msk.getDate()).padStart(2, '0') + '.' + String(msk.getMonth() + 1).padStart(2, '0');
+const todayDayIdx = msk.getDay();
+const daysRu = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+const todayDayShort = daysRu[todayDayIdx];
+const daysLong = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+
+// Today card
+const todayEntry = weekPlan.find(d => d.date === todayDate);
+const titleEl = document.getElementById('todayTitle');
+const contentEl = document.getElementById('todayContent');
+titleEl.textContent = `Сегодня, ${daysLong[todayDayIdx]} ${todayDate}`;
+
+if (todayEntry && todayEntry.trainings.length > 0) {
+  let html = '<ul class="today-plan">';
+  for (const t of todayEntry.trainings) {
+    html += `<li>
+      <span class="time">${t.time}</span>
+      <span class="type" style="color:${typeColor[t.type]}">${typeEmoji[t.type]} ${t.name}</span>
+      <div class="details">${t.details}</div>
+    </li>`;
+  }
+  html += '</ul>';
+  contentEl.innerHTML = html;
+} else {
+  contentEl.innerHTML = '<ul class="today-plan"><li><span class="rest">День отдыха. Восстановление, стретчинг, вода 2.5+ л.</span></li></ul>';
+}
+
+// Week row
+const weekRowEl = document.getElementById('weekRow');
+let weekHtml = '';
+for (const d of weekPlan) {
+  const isToday = d.date === todayDate;
+  const hasTraining = d.trainings.length > 0;
+  const isPast = new Date('2026-' + d.date.split('.').reverse().join('-')) < new Date(msk.toDateString());
+  let cls = 'week-day';
+  if (isToday) cls += ' today-mark';
+  else if (isPast && hasTraining) cls += ' done';
+  else if (!hasTraining) cls += ' rest-day';
+  const icons = hasTraining ? d.trainings.map(t => typeEmoji[t.type]).join('') : '\u{1F6CC}';
+  weekHtml += `<div class="${cls}"><div class="day-name">${d.day}</div><div class="day-icon">${icons}</div><div style="font-size:10px;color:#606070">${d.date}</div></div>`;
+}
+weekRowEl.innerHTML = weekHtml;
+
 // Countdown
 const raceDate = new Date('2026-08-08T08:00:00+03:00');
 function updateCountdown() {
@@ -144,213 +261,154 @@ function updateCountdown() {
 }
 updateCountdown();
 
-const chartDefaults = { color: '#a0a0b0', borderColor: '#2a2a4a' };
 Chart.defaults.color = '#a0a0b0';
 Chart.defaults.borderColor = '#2a2a4a';
+Chart.defaults.font.size = 11;
 
-// Aerobic Efficiency: pace at given HR for running
+// Aerobic Efficiency
 const runData = [
-  { date: '02.06', pace: 347, hr: 130, label: '5:47' },
-  { date: '07.06', pace: 322, hr: 141, label: '5:22' },
-  { date: '12.06', pace: 285, hr: 153, label: '4:45' },
-  { date: '13.06', pace: 353, hr: 143, label: '5:53' },
-  { date: '15.06', pace: 360, hr: 125, label: '6:00' },
-  { date: '18.06', pace: 308, hr: 144, label: '5:08' },
-  { date: '20.06', pace: 324, hr: 143, label: '5:24' },
-  { date: '21.06', pace: 325, hr: 146, label: '5:25' },
-  { date: '01.07', pace: 341, hr: 146, label: '5:41' },
-  { date: '12.07', pace: 343, hr: 142, label: '5:43' },
-  { date: '14.07', pace: 369, hr: 135, label: '6:09' },
-  { date: '16.07', pace: 367, hr: 148, label: '6:07' },
+  { pace: 347, hr: 130 }, { pace: 322, hr: 141 }, { pace: 285, hr: 153 },
+  { pace: 353, hr: 143 }, { pace: 360, hr: 125 }, { pace: 308, hr: 144 },
+  { pace: 324, hr: 143 }, { pace: 325, hr: 146 }, { pace: 341, hr: 146 },
+  { pace: 343, hr: 142 }, { pace: 369, hr: 135 }, { pace: 367, hr: 148 },
 ];
+function fmtPace(s) { return Math.floor(s/60)+':'+String(Math.round(s%60)).padStart(2,'0'); }
 
 new Chart(document.getElementById('efficiencyChart'), {
   type: 'scatter',
-  data: {
-    datasets: [{
-      label: 'Темп vs ЧСС',
-      data: runData.map(d => ({ x: d.hr, y: d.pace })),
-      backgroundColor: '#e94560',
-      pointRadius: 6,
-      pointHoverRadius: 8,
-    }, {
-      label: 'ПАНО (175 ЧСС = 5:05/км)',
-      data: [{ x: 175, y: 305 }],
-      backgroundColor: '#fbbf24',
-      pointRadius: 10,
-      pointStyle: 'star',
-    }, {
-      label: 'Лаб Z2 (145 ЧСС = 7:30/км)',
-      data: [{ x: 145, y: 450 }],
-      backgroundColor: '#60a5fa',
-      pointRadius: 10,
-      pointStyle: 'triangle',
-    }]
-  },
+  data: { datasets: [{
+    label: 'Тренировки', data: runData.map(d => ({ x: d.hr, y: d.pace })),
+    backgroundColor: '#e94560', pointRadius: 5, pointHoverRadius: 7,
+  }, {
+    label: 'ПАНО', data: [{ x: 175, y: 305 }],
+    backgroundColor: '#fbbf24', pointRadius: 8, pointStyle: 'star',
+  }, {
+    label: 'Лаб Z2', data: [{ x: 145, y: 450 }],
+    backgroundColor: '#60a5fa', pointRadius: 8, pointStyle: 'triangle',
+  }] },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: { tooltip: { callbacks: {
-      label: ctx => {
-        const p = ctx.raw;
-        const m = Math.floor(p.y / 60);
-        const s = Math.round(p.y % 60);
-        return `ЧСС ${p.x}, темп ${m}:${String(s).padStart(2,'0')}/км`;
-      }
+    plugins: { legend: { display: false }, tooltip: { callbacks: {
+      label: ctx => `ЧСС ${ctx.raw.x}, ${fmtPace(ctx.raw.y)}/км`
     }}},
     scales: {
       x: { title: { display: true, text: 'ЧСС' }, min: 120, max: 180 },
-      y: { title: { display: true, text: 'Темп (сек/км)' }, reverse: true, min: 270, max: 460,
-        ticks: { callback: v => { const m = Math.floor(v/60); const s = v%60; return `${m}:${String(s).padStart(2,'0')}`; } }
-      }
+      y: { reverse: true, min: 270, max: 460, ticks: { callback: v => fmtPace(v) } }
     }
   }
 });
 
 // Weekly volume
 const weeks = [
-  { w: 'Май 4', run: 17.9, bike: 0, swim: 0 },
-  { w: 'Май 5', run: 0, bike: 43.9, swim: 1.02 },
-  { w: 'Июн 1', run: 5.8, bike: 57.7, swim: 0 },
-  { w: 'Июн 2', run: 21.7, bike: 34.98, swim: 0 },
-  { w: 'Июн 3', run: 19.3, bike: 52.8, swim: 0 },
-  { w: 'Июн 4', run: 11.1, bike: 27.6, swim: 0 },
-  { w: 'Июл 1', run: 14.6, bike: 53.4, swim: 0 },
-  { w: '12-19.07', run: 24.3, bike: 67.9, swim: 0.73 },
+  { w: 'М4', run: 17.9, bike: 0, swim: 0 }, { w: 'М5', run: 0, bike: 43.9, swim: 1.02 },
+  { w: 'И1', run: 5.8, bike: 57.7, swim: 0 }, { w: 'И2', run: 21.7, bike: 35, swim: 0 },
+  { w: 'И3', run: 19.3, bike: 52.8, swim: 0 }, { w: 'И4', run: 11.1, bike: 27.6, swim: 0 },
+  { w: 'Ил1', run: 14.6, bike: 53.4, swim: 0 }, { w: '12-19', run: 24.3, bike: 67.9, swim: 0.73 },
 ];
-
 new Chart(document.getElementById('volumeChart'), {
   type: 'bar',
   data: {
     labels: weeks.map(w => w.w),
     datasets: [
-      { label: 'Бег (км)', data: weeks.map(w => w.run), backgroundColor: '#f87171', borderRadius: 4 },
-      { label: 'Вело (км)', data: weeks.map(w => w.bike), backgroundColor: '#fbbf24', borderRadius: 4 },
-      { label: 'Плав (км)', data: weeks.map(w => w.swim), backgroundColor: '#67e8f9', borderRadius: 4 },
+      { label: 'Бег', data: weeks.map(w => w.run), backgroundColor: '#f87171', borderRadius: 3 },
+      { label: 'Вело', data: weeks.map(w => w.bike), backgroundColor: '#fbbf24', borderRadius: 3 },
+      { label: 'Плав', data: weeks.map(w => w.swim), backgroundColor: '#67e8f9', borderRadius: 3 },
     ]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: 'bottom' } },
-    scales: { x: { stacked: true }, y: { stacked: true, title: { display: true, text: 'км' } } }
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 } } },
+    scales: { x: { stacked: true }, y: { stacked: true } }
   }
 });
 
 // Race progression
-function timeToMin(s) { const p = s.split(':').map(Number); return p[0]*60 + p[1] + (p[2]||0)/60; }
+function t2m(s) { const p = s.split(':').map(Number); return p[0]*60+p[1]+(p[2]||0)/60; }
 const races = [
-  { name: 'Геленджик 06.24', total: timeToMin('5:23:51'), swim: timeToMin('0:43:41'), bike: timeToMin('2:41:33'), run: timeToMin('1:54:16') },
-  { name: 'МВ СПб 07.24', total: timeToMin('5:15:05'), swim: timeToMin('0:42:57'), bike: timeToMin('2:29:36'), run: timeToMin('1:53:30') },
-  { name: 'Москва 08.24', total: timeToMin('5:06:26'), swim: timeToMin('0:39:31'), bike: timeToMin('2:20:01'), run: timeToMin('2:00:55') },
-  { name: 'МВ СПб 07.25', total: timeToMin('5:29:57'), swim: timeToMin('0:38:08'), bike: timeToMin('2:38:31'), run: timeToMin('2:05:53') },
-  { name: 'НН 08.25', total: timeToMin('5:07:07'), swim: timeToMin('0:38:52'), bike: timeToMin('2:32:56'), run: timeToMin('1:48:52') },
-  { name: 'БМТ 05.26', total: timeToMin('5:36:41'), swim: timeToMin('0:41:33'), bike: timeToMin('2:52:50'), run: timeToMin('1:55:55') },
+  { n: 'Гел 06.24', t: t2m('5:23:51'), s: t2m('0:43:41'), b: t2m('2:41:33'), r: t2m('1:54:16') },
+  { n: 'СПб 07.24', t: t2m('5:15:05'), s: t2m('0:42:57'), b: t2m('2:29:36'), r: t2m('1:53:30') },
+  { n: 'Мск 08.24', t: t2m('5:06:26'), s: t2m('0:39:31'), b: t2m('2:20:01'), r: t2m('2:00:55') },
+  { n: 'СПб 07.25', t: t2m('5:29:57'), s: t2m('0:38:08'), b: t2m('2:38:31'), r: t2m('2:05:53') },
+  { n: 'НН 08.25', t: t2m('5:07:07'), s: t2m('0:38:52'), b: t2m('2:32:56'), r: t2m('1:48:52') },
+  { n: 'БМТ 05.26', t: t2m('5:36:41'), s: t2m('0:41:33'), b: t2m('2:52:50'), r: t2m('1:55:55') },
 ];
-
 new Chart(document.getElementById('raceChart'), {
   type: 'line',
   data: {
-    labels: races.map(r => r.name),
+    labels: races.map(r => r.n),
     datasets: [
-      { label: 'Общее', data: races.map(r => r.total), borderColor: '#e94560', backgroundColor: '#e9456030', fill: true, tension: 0.3 },
-      { label: 'Вело', data: races.map(r => r.bike), borderColor: '#fbbf24', tension: 0.3 },
-      { label: 'Бег', data: races.map(r => r.run), borderColor: '#f87171', tension: 0.3 },
-      { label: 'Плав', data: races.map(r => r.swim), borderColor: '#67e8f9', tension: 0.3 },
+      { label: 'Общее', data: races.map(r => r.t), borderColor: '#e94560', backgroundColor: '#e9456020', fill: true, tension: 0.3, pointRadius: 4 },
+      { label: 'Вело', data: races.map(r => r.b), borderColor: '#fbbf24', tension: 0.3, pointRadius: 3 },
+      { label: 'Бег', data: races.map(r => r.r), borderColor: '#f87171', tension: 0.3, pointRadius: 3 },
+      { label: 'Плав', data: races.map(r => r.s), borderColor: '#67e8f9', tension: 0.3, pointRadius: 3 },
     ]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'bottom' },
-      tooltip: { callbacks: { label: ctx => {
-        const v = ctx.raw;
-        const h = Math.floor(v/60); const m = Math.round(v%60);
-        return `${ctx.dataset.label}: ${h}:${String(m).padStart(2,'0')}`;
-      }}}
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 } },
+      tooltip: { callbacks: { label: ctx => { const v=ctx.raw; return `${ctx.dataset.label}: ${Math.floor(v/60)}:${String(Math.round(v%60)).padStart(2,'0')}`; }}}
     },
-    scales: {
-      y: { title: { display: true, text: 'Время (мин)' }, reverse: false,
-        ticks: { callback: v => { const h = Math.floor(v/60); const m = v%60; return `${h}:${String(Math.round(m)).padStart(2,'0')}`; } }
-      }
-    }
+    scales: { y: { ticks: { callback: v => `${Math.floor(v/60)}:${String(Math.round(v%60)).padStart(2,'0')}` } } }
   }
 });
 
-// Sport distribution (July)
-const julyData = { run: 145, bike: 131, swim: 24 };
+// Sport distribution
 new Chart(document.getElementById('sportChart'), {
   type: 'doughnut',
   data: {
-    labels: ['Бег', 'Вело', 'Плавание'],
-    datasets: [{ data: [julyData.run, julyData.bike, julyData.swim], backgroundColor: ['#f87171', '#fbbf24', '#67e8f9'], borderWidth: 0 }]
+    labels: ['Бег', 'Вело', 'Плав'],
+    datasets: [{ data: [145, 131, 24], backgroundColor: ['#f87171', '#fbbf24', '#67e8f9'], borderWidth: 0 }]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'bottom' },
-      tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw} мин` } }
-    }
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 } },
+      tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw} мин` } } }
   }
 });
 
 // HR chart
 const hrData = [
-  { name: 'Бег Z2 12.07', avg: 142, max: 153 },
-  { name: 'Бег Z1 14.07', avg: 135, max: 146 },
-  { name: 'Станок 15.07', avg: 125, max: 135 },
-  { name: 'Темпо 16.07', avg: 148, max: 172 },
-  { name: 'Вело 18.07', avg: 135, max: 162 },
-  { name: 'ОВ 19.07', avg: 125, max: 144 },
+  { name: 'Z2 12.07', avg: 142, max: 153 }, { name: 'Z1 14.07', avg: 135, max: 146 },
+  { name: 'Стан 15.07', avg: 125, max: 135 }, { name: 'Темпо 16.07', avg: 148, max: 172 },
+  { name: 'Вело 18.07', avg: 135, max: 162 }, { name: 'ОВ 19.07', avg: 125, max: 144 },
 ];
-
 new Chart(document.getElementById('hrChart'), {
   type: 'bar',
   data: {
     labels: hrData.map(d => d.name),
     datasets: [
-      { label: 'ср.ЧСС', data: hrData.map(d => d.avg), backgroundColor: '#60a5fa', borderRadius: 4 },
-      { label: 'макс.ЧСС', data: hrData.map(d => d.max), backgroundColor: '#f8717140', borderColor: '#f87171', borderWidth: 1, borderRadius: 4 },
+      { label: 'ср.ЧСС', data: hrData.map(d => d.avg), backgroundColor: '#60a5fa', borderRadius: 3 },
+      { label: 'макс', data: hrData.map(d => d.max), backgroundColor: '#f8717140', borderColor: '#f87171', borderWidth: 1, borderRadius: 3 },
     ]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: 'bottom' },
-      annotation: {} },
-    scales: { y: { min: 100, max: 190, title: { display: true, text: 'ЧСС' } } }
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 } } },
+    scales: { y: { min: 100, max: 190 } }
   }
 });
 
 // Swim progression
 const swimData = [
-  { date: '28.05', dist: 1020, type: 'Бассейн' },
-  { date: '24.05', dist: 1020, type: 'Бассейн' },
-  { date: '11.07 (1)', dist: 390, type: 'ОВ' },
-  { date: '11.07 (2)', dist: 480, type: 'ОВ' },
-  { date: '19.07', dist: 730, type: 'ОВ' },
+  { d: '24.05', v: 1020, ow: false }, { d: '28.05', v: 1020, ow: false },
+  { d: '11.07', v: 390, ow: true }, { d: '11.07(2)', v: 480, ow: true }, { d: '19.07', v: 730, ow: true },
 ];
-
 new Chart(document.getElementById('swimChart'), {
   type: 'bar',
   data: {
-    labels: swimData.map(d => d.date),
+    labels: swimData.map(d => d.d),
     datasets: [{
-      label: 'Дистанция (м)',
-      data: swimData.map(d => d.dist),
-      backgroundColor: swimData.map(d => d.type === 'ОВ' ? '#67e8f9' : '#164e63'),
-      borderRadius: 4,
+      label: 'Дистанция (м)', data: swimData.map(d => d.v),
+      backgroundColor: swimData.map(d => d.ow ? '#67e8f9' : '#164e63'), borderRadius: 3,
     }, {
-      label: 'Цель Ironstar',
-      data: swimData.map(() => 1900),
-      type: 'line',
-      borderColor: '#e94560',
-      borderDash: [5, 5],
-      pointRadius: 0,
-      fill: false,
+      label: 'Цель 1900м', data: swimData.map(() => 1900),
+      type: 'line', borderColor: '#e94560', borderDash: [4, 4], pointRadius: 0, fill: false,
     }]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: 'bottom' } },
-    scales: { y: { title: { display: true, text: 'метры' }, max: 2100 } }
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 } } },
+    scales: { y: { max: 2100 } }
   }
 });
 </script>
