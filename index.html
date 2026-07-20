@@ -59,6 +59,9 @@
     .icon-sm { width: 16px; height: 16px; }
     .icon-xs { width: 14px; height: 14px; }
 
+    .wakeup { font-size: 11px; color: #a78bfa; font-weight: 600; }
+    .wakeup-today { font-size: 13px; color: #a78bfa; font-weight: 600; display: block; margin-bottom: 8px; }
+
     .race-table { width: 100%; border-collapse: collapse; font-size: 12px; }
     .race-table th { text-align: left; color: #808090; padding: 6px 6px; border-bottom: 1px solid #2a2a4a; font-weight: 600; font-size: 11px; }
     .race-table td { padding: 6px 6px; border-bottom: 1px solid #1f1f3a; white-space: nowrap; }
@@ -174,6 +177,7 @@ const ICONS = {
   done: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#16a34a"/><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   pending: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#505060" stroke-width="1.5"/><circle cx="8" cy="8" r="2" fill="#505060"/></svg>`,
   today_marker: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#e94560" stroke-width="2"/><path d="M8 4v4l3 2" stroke="#e94560" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
+  alarm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3L2 6"/><path d="M22 6l-3-3"/></svg>`,
   run_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="3" r="2"/><path d="M17 11l-2-2-3 4-2-1-4 5"/><path d="M7 20l3-5 2 1 3-4 2 2 3-2"/></svg>`,
   bike_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l3-7h4l2 4h3"/><path d="M9 10l3 7"/><circle cx="13" cy="6" r="1.5"/></svg>`,
   swim_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><path d="M2 14c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><circle cx="12" cy="6" r="2"/><path d="M7 10h10"/></svg>`,
@@ -182,13 +186,13 @@ const ICONS = {
 const typeColor = { run: '#f87171', bike: '#fbbf24', swim: '#67e8f9' };
 
 const weekPlan = [
-  { day: 'Вс', date: '19.07', trainings: [{ time: '12:00', type: 'swim', name: 'Плавание ОВ 1200м', details: '40 мин, RPE 5-6, дыхание на 3', done: true }] },
-  { day: 'Пн', date: '20.07', trainings: [] },
-  { day: 'Вт', date: '21.07', trainings: [{ time: '6:15', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.5 км, ЧСС 136-150', done: false }] },
-  { day: 'Ср', date: '22.07', trainings: [{ time: '20:30', type: 'bike', name: 'Вело станок интервалы', details: "50 мин, 4x3' Z3 / 2' отдых, каденс 85+", done: false }] },
-  { day: 'Чт', date: '23.07', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый', details: "55 мин, 30' темп 5:50-6:10/км", done: false }] },
-  { day: 'Пт', date: '24.07', trainings: [] },
-  { day: 'Сб', date: '25.07', trainings: [
+  { day: 'Вс', date: '19.07', wakeup: '10:00', trainings: [{ time: '12:00', type: 'swim', name: 'Плавание ОВ 1200м', details: '40 мин, RPE 5-6, дыхание на 3', done: true }] },
+  { day: 'Пн', date: '20.07', wakeup: '6:45', trainings: [] },
+  { day: 'Вт', date: '21.07', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.5 км, ЧСС 136-150', done: false }] },
+  { day: 'Ср', date: '22.07', wakeup: '6:45', trainings: [{ time: '20:30', type: 'bike', name: 'Вело станок интервалы', details: "50 мин, 4x3' Z3 / 2' отдых, каденс 85+", done: false }] },
+  { day: 'Чт', date: '23.07', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый', details: "55 мин, 30' темп 5:50-6:10/км", done: false }] },
+  { day: 'Пт', date: '24.07', wakeup: '6:45', trainings: [] },
+  { day: 'Сб', date: '25.07', wakeup: '7:00', trainings: [
     { time: '8:00', type: 'run', name: 'Длинный бег Z2', details: '75 мин, ~12-13 км, ЧСС 136-150', done: false },
     { time: '12:00', type: 'swim', name: 'Плавание ОВ 1500м', details: '45 мин, 3x600, RPE 5-6', done: false }
   ] },
@@ -206,24 +210,30 @@ const todayEntry = weekPlan.find(d => d.date === todayDate);
 document.getElementById('todayTitle').textContent = `Сегодня, ${daysLong[todayDayIdx]} ${todayDate}`;
 const contentEl = document.getElementById('todayContent');
 
-if (todayEntry && todayEntry.trainings.length > 0) {
-  let html = '<ul class="today-plan">';
-  for (const t of todayEntry.trainings) {
-    const icon = ICONS[t.type] || '';
-    const status = t.done ? ICONS.done : ICONS.today_marker;
-    html += `<li>
-      <div class="sport-icon">${icon}</div>
-      <div class="info">
-        <span class="time">${t.time}</span>
-        <span class="type" style="color:${typeColor[t.type]}">${t.name}</span> ${status}
-        <div class="details">${t.details}</div>
-      </div>
-    </li>`;
+if (todayEntry) {
+  let html = '';
+  if (todayEntry.wakeup) {
+    html += `<div class="wakeup-today">${ICONS.alarm} Подъём ${todayEntry.wakeup}</div>`;
   }
-  html += '</ul>';
+  if (todayEntry.trainings.length > 0) {
+    html += '<ul class="today-plan">';
+    for (const t of todayEntry.trainings) {
+      const icon = ICONS[t.type] || '';
+      const status = t.done ? ICONS.done : ICONS.today_marker;
+      html += `<li>
+        <div class="sport-icon">${icon}</div>
+        <div class="info">
+          <span class="time">${t.time}</span>
+          <span class="type" style="color:${typeColor[t.type]}">${t.name}</span> ${status}
+          <div class="details">${t.details}</div>
+        </div>
+      </li>`;
+    }
+    html += '</ul>';
+  } else {
+    html += `<ul class="today-plan"><li><div class="sport-icon">${ICONS.rest}</div><div class="info"><span class="rest">День отдыха. Восстановление, стретчинг, вода 2.5+ л.</span></div></li></ul>`;
+  }
   contentEl.innerHTML = html;
-} else {
-  contentEl.innerHTML = `<ul class="today-plan"><li><div class="sport-icon">${ICONS.rest}</div><div class="info"><span class="rest">День отдыха. Восстановление, стретчинг, вода 2.5+ л.</span></div></li></ul>`;
 }
 
 // Week days detailed view
@@ -244,7 +254,7 @@ for (const d of weekPlan) {
   if (isRest) cls += ' is-rest';
 
   whtml += `<div class="${cls}">`;
-  whtml += `<div class="wday-label"><div class="wd-name">${d.day}</div><div class="wd-date">${d.date}</div></div>`;
+  whtml += `<div class="wday-label"><div class="wd-name">${d.day}</div><div class="wd-date">${d.date}</div>${d.wakeup ? `<div class="wakeup">${d.wakeup}</div>` : ''}</div>`;
   whtml += `<div class="wday-trains">`;
 
   if (isRest) {
