@@ -33,19 +33,31 @@
     .chart-wrap { position: relative; height: 220px; }
 
     .today-plan { list-style: none; }
-    .today-plan li { padding: 10px 12px; background: #16213e; border-radius: 8px; margin-bottom: 8px; font-size: 14px; line-height: 1.5; }
+    .today-plan li { padding: 10px 12px; background: #16213e; border-radius: 8px; margin-bottom: 8px; font-size: 14px; line-height: 1.5; display: flex; align-items: flex-start; gap: 10px; }
+    .today-plan .sport-icon { flex-shrink: 0; margin-top: 2px; }
+    .today-plan .info { flex: 1; }
     .today-plan .time { color: #fbbf24; font-weight: 600; font-size: 13px; }
     .today-plan .type { font-weight: 700; color: #fff; }
     .today-plan .details { color: #a0a0b0; font-size: 12px; margin-top: 4px; }
     .today-plan .rest { color: #4ade80; font-style: italic; }
 
-    .week-row { display: flex; gap: 4px; margin-bottom: 8px; }
-    .week-day { flex: 1; text-align: center; padding: 8px 2px; background: #16213e; border-radius: 6px; font-size: 11px; }
-    .week-day .day-name { color: #808090; font-size: 10px; }
-    .week-day .day-icon { font-size: 16px; margin: 4px 0; }
-    .week-day.done { border: 1px solid #4ade80; }
-    .week-day.today-mark { border: 2px solid #e94560; }
-    .week-day.rest-day { opacity: 0.5; }
+    .week-days { display: flex; flex-direction: column; gap: 6px; }
+    .wday { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #16213e; border-radius: 8px; font-size: 13px; }
+    .wday .wday-label { width: 60px; flex-shrink: 0; }
+    .wday .wday-label .wd-name { font-weight: 600; color: #a0a0b0; font-size: 12px; }
+    .wday .wday-label .wd-date { font-size: 10px; color: #606070; }
+    .wday .wday-trains { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+    .wday .wt { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+    .wday .wt-name { color: #c0c0d0; }
+    .wday .wt-status { flex-shrink: 0; margin-left: auto; }
+    .wday.is-today { border: 2px solid #e94560; }
+    .wday.is-past .wt-name { color: #808090; }
+    .wday.is-rest { opacity: 0.5; }
+    .wday .rest-text { color: #4ade80; font-size: 12px; font-style: italic; }
+
+    .icon { display: inline-block; width: 20px; height: 20px; vertical-align: middle; }
+    .icon-sm { width: 16px; height: 16px; }
+    .icon-xs { width: 14px; height: 14px; }
 
     .race-table { width: 100%; border-collapse: collapse; font-size: 12px; }
     .race-table th { text-align: left; color: #808090; padding: 6px 6px; border-bottom: 1px solid #2a2a4a; font-weight: 600; font-size: 11px; }
@@ -64,7 +76,6 @@
       .race-table { font-size: 11px; }
       .race-table td, .race-table th { padding: 5px 4px; }
     }
-
     @media (max-width: 380px) {
       .stat .val { font-size: 16px; }
       .stat .label { font-size: 9px; }
@@ -82,26 +93,23 @@
 
 <div class="grid">
 
-  <!-- Today's training - always first -->
   <div class="card today wide" id="todayCard">
     <h2 id="todayTitle">Сегодня</h2>
     <div id="todayContent"></div>
   </div>
 
-  <!-- Week overview -->
   <div class="card wide">
     <h2>Неделя 2 (19-25 июля)</h2>
-    <div class="week-row" id="weekRow"></div>
-    <div class="stat-row">
+    <div class="week-days" id="weekDays"></div>
+    <div class="stat-row" style="margin-top:12px">
       <div class="stat green"><div class="val" id="weekDone">0/6</div><div class="label">Тренировок</div></div>
       <div class="stat blue"><div class="val">~6.5ч</div><div class="label">План</div></div>
-      <div class="stat red"><div class="val" id="weekRunKm">27</div><div class="label">Бег, км</div></div>
+      <div class="stat red"><div class="val">27</div><div class="label">Бег, км</div></div>
       <div class="stat yellow"><div class="val">1</div><div class="label">Вело</div></div>
       <div class="stat cyan"><div class="val">2</div><div class="label">Плав ОВ</div></div>
     </div>
   </div>
 
-  <!-- Key metrics -->
   <div class="card">
     <h2>Текущая форма</h2>
     <div class="stat-row">
@@ -116,7 +124,6 @@
     </div>
   </div>
 
-  <!-- Week 1 summary -->
   <div class="card">
     <h2>Неделя 1 (12-19 июля)</h2>
     <div class="stat-row">
@@ -131,43 +138,13 @@
     </div>
   </div>
 
-  <!-- Aerobic efficiency chart -->
-  <div class="card">
-    <h2>Аэробная эффективность</h2>
-    <div class="chart-wrap"><canvas id="efficiencyChart"></canvas></div>
-  </div>
+  <div class="card"><h2>Аэробная эффективность</h2><div class="chart-wrap"><canvas id="efficiencyChart"></canvas></div></div>
+  <div class="card"><h2>Объём по неделям</h2><div class="chart-wrap"><canvas id="volumeChart"></canvas></div></div>
+  <div class="card"><h2>Прогресс на стартах</h2><div class="chart-wrap"><canvas id="raceChart"></canvas></div></div>
+  <div class="card"><h2>По видам (июль)</h2><div class="chart-wrap"><canvas id="sportChart"></canvas></div></div>
+  <div class="card"><h2>ЧСС на тренировках</h2><div class="chart-wrap"><canvas id="hrChart"></canvas></div></div>
+  <div class="card"><h2>Плавание: прогресс</h2><div class="chart-wrap"><canvas id="swimChart"></canvas></div></div>
 
-  <!-- Weekly volume chart -->
-  <div class="card">
-    <h2>Объём по неделям</h2>
-    <div class="chart-wrap"><canvas id="volumeChart"></canvas></div>
-  </div>
-
-  <!-- Race results progression -->
-  <div class="card">
-    <h2>Прогресс на стартах</h2>
-    <div class="chart-wrap"><canvas id="raceChart"></canvas></div>
-  </div>
-
-  <!-- Training by sport -->
-  <div class="card">
-    <h2>По видам (июль)</h2>
-    <div class="chart-wrap"><canvas id="sportChart"></canvas></div>
-  </div>
-
-  <!-- HR zones -->
-  <div class="card">
-    <h2>ЧСС на тренировках</h2>
-    <div class="chart-wrap"><canvas id="hrChart"></canvas></div>
-  </div>
-
-  <!-- Swim progression -->
-  <div class="card">
-    <h2>Плавание: прогресс</h2>
-    <div class="chart-wrap"><canvas id="swimChart"></canvas></div>
-  </div>
-
-  <!-- Race table -->
   <div class="card wide">
     <h2>Результаты стартов</h2>
     <div style="overflow-x:auto">
@@ -183,87 +160,125 @@
     </div>
     <div style="margin-top:6px;font-size:10px;color:#606070">* укорочен. бег. Зелёным — ЛР</div>
   </div>
-
 </div>
 
 <div class="footer">Garmin Connect &middot; 20.07.2026</div>
 
 <script>
-// Training plan data
+// SVG icons
+const ICONS = {
+  run: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="3" r="2"/><path d="M17 11l-2-2-3 4-2-1-4 5"/><path d="M7 20l3-5 2 1 3-4 2 2 3-2"/></svg>`,
+  bike: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l3-7h4l2 4h3"/><path d="M9 10l3 7"/><circle cx="13" cy="6" r="1.5"/></svg>`,
+  swim: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><path d="M2 14c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><circle cx="12" cy="6" r="2"/><path d="M7 10h10"/></svg>`,
+  rest: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>`,
+  done: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#16a34a"/><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  pending: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#505060" stroke-width="1.5"/><circle cx="8" cy="8" r="2" fill="#505060"/></svg>`,
+  today_marker: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#e94560" stroke-width="2"/><path d="M8 4v4l3 2" stroke="#e94560" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
+  run_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="3" r="2"/><path d="M17 11l-2-2-3 4-2-1-4 5"/><path d="M7 20l3-5 2 1 3-4 2 2 3-2"/></svg>`,
+  bike_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l3-7h4l2 4h3"/><path d="M9 10l3 7"/><circle cx="13" cy="6" r="1.5"/></svg>`,
+  swim_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><path d="M2 14c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><circle cx="12" cy="6" r="2"/><path d="M7 10h10"/></svg>`,
+};
+
+const typeColor = { run: '#f87171', bike: '#fbbf24', swim: '#67e8f9' };
+
 const weekPlan = [
-  { day: 'Вс', date: '19.07', trainings: [{ time: '12:00', type: 'swim', name: 'Плавание ОВ карьер', details: '40 мин, 1200м, RPE 5-6, дыхание на 3' }] },
+  { day: 'Вс', date: '19.07', trainings: [{ time: '12:00', type: 'swim', name: 'Плавание ОВ 1200м', details: '40 мин, RPE 5-6, дыхание на 3', done: true }] },
   { day: 'Пн', date: '20.07', trainings: [] },
-  { day: 'Вт', date: '21.07', trainings: [{ time: '6:15', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.5 км, ЧСС 136-150' }] },
-  { day: 'Ср', date: '22.07', trainings: [{ time: '20:30', type: 'bike', name: 'Вело станок интервалы', details: '50 мин, 4x3\' Z3 / 2\' отдых, каденс 85+' }] },
-  { day: 'Чт', date: '23.07', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый', details: '55 мин, 30\' темп 5:50-6:10/км' }] },
+  { day: 'Вт', date: '21.07', trainings: [{ time: '6:15', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.5 км, ЧСС 136-150', done: false }] },
+  { day: 'Ср', date: '22.07', trainings: [{ time: '20:30', type: 'bike', name: 'Вело станок интервалы', details: "50 мин, 4x3' Z3 / 2' отдых, каденс 85+", done: false }] },
+  { day: 'Чт', date: '23.07', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый', details: "55 мин, 30' темп 5:50-6:10/км", done: false }] },
   { day: 'Пт', date: '24.07', trainings: [] },
   { day: 'Сб', date: '25.07', trainings: [
-    { time: '8:00', type: 'run', name: 'Длинный бег Z2', details: '75 мин, ~12-13 км, ЧСС 136-150' },
-    { time: '12:00', type: 'swim', name: 'Плавание ОВ карьер', details: '45 мин, 1500м (3x600), RPE 5-6' }
+    { time: '8:00', type: 'run', name: 'Длинный бег Z2', details: '75 мин, ~12-13 км, ЧСС 136-150', done: false },
+    { time: '12:00', type: 'swim', name: 'Плавание ОВ 1500м', details: '45 мин, 3x600, RPE 5-6', done: false }
   ] },
 ];
 
-const typeEmoji = { run: '\u{1F3C3}', bike: '\u{1F6B4}', swim: '\u{1F3CA}' };
-const typeColor = { run: '#f87171', bike: '#fbbf24', swim: '#67e8f9' };
-
-// Determine today
+// Determine today (Moscow)
 const now = new Date();
 const msk = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
 const todayDate = String(msk.getDate()).padStart(2, '0') + '.' + String(msk.getMonth() + 1).padStart(2, '0');
 const todayDayIdx = msk.getDay();
-const daysRu = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-const todayDayShort = daysRu[todayDayIdx];
 const daysLong = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
 
 // Today card
 const todayEntry = weekPlan.find(d => d.date === todayDate);
-const titleEl = document.getElementById('todayTitle');
+document.getElementById('todayTitle').textContent = `Сегодня, ${daysLong[todayDayIdx]} ${todayDate}`;
 const contentEl = document.getElementById('todayContent');
-titleEl.textContent = `Сегодня, ${daysLong[todayDayIdx]} ${todayDate}`;
 
 if (todayEntry && todayEntry.trainings.length > 0) {
   let html = '<ul class="today-plan">';
   for (const t of todayEntry.trainings) {
+    const icon = ICONS[t.type] || '';
+    const status = t.done ? ICONS.done : ICONS.today_marker;
     html += `<li>
-      <span class="time">${t.time}</span>
-      <span class="type" style="color:${typeColor[t.type]}">${typeEmoji[t.type]} ${t.name}</span>
-      <div class="details">${t.details}</div>
+      <div class="sport-icon">${icon}</div>
+      <div class="info">
+        <span class="time">${t.time}</span>
+        <span class="type" style="color:${typeColor[t.type]}">${t.name}</span> ${status}
+        <div class="details">${t.details}</div>
+      </div>
     </li>`;
   }
   html += '</ul>';
   contentEl.innerHTML = html;
 } else {
-  contentEl.innerHTML = '<ul class="today-plan"><li><span class="rest">День отдыха. Восстановление, стретчинг, вода 2.5+ л.</span></li></ul>';
+  contentEl.innerHTML = `<ul class="today-plan"><li><div class="sport-icon">${ICONS.rest}</div><div class="info"><span class="rest">День отдыха. Восстановление, стретчинг, вода 2.5+ л.</span></div></li></ul>`;
 }
 
-// Week row
-const weekRowEl = document.getElementById('weekRow');
-let weekHtml = '';
+// Week days detailed view
+const weekEl = document.getElementById('weekDays');
+let whtml = '';
+let doneCount = 0;
+
 for (const d of weekPlan) {
   const isToday = d.date === todayDate;
-  const hasTraining = d.trainings.length > 0;
-  const isPast = new Date('2026-' + d.date.split('.').reverse().join('-')) < new Date(msk.toDateString());
-  let cls = 'week-day';
-  if (isToday) cls += ' today-mark';
-  else if (isPast && hasTraining) cls += ' done';
-  else if (!hasTraining) cls += ' rest-day';
-  const icons = hasTraining ? d.trainings.map(t => typeEmoji[t.type]).join('') : '\u{1F6CC}';
-  weekHtml += `<div class="${cls}"><div class="day-name">${d.day}</div><div class="day-icon">${icons}</div><div style="font-size:10px;color:#606070">${d.date}</div></div>`;
+  const dateObj = new Date('2026-' + d.date.split('.').reverse().join('-'));
+  const todayObj = new Date(msk.toDateString());
+  const isPast = dateObj < todayObj;
+  const isRest = d.trainings.length === 0;
+
+  let cls = 'wday';
+  if (isToday) cls += ' is-today';
+  else if (isPast) cls += ' is-past';
+  if (isRest) cls += ' is-rest';
+
+  whtml += `<div class="${cls}">`;
+  whtml += `<div class="wday-label"><div class="wd-name">${d.day}</div><div class="wd-date">${d.date}</div></div>`;
+  whtml += `<div class="wday-trains">`;
+
+  if (isRest) {
+    whtml += `<div class="rest-text">${ICONS.rest} Отдых</div>`;
+  } else {
+    for (const t of d.trainings) {
+      const iconSm = ICONS[t.type + '_sm'] || '';
+      let statusIcon;
+      if (t.done) { statusIcon = ICONS.done; doneCount++; }
+      else if (isToday) statusIcon = ICONS.today_marker;
+      else if (isPast) statusIcon = `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#ef4444" stroke-width="1.5"/><path d="M5 5l6 6M11 5l-6 6" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+      else statusIcon = ICONS.pending;
+
+      whtml += `<div class="wt">${iconSm} <span class="wt-name">${t.name}</span><span class="wt-status">${statusIcon}</span></div>`;
+    }
+  }
+
+  whtml += `</div></div>`;
 }
-weekRowEl.innerHTML = weekHtml;
+weekEl.innerHTML = whtml;
+
+const totalTrainings = weekPlan.reduce((s, d) => s + d.trainings.length, 0);
+document.getElementById('weekDone').textContent = `${doneCount}/${totalTrainings}`;
 
 // Countdown
 const raceDate = new Date('2026-08-08T08:00:00+03:00');
-function updateCountdown() {
-  const diff = raceDate - new Date();
-  const days = Math.ceil(diff / 86400000);
-  document.getElementById('countdown').textContent = days > 0 ? `Ironstar Москва: ${days} дн.` : 'Race Day!';
-}
-updateCountdown();
+const days = Math.ceil((raceDate - new Date()) / 86400000);
+document.getElementById('countdown').textContent = days > 0 ? `Ironstar Москва: ${days} дн.` : 'Race Day!';
 
 Chart.defaults.color = '#a0a0b0';
 Chart.defaults.borderColor = '#2a2a4a';
 Chart.defaults.font.size = 11;
+
+function fmtPace(s) { return Math.floor(s/60)+':'+String(Math.round(s%60)).padStart(2,'0'); }
 
 // Aerobic Efficiency
 const runData = [
@@ -272,8 +287,6 @@ const runData = [
   { pace: 324, hr: 143 }, { pace: 325, hr: 146 }, { pace: 341, hr: 146 },
   { pace: 343, hr: 142 }, { pace: 369, hr: 135 }, { pace: 367, hr: 148 },
 ];
-function fmtPace(s) { return Math.floor(s/60)+':'+String(Math.round(s%60)).padStart(2,'0'); }
-
 new Chart(document.getElementById('efficiencyChart'), {
   type: 'scatter',
   data: { datasets: [{
@@ -288,9 +301,7 @@ new Chart(document.getElementById('efficiencyChart'), {
   }] },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: { callbacks: {
-      label: ctx => `ЧСС ${ctx.raw.x}, ${fmtPace(ctx.raw.y)}/км`
-    }}},
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `ЧСС ${ctx.raw.x}, ${fmtPace(ctx.raw.y)}/км` }}},
     scales: {
       x: { title: { display: true, text: 'ЧСС' }, min: 120, max: 180 },
       y: { reverse: true, min: 270, max: 460, ticks: { callback: v => fmtPace(v) } }
