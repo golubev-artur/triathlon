@@ -97,16 +97,22 @@
 
     .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
     .cal-header { text-align: center; font-size: 10px; color: #606070; font-weight: 600; padding: 4px 0; text-transform: uppercase; }
-    .cal-day { background: #16213e; border-radius: 6px; padding: 6px 4px; min-height: 52px; text-align: center; font-size: 11px; position: relative; }
-    .cal-day.empty { background: transparent; }
-    .cal-day .cal-num { color: #808090; font-weight: 600; margin-bottom: 4px; }
+    .cal-day { background: #16213e; border-radius: 6px; padding: 6px 4px; min-height: 60px; text-align: left; font-size: 11px; position: relative; overflow: hidden; cursor: default; transition: all 0.2s; }
+    .cal-day.empty { background: transparent; min-height: 0; }
+    .cal-day .cal-num { color: #808090; font-weight: 600; margin-bottom: 3px; text-align: center; }
     .cal-day.is-today .cal-num { color: #e94560; font-weight: 700; }
     .cal-day.is-race { border: 2px solid #e94560; background: #2a1020; }
     .cal-day.is-race .cal-num { color: #e94560; font-weight: 700; }
-    .cal-day .cal-dots { display: flex; gap: 3px; justify-content: center; flex-wrap: wrap; }
-    .cal-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .cal-race-label { font-size: 8px; color: #e94560; font-weight: 700; margin-top: 2px; line-height: 1.1; }
+    .cal-train { display: flex; align-items: center; gap: 2px; margin-bottom: 2px; }
+    .cal-train-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .cal-train-name { font-size: 8px; color: #c0c0d0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+    .cal-train-details { display: none; font-size: 8px; color: #909090; line-height: 1.3; margin-left: 8px; }
+    .cal-day.expanded { position: absolute; z-index: 10; min-height: auto; width: 180px; box-shadow: 0 4px 16px rgba(0,0,0,0.6); }
+    .cal-day.expanded .cal-train-name { white-space: normal; font-size: 10px; }
+    .cal-day.expanded .cal-train-details { display: block; }
+    .cal-race-label { font-size: 7px; color: #e94560; font-weight: 700; margin-top: 2px; line-height: 1.1; text-align: center; }
     .cal-month-title { grid-column: 1 / -1; text-align: center; font-size: 13px; color: #a0a0b0; font-weight: 600; padding: 8px 0 4px; }
+    .cal-rest { font-size: 8px; color: #4ade80; text-align: center; font-style: italic; }
 
     .card-overlay { display: none; }
     .card-overlay.active { display: block; position: fixed; inset: 0; z-index: 1000; background: #0f1117; overflow-y: auto; padding: 0; }
@@ -161,11 +167,13 @@
 
   <div class="card wide" id="weekCard">
     <div class="week-nav">
-      <h2 id="weekTitle">Неделя</h2>
       <div class="week-nav-btns">
         <button id="weekPrev" onclick="changeWeek(-1)" title="Предыдущая неделя">&#8249;</button>
-        <button id="calToggle" onclick="toggleCalendar()" title="Календарь">&#9776;</button>
         <button id="weekNext" onclick="changeWeek(1)" title="Следующая неделя">&#8250;</button>
+      </div>
+      <h2 id="weekTitle">Неделя</h2>
+      <div class="week-nav-btns">
+        <button id="calToggle" onclick="toggleCalendar()" title="Календарь">&#9776;</button>
       </div>
     </div>
     <div id="weekContent">
@@ -416,6 +424,7 @@ function renderCalendar() {
   ];
   const dayNames = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
   const todayISO = `2026-${String(msk.getMonth()+1).padStart(2,'0')}-${String(msk.getDate()).padStart(2,'0')}`;
+  const shortType = { run: 'Бег', bike: 'Вело', swim: 'Плав' };
 
   let html = '<div class="calendar">';
   html += dayNames.map(d => `<div class="cal-header">${d}</div>`).join('');
@@ -432,21 +441,39 @@ function renderCalendar() {
       const isRace = iso === raceDateStr;
       const trains = trainMap[iso] || [];
       let cls = 'cal-day' + (isToday ? ' is-today' : '') + (isRace ? ' is-race' : '');
+      if (trains.length > 0) cls += ' has-trains';
       html += `<div class="${cls}"><div class="cal-num">${d}</div>`;
       if (trains.length > 0) {
-        html += '<div class="cal-dots">';
         for (const t of trains) {
           const c = typeColor[t.type] || '#a0a0b0';
-          html += `<div class="cal-dot" style="background:${c}" title="${t.name}"></div>`;
+          const label = shortType[t.type] || t.type;
+          html += `<div class="cal-train"><div class="cal-train-dot" style="background:${c}"></div><span class="cal-train-name" style="color:${c}">${label}</span></div>`;
+          html += `<div class="cal-train-details">${t.details || t.name}</div>`;
         }
-        html += '</div>';
       }
-      if (isRace) html += '<div class="cal-race-label">IRONSTAR</div>';
+      if (isRace) html += '<div class="cal-race-label">IRONSTAR MSK</div>';
       html += '</div>';
     }
   }
   html += '</div>';
   document.getElementById('calendarContent').innerHTML = html;
+
+  document.querySelectorAll('.cal-day.has-trains').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const wasExpanded = el.classList.contains('expanded');
+      document.querySelectorAll('.cal-day.expanded').forEach(x => { x.classList.remove('expanded'); x.style.position = ''; x.style.width = ''; x.style.zIndex = ''; });
+      if (!wasExpanded) {
+        el.classList.add('expanded');
+        el.style.position = 'relative';
+        el.style.width = '180px';
+        el.style.zIndex = '10';
+      }
+    });
+  });
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.cal-day.expanded').forEach(x => { x.classList.remove('expanded'); x.style.position = ''; x.style.width = ''; x.style.zIndex = ''; });
+  }, { once: false });
 }
 
 function renderSleepStats(sd) {
