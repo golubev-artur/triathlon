@@ -69,6 +69,17 @@
 
     .footer { text-align: center; padding: 16px; color: #505060; font-size: 11px; }
 
+    .card { cursor: pointer; position: relative; transition: transform 0.2s; }
+    .card:active { transform: scale(0.98); }
+    .card-expand { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; opacity: 0.3; pointer-events: none; }
+
+    .card-overlay { display: none; }
+    .card-overlay.active { display: block; position: fixed; inset: 0; z-index: 1000; background: #0f1117; overflow-y: auto; padding: 0; }
+    .card-overlay.active .card-inner { min-height: 100vh; padding: 16px; padding-top: 48px; }
+    .card-overlay.active .chart-wrap { height: 45vh; }
+    .card-overlay.active .stat .val { font-size: 24px; }
+    .card-overlay .close-btn { position: fixed; top: 10px; right: 14px; z-index: 1001; background: #e94560; color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+
     @media (max-width: 700px) {
       .grid { grid-template-columns: 1fr; gap: 10px; padding: 10px; }
       .header { padding: 16px; }
@@ -149,6 +160,19 @@
   <div class="card"><h2>Плавание: прогресс</h2><div class="chart-wrap"><canvas id="swimChart"></canvas></div></div>
 
   <div class="card wide">
+    <h2>Сон и восстановление (Garmin)</h2>
+    <div class="stat-row">
+      <div class="stat blue"><div class="val" id="sleepAvg">—</div><div class="label">ср. Сон, ч</div></div>
+      <div class="stat green"><div class="val" id="sleepScore">—</div><div class="label">ср. Оценка</div></div>
+      <div class="stat red"><div class="val" id="sleepRhr">—</div><div class="label">ЧСС покоя</div></div>
+      <div class="stat cyan"><div class="val" id="sleepHrv">—</div><div class="label">HRV</div></div>
+      <div class="stat yellow"><div class="val" id="sleepBb">—</div><div class="label">Body Battery</div></div>
+    </div>
+    <div class="chart-wrap" style="height:260px"><canvas id="sleepChart"></canvas></div>
+    <div class="chart-wrap" style="height:180px;margin-top:12px"><canvas id="recoveryChart"></canvas></div>
+  </div>
+
+  <div class="card wide">
     <h2>Результаты стартов</h2>
     <div style="overflow-x:auto">
     <table class="race-table">
@@ -165,7 +189,7 @@
   </div>
 </div>
 
-<div class="footer">Garmin Connect &middot; 20.07.2026</div>
+<div class="footer">Garmin Connect &middot; 21.07.2026</div>
 
 <script>
 // SVG icons
@@ -409,6 +433,109 @@ new Chart(document.getElementById('hrChart'), {
   }
 });
 
+// Sleep data from Garmin (30 days)
+const sleepData = [
+  {d:'22.06',total:5.40,deep:0.00,light:4.55,rem:0.85,score:53,rhr:46,hrv:null,bb:30},
+  {d:'23.06',total:5.43,deep:1.00,light:3.38,rem:1.05,score:55,rhr:46,hrv:61,bb:31},
+  {d:'24.06',total:6.90,deep:1.20,light:4.67,rem:1.03,score:79,rhr:44,hrv:69,bb:62},
+  {d:'25.06',total:6.03,deep:0.88,light:3.35,rem:1.80,score:74,rhr:41,hrv:68,bb:51},
+  {d:'26.06',total:6.42,deep:1.12,light:3.92,rem:1.38,score:75,rhr:43,hrv:64,bb:55},
+  {d:'27.06',total:10.18,deep:1.10,light:6.15,rem:2.93,score:86,rhr:45,hrv:65,bb:70},
+  {d:'28.06',total:8.93,deep:1.17,light:5.95,rem:1.82,score:85,rhr:42,hrv:70,bb:67},
+  {d:'29.06',total:9.90,deep:0.72,light:7.20,rem:1.98,score:74,rhr:44,hrv:70,bb:44},
+  {d:'30.06',total:8.77,deep:0.65,light:6.05,rem:2.07,score:84,rhr:42,hrv:71,bb:58},
+  {d:'01.07',total:9.75,deep:0.77,light:7.03,rem:1.95,score:77,rhr:58,hrv:null,bb:56},
+  {d:'02.07',total:8.40,deep:0.45,light:6.45,rem:1.50,score:81,rhr:45,hrv:66,bb:71},
+  {d:'03.07',total:9.12,deep:0.53,light:6.43,rem:2.15,score:81,rhr:45,hrv:62,bb:52},
+  {d:'04.07',total:8.68,deep:0.72,light:5.95,rem:2.02,score:87,rhr:43,hrv:71,bb:65},
+  {d:'05.07',total:8.22,deep:0.97,light:5.53,rem:1.72,score:81,rhr:43,hrv:67,bb:59},
+  {d:'06.07',total:6.33,deep:0.55,light:4.83,rem:0.95,score:76,rhr:43,hrv:64,bb:57},
+  {d:'07.07',total:6.80,deep:1.18,light:4.83,rem:0.78,score:79,rhr:43,hrv:70,bb:63},
+  {d:'08.07',total:7.33,deep:1.27,light:5.05,rem:1.02,score:83,rhr:42,hrv:69,bb:72},
+  {d:'09.07',total:6.87,deep:1.17,light:4.47,rem:1.23,score:79,rhr:42,hrv:68,bb:64},
+  {d:'10.07',total:6.63,deep:1.35,light:4.02,rem:1.27,score:81,rhr:42,hrv:67,bb:72},
+  {d:'11.07',total:6.97,deep:0.90,light:3.55,rem:2.52,score:78,rhr:44,hrv:69,bb:54},
+  {d:'12.07',total:7.40,deep:0.12,light:5.70,rem:1.58,score:62,rhr:45,hrv:64,bb:59},
+  {d:'13.07',total:6.33,deep:1.07,light:4.05,rem:1.22,score:78,rhr:46,hrv:66,bb:55},
+  {d:'14.07',total:6.80,deep:0.92,light:4.65,rem:1.23,score:77,rhr:44,hrv:68,bb:59},
+  {d:'15.07',total:7.53,deep:1.17,light:5.28,rem:1.08,score:86,rhr:44,hrv:79,bb:76},
+  {d:'16.07',total:5.50,deep:1.23,light:3.38,rem:0.88,score:71,rhr:43,hrv:74,bb:57},
+  {d:'17.07',total:7.95,deep:1.40,light:4.33,rem:2.22,score:87,rhr:42,hrv:71,bb:75},
+  {d:'18.07',total:7.83,deep:1.37,light:4.70,rem:1.77,score:89,rhr:47,hrv:65,bb:56},
+  {d:'19.07',total:5.82,deep:0.38,light:4.93,rem:0.52,score:63,rhr:49,hrv:54,bb:31},
+  {d:'20.07',total:6.40,deep:1.00,light:4.67,rem:0.73,score:77,rhr:44,hrv:66,bb:70},
+  {d:'21.07',total:6.28,deep:0.75,light:4.40,rem:1.13,score:75,rhr:41,hrv:72,bb:69},
+].reverse();
+
+// Sleep stats
+const avgSleep = (sleepData.reduce((s,d) => s + d.total, 0) / sleepData.length).toFixed(1);
+const avgScore = Math.round(sleepData.reduce((s,d) => s + d.score, 0) / sleepData.length);
+const rhrVals = sleepData.filter(d => d.rhr && d.rhr < 55).map(d => d.rhr);
+const avgRhr = rhrVals.length ? Math.round(rhrVals.reduce((a,b) => a+b, 0) / rhrVals.length) : '—';
+const hrvVals = sleepData.filter(d => d.hrv).map(d => d.hrv);
+const avgHrv = hrvVals.length ? Math.round(hrvVals.reduce((a,b) => a+b, 0) / hrvVals.length) : '—';
+const bbVals = sleepData.filter(d => d.bb).map(d => d.bb);
+const avgBb = bbVals.length ? Math.round(bbVals.reduce((a,b) => a+b, 0) / bbVals.length) : '—';
+
+document.getElementById('sleepAvg').textContent = avgSleep;
+document.getElementById('sleepScore').textContent = avgScore;
+document.getElementById('sleepRhr').textContent = avgRhr;
+document.getElementById('sleepHrv').textContent = avgHrv;
+document.getElementById('sleepBb').textContent = avgBb;
+
+// Sleep chart: stacked bar (deep/light/REM) + score line
+new Chart(document.getElementById('sleepChart'), {
+  type: 'bar',
+  data: {
+    labels: sleepData.map(d => d.d),
+    datasets: [
+      { label: 'Deep', data: sleepData.map(d => d.deep), backgroundColor: '#3b82f6', borderRadius: 2, order: 3 },
+      { label: 'REM', data: sleepData.map(d => d.rem), backgroundColor: '#a78bfa', borderRadius: 2, order: 2 },
+      { label: 'Light', data: sleepData.map(d => d.light), backgroundColor: '#1e3a5f', borderRadius: 2, order: 1 },
+      { label: 'Оценка', data: sleepData.map(d => d.score / 10), type: 'line', borderColor: '#4ade80', backgroundColor: 'transparent', pointRadius: 2, borderWidth: 2, yAxisID: 'y1', order: 0 },
+      { label: '7.5ч цель', data: sleepData.map(() => 7.5), type: 'line', borderColor: '#e9456060', borderDash: [4,4], pointRadius: 0, borderWidth: 1, fill: false, order: 0 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { boxWidth: 10, padding: 6, font: { size: 10 } } },
+      tooltip: { callbacks: { label: ctx => {
+        if (ctx.dataset.label === 'Оценка') return `Оценка: ${(ctx.raw * 10).toFixed(0)}`;
+        if (ctx.dataset.label === '7.5ч цель') return '';
+        return `${ctx.dataset.label}: ${ctx.raw.toFixed(1)} ч`;
+      }}}
+    },
+    scales: {
+      x: { stacked: true, ticks: { maxRotation: 45, font: { size: 9 } } },
+      y: { stacked: true, title: { display: true, text: 'Часы' }, max: 12 },
+      y1: { position: 'right', min: 0, max: 10, grid: { display: false }, ticks: { callback: v => (v * 10) }, title: { display: true, text: 'Score' } }
+    }
+  }
+});
+
+// Recovery chart: HRV + RHR + Body Battery
+new Chart(document.getElementById('recoveryChart'), {
+  type: 'line',
+  data: {
+    labels: sleepData.map(d => d.d),
+    datasets: [
+      { label: 'HRV', data: sleepData.map(d => d.hrv), borderColor: '#67e8f9', backgroundColor: '#67e8f920', fill: true, tension: 0.3, pointRadius: 2, borderWidth: 2 },
+      { label: 'Body Battery', data: sleepData.map(d => d.bb), borderColor: '#4ade80', tension: 0.3, pointRadius: 2, borderWidth: 2, yAxisID: 'y1' },
+      { label: 'ЧСС покоя', data: sleepData.map(d => d.rhr && d.rhr < 55 ? d.rhr : null), borderColor: '#f87171', tension: 0.3, pointRadius: 2, borderWidth: 2 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 6, font: { size: 10 } } } },
+    scales: {
+      x: { ticks: { maxRotation: 45, font: { size: 9 } } },
+      y: { title: { display: true, text: 'HRV / RHR' }, min: 30, max: 90 },
+      y1: { position: 'right', min: 0, max: 100, grid: { display: false }, title: { display: true, text: 'BB' } }
+    }
+  }
+});
+
 // Swim progression
 const swimData = [
   { d: '24.05', v: 1020, ow: false }, { d: '28.05', v: 1020, ow: false },
@@ -431,6 +558,57 @@ new Chart(document.getElementById('swimChart'), {
     plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 } } },
     scales: { y: { max: 2100 } }
   }
+});
+
+// Card expand/collapse
+const expandIcon = `<svg class="card-expand" viewBox="0 0 24 24" fill="none" stroke="#a0a0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>`;
+
+document.querySelectorAll('.card').forEach(card => {
+  card.insertAdjacentHTML('beforeend', expandIcon);
+
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('.close-btn')) return;
+    if (window.getSelection().toString()) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'card-overlay active';
+    overlay.innerHTML = `<button class="close-btn" aria-label="Close">&times;</button><div class="card-inner"></div>`;
+    const inner = overlay.querySelector('.card-inner');
+    const clone = card.cloneNode(true);
+    clone.style.border = 'none';
+    clone.style.cursor = 'default';
+    clone.querySelector('.card-expand')?.remove();
+    inner.appendChild(clone);
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
+    // Re-render charts in the clone
+    clone.querySelectorAll('canvas').forEach(canvas => {
+      const origCanvas = card.querySelector(`#${canvas.id}`);
+      if (!origCanvas) return;
+      const chartInstance = Chart.getChart(origCanvas);
+      if (!chartInstance) return;
+      const newCanvas = document.createElement('canvas');
+      canvas.replaceWith(newCanvas);
+      new Chart(newCanvas, {
+        type: chartInstance.config.type,
+        data: JSON.parse(JSON.stringify(chartInstance.config.data)),
+        options: { ...JSON.parse(JSON.stringify(chartInstance.config.options)), maintainAspectRatio: false }
+      });
+    });
+
+    function closeOverlay() {
+      overlay.remove();
+      document.body.style.overflow = '';
+    }
+    overlay.querySelector('.close-btn').addEventListener('click', closeOverlay);
+    overlay.addEventListener('click', (ev) => {
+      if (ev.target === overlay) closeOverlay();
+    });
+    document.addEventListener('keydown', function esc(ev) {
+      if (ev.key === 'Escape') { closeOverlay(); document.removeEventListener('keydown', esc); }
+    });
+  });
 });
 </script>
 
