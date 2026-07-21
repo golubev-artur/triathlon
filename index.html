@@ -1004,7 +1004,7 @@ function switchTab(id) {
   document.getElementById('tab-' + id).classList.add('active');
   if (id === 'lab') renderLactateChart();
   if (id === 'health') renderWeightChart();
-  if (id === 'nutrition') renderMeals();
+  if (id === 'nutrition') loadMealsFromServer().then(() => renderMeals());
 }
 
 // Lactate chart
@@ -1028,8 +1028,9 @@ function renderWeightChart() {
   ]}, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{boxWidth:10,padding:8} }}, scales:{ y:{ min:70, max:85 }}}});
 }
 
-// ── Анализ еды через серверный API (Gemini) ──
-const FOOD_API_URL = 'http://localhost:3456/api/analyze-food';
+// ── Питание: серверное хранилище (meals.json) ──
+const FOOD_API = 'http://localhost:3456/api';
+let mealsCache = [];
 
 function resizeImage(dataUrl, maxSize) {
   return new Promise(resolve => {
@@ -1050,24 +1051,30 @@ function resizeImage(dataUrl, maxSize) {
   });
 }
 
-async function analyzeFood(base64data, mimeType) {
-  const resp = await fetch(FOOD_API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ image: base64data, mimeType: mimeType || 'image/jpeg' })
-  });
-  if (!resp.ok) throw new Error('Сервер: ' + resp.status);
-  return await resp.json();
+async function loadMealsFromServer() {
+  try {
+    const resp = await fetch(FOOD_API + '/meals');
+    if (resp.ok) mealsCache = await resp.json();
+  } catch (e) { console.error('Meals load error:', e); }
+  return mealsCache;
 }
 
-// ── Meal photos (localStorage) ──
+function getMealImgSrc(m) {
+  if (m.photo) return m.photo;
+  if (m.data) return m.data;
+  return '';
+}
+
 function renderMeals() {
-  const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
+  const meals = mealsCache;
   const grid = document.getElementById('mealGrid');
   let html = '';
   meals.forEach((m, i) => {
     const analyzing = m.analyzing ? ' analyzing' : '';
-    let infoHtml = `<div class="meal-date">${m.date}</div>`;
+    const src = getMealImgSrc(m);
+    const sourceTag = m.source === 'telegram' ? '<span style="color:#60a5fa;font-size:9px">TG</span> ' : '';
+    let infoHtml = `<div class="meal-date">${sourceTag}${m.date}</div>`;
+    if (m.caption) infoHtml += `<div style="color:#c0c0d0;font-size:10px;font-style:italic">${m.caption}</div>`;
     if (m.analysis && m.analysis.total) {
       const t = m.analysis.total;
       infoHtml += `<div class="meal-kcal">${t.kcal} ккал</div>`;
@@ -1077,15 +1084,12 @@ function renderMeals() {
       }
     } else if (m.analysis?.error) {
       infoHtml += `<div style="color:#f87171;font-size:10px;margin-top:4px">${m.analysis.error}</div>`;
-    } else if (m.note) {
-      infoHtml += `<div>${m.note}</div>`;
     }
     html += `<div class="meal-item${analyzing}" id="meal-${i}">` +
-      `<img src="${m.data}" alt="meal" onclick="openMealOverlay(${i})">` +
+      `<img src="${src}" alt="meal" onclick="openMealOverlay(${i})">` +
       (analyzing ? '<div class="meal-loader">Анализ...</div>' : '') +
       `<div class="meal-info">${infoHtml}</div>` +
       `<button class="meal-delete" onclick="deleteMeal(${i})">&times;</button>` +
-      (!m.analyzing ? `<button class="meal-reanalyze" onclick="reanalyzeMeal(${i})" title="Переанализировать">↻</button>` : '') +
       `</div>`;
   });
   html += `<div class="meal-add" onclick="document.getElementById('mealPhotoInput').click()"><input type="file" id="mealPhotoInput" accept="image/*" capture="environment" onchange="handleMealPhoto(event)"><span>+</span><span class="meal-add-label">Добавить фото</span></div>`;
@@ -1129,26 +1133,20 @@ async function handleMealPhoto(e) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = async function(ev) {
-    const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
-    const now = new Date();
-    const date = String(now.getDate()).padStart(2,'0') + '.' + String(now.getMonth()+1).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
     const resized = await resizeImage(ev.target.result, 1024);
-    const meal = { data: resized, date: date, note: '', analyzing: true };
-    meals.unshift(meal);
-    localStorage.setItem('tri_meals', JSON.stringify(meals));
+    const base64 = resized.split(',')[1];
+    mealsCache.unshift({ data: resized, date: '...', analyzing: true, source: 'web' });
     renderMeals();
     try {
-      const base64 = resized.split(',')[1];
-      const result = await analyzeFood(base64, 'image/jpeg');
-      const updated = JSON.parse(localStorage.getItem('tri_meals') || '[]');
-      updated[0].analysis = result;
-      updated[0].analyzing = false;
-      localStorage.setItem('tri_meals', JSON.stringify(updated));
+      const resp = await fetch(FOOD_API + '/analyze-food', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64, mimeType: 'image/jpeg' })
+      });
+      if (!resp.ok) throw new Error('Сервер: ' + resp.status);
+      await loadMealsFromServer();
     } catch (err) {
-      const updated = JSON.parse(localStorage.getItem('tri_meals') || '[]');
-      updated[0].analysis = { error: 'Ошибка: ' + err.message };
-      updated[0].analyzing = false;
-      localStorage.setItem('tri_meals', JSON.stringify(updated));
+      mealsCache[0] = { data: resized, date: 'ошибка', analyzing: false, analysis: { error: err.message }, source: 'web' };
     }
     renderMeals();
   };
@@ -1156,42 +1154,22 @@ async function handleMealPhoto(e) {
   e.target.value = '';
 }
 
-async function reanalyzeMeal(idx) {
-  const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
-  if (!meals[idx]) return;
-  meals[idx].analyzing = true;
-  meals[idx].analysis = null;
-  localStorage.setItem('tri_meals', JSON.stringify(meals));
-  renderMeals();
+async function deleteMeal(idx) {
+  if (!confirm('Удалить запись?')) return;
   try {
-    const base64 = meals[idx].data.split(',')[1];
-    const result = await analyzeFood(base64, 'image/jpeg');
-    const updated = JSON.parse(localStorage.getItem('tri_meals') || '[]');
-    updated[idx].analysis = result;
-    updated[idx].analyzing = false;
-    localStorage.setItem('tri_meals', JSON.stringify(updated));
-  } catch (err) {
-    const updated = JSON.parse(localStorage.getItem('tri_meals') || '[]');
-    updated[idx].analysis = { error: 'Ошибка: ' + err.message };
-    updated[idx].analyzing = false;
-    localStorage.setItem('tri_meals', JSON.stringify(updated));
-  }
-  renderMeals();
-}
-
-function deleteMeal(idx) {
-  const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
-  meals.splice(idx, 1);
-  localStorage.setItem('tri_meals', JSON.stringify(meals));
+    await fetch(FOOD_API + '/meals/' + idx, { method: 'DELETE' });
+    await loadMealsFromServer();
+  } catch (e) { mealsCache.splice(idx, 1); }
   renderMeals();
 }
 
 function openMealOverlay(idx) {
-  const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
-  const m = meals[idx];
+  const m = mealsCache[idx];
   if (!m) return;
-  document.getElementById('mealOverlayImg').src = m.data;
+  document.getElementById('mealOverlayImg').src = getMealImgSrc(m);
   let info = m.date;
+  if (m.source === 'telegram') info += '  (Telegram)';
+  if (m.caption) info += '\n' + m.caption;
   if (m.analysis?.foods) {
     info += '\n\n';
     m.analysis.foods.forEach(f => {
