@@ -1057,7 +1057,8 @@ function renderWeightChart() {
 }
 
 // ── Питание: серверное хранилище (meals.json) ──
-const FOOD_API = window.location.protocol + '//' + window.location.hostname + ':3456/api';
+const FOOD_API_HOST = 'http://202.148.53.125:3456';
+const FOOD_API = FOOD_API_HOST + '/api';
 let mealsCache = [];
 
 function resizeImage(dataUrl, maxSize) {
@@ -1088,7 +1089,7 @@ async function loadMealsFromServer() {
 }
 
 function getMealImgSrc(m) {
-  if (m.photo) return m.photo;
+  if (m.photo) return FOOD_API_HOST + '/' + m.photo;
   if (m.data) return m.data;
   return '';
 }
