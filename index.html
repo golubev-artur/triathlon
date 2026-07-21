@@ -391,21 +391,35 @@
   <div class="card wide">
     <h2>Питание</h2>
     <div class="stat-row">
-      <div class="stat blue"><div class="val" id="mealCount">0</div><div class="label">Записей</div></div>
       <div class="stat yellow"><div class="val" id="mealTotalKcal">0</div><div class="label">ккал сегодня</div></div>
       <div class="stat red"><div class="val">2500</div><div class="label">Цель ккал</div></div>
+      <div class="stat cyan"><div class="val" id="waterTotal">0</div><div class="label">мл воды</div></div>
+      <div class="stat blue"><div class="val">3000</div><div class="label">Цель воды</div></div>
     </div>
-    <div id="mealDailySummary" class="meal-daily-summary" style="display:none">
+    <div id="mealDailySummary" class="meal-daily-summary">
       <div>
-        <div class="daily-title">Сегодня</div>
-        <div class="daily-val" id="dailyKcal">0 ккал</div>
+        <div class="daily-title">Калории</div>
+        <div class="daily-val" id="dailyKcal">0 / 2500</div>
       </div>
       <div class="daily-macro"><b id="dailyP">0</b> г белка</div>
       <div class="daily-macro"><b id="dailyF">0</b> г жиров</div>
       <div class="daily-macro"><b id="dailyC">0</b> г углев.</div>
       <div class="meal-daily-progress"><div class="bar" id="dailyBar" style="width:0%;background:#4ade80"></div></div>
     </div>
-    <div style="font-size:12px;color:#a0a0b0;margin-bottom:12px">Фотографируй еду — AI определит порцию и калории. Данные хранятся локально.</div>
+    <div id="waterSection" class="meal-daily-summary" style="margin-top:8px">
+      <div>
+        <div class="daily-title">💧 Вода</div>
+        <div class="daily-val" id="dailyWater">0 / 3000 мл</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <button onclick="addWater(200)" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+200мл</button>
+        <button onclick="addWater(250)" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+250мл</button>
+        <button onclick="addWater(500)" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+500мл</button>
+      </div>
+      <div class="meal-daily-progress"><div class="bar" id="waterBar" style="width:0%;background:#67e8f9"></div></div>
+    </div>
+    <div id="waterLog" style="font-size:11px;color:#808090;margin-bottom:8px"></div>
+    <div style="font-size:12px;color:#a0a0b0;margin-bottom:12px">Фотографируй еду — AI определит порцию и калории. Воду можно добавить кнопками или из ТГ-бота.</div>
     <div class="meal-grid" id="mealGrid">
       <div class="meal-add" onclick="document.getElementById('mealPhotoInput').click()">
         <input type="file" id="mealPhotoInput" accept="image/*" capture="environment" onchange="handleMealPhoto(event)">
@@ -413,6 +427,20 @@
         <span class="meal-add-label">Добавить фото</span>
       </div>
     </div>
+  </div>
+
+  <div class="card wide" id="nutritionAnalysisCard">
+    <h2>Анализ нутрициолога
+      <button onclick="requestDayAnalysis()" style="float:right;background:#2e2a1a;border:1px solid #4a4a2a;color:#fbbf24;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer">Обновить анализ</button>
+    </h2>
+    <div id="nutritionAnalysis" style="font-size:13px;line-height:1.7;color:#d0e0d0;white-space:pre-line;padding:8px 0">Добавьте данные по питанию и нажмите "Обновить анализ"</div>
+  </div>
+
+  <div class="card wide">
+    <h2>Дневной отчёт
+      <select id="reportDateSelect" onchange="loadDayReport(this.value)" style="float:right;background:#16213e;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:6px;padding:4px 8px;font-size:11px"></select>
+    </h2>
+    <div id="dayReport" style="font-size:13px;line-height:1.7;color:#d0e0d0;padding:8px 0">Выберите дату для просмотра отчёта</div>
   </div>
 
   <div class="card wide">
@@ -1101,31 +1129,103 @@ function renderMeals() {
 function updateDailySummary(meals) {
   const today = new Date();
   const todayStr = String(today.getDate()).padStart(2,'0') + '.' + String(today.getMonth()+1).padStart(2,'0');
-  let kcal = 0, p = 0, f = 0, c = 0, count = 0;
-  meals.forEach(m => {
-    if (m.date && m.date.startsWith(todayStr) && m.analysis?.total) {
+  let kcal = 0, p = 0, f = 0, c = 0, water = 0;
+  const waterEntries = [];
+  meals.forEach((m, i) => {
+    if (!m.date || !m.date.startsWith(todayStr)) return;
+    if (m.type === 'water') { water += m.ml || 0; waterEntries.push({ ml: m.ml, time: m.date.slice(6), idx: i, source: m.source }); return; }
+    if (m.analysis?.total) {
       kcal += m.analysis.total.kcal || 0;
       p += m.analysis.total.protein || 0;
       f += m.analysis.total.fat || 0;
       c += m.analysis.total.carbs || 0;
-      count++;
     }
   });
-  const summary = document.getElementById('mealDailySummary');
-  if (count > 0) {
-    summary.style.display = 'flex';
-    document.getElementById('dailyKcal').textContent = kcal + ' ккал';
-    document.getElementById('dailyP').textContent = p;
-    document.getElementById('dailyF').textContent = f;
-    document.getElementById('dailyC').textContent = c;
-    const pct = Math.min(100, Math.round(kcal / 2500 * 100));
-    const bar = document.getElementById('dailyBar');
-    bar.style.width = pct + '%';
-    bar.style.background = pct > 100 ? '#f87171' : pct > 80 ? '#fbbf24' : '#4ade80';
+  document.getElementById('mealTotalKcal').textContent = kcal;
+  document.getElementById('dailyKcal').textContent = kcal + ' / 2500';
+  document.getElementById('dailyP').textContent = p;
+  document.getElementById('dailyF').textContent = f;
+  document.getElementById('dailyC').textContent = c;
+  const kcalPct = Math.min(100, Math.round(kcal / 2500 * 100));
+  const bar = document.getElementById('dailyBar');
+  bar.style.width = kcalPct + '%';
+  bar.style.background = kcalPct > 100 ? '#f87171' : kcalPct > 80 ? '#fbbf24' : '#4ade80';
+
+  document.getElementById('waterTotal').textContent = water;
+  document.getElementById('dailyWater').textContent = water + ' / 3000 мл';
+  const waterPct = Math.min(100, Math.round(water / 3000 * 100));
+  const wbar = document.getElementById('waterBar');
+  wbar.style.width = waterPct + '%';
+  wbar.style.background = waterPct >= 100 ? '#4ade80' : '#67e8f9';
+
+  const wlog = document.getElementById('waterLog');
+  if (waterEntries.length > 0) {
+    wlog.innerHTML = waterEntries.map(w => {
+      const src = w.source === 'telegram' ? '<span style="color:#60a5fa">TG</span> ' : '';
+      return `${src}${w.time} — ${w.ml}мл <span onclick="deleteMeal(${w.idx})" style="color:#f87171;cursor:pointer;font-size:13px" title="Удалить">×</span>`;
+    }).join(' &nbsp;|&nbsp; ');
   } else {
-    summary.style.display = 'none';
+    wlog.innerHTML = '';
   }
-  document.getElementById('mealTotalKcal').textContent = kcal || 0;
+
+  populateReportDates(meals);
+}
+
+async function addWater(ml) {
+  try {
+    await fetch(FOOD_API + '/water', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ml })
+    });
+    await loadMealsFromServer();
+    renderMeals();
+  } catch (e) { console.error('Water error:', e); }
+}
+
+async function requestDayAnalysis(dateStr) {
+  const el = document.getElementById('nutritionAnalysis');
+  el.textContent = 'Анализирую...';
+  try {
+    const url = FOOD_API + '/day-analysis' + (dateStr ? '?date=' + dateStr : '');
+    const resp = await fetch(url);
+    const data = await resp.json();
+    if (data.error) { el.textContent = 'Ошибка: ' + data.error; return; }
+    el.textContent = data.analysis;
+  } catch (e) { el.textContent = 'Ошибка: ' + e.message; }
+}
+
+function populateReportDates(meals) {
+  const dates = new Set();
+  meals.forEach(m => { if (m.date) dates.add(m.date.slice(0, 5)); });
+  const sel = document.getElementById('reportDateSelect');
+  const current = sel.value;
+  sel.innerHTML = '<option value="">-- дата --</option>';
+  [...dates].sort().reverse().forEach(d => {
+    sel.innerHTML += `<option value="${d}" ${d === current ? 'selected' : ''}>${d}</option>`;
+  });
+}
+
+async function loadDayReport(dateStr) {
+  if (!dateStr) { document.getElementById('dayReport').textContent = 'Выберите дату'; return; }
+  const el = document.getElementById('dayReport');
+  el.textContent = 'Загрузка...';
+  try {
+    const resp = await fetch(FOOD_API + '/day-analysis?date=' + dateStr);
+    const data = await resp.json();
+    if (!data.totals) { el.textContent = data.analysis || 'Нет данных'; return; }
+    const t = data.totals;
+    let html = `<div style="margin-bottom:10px"><b>${dateStr}</b> — ${t.meals} приёмов пищи, ${t.waterEntries || 0} записей воды</div>`;
+    html += `<div class="stat-row" style="margin-bottom:10px">`;
+    html += `<div class="stat yellow"><div class="val">${t.kcal}</div><div class="label">ккал</div></div>`;
+    html += `<div class="stat"><div class="val">${t.protein}г</div><div class="label">белок</div></div>`;
+    html += `<div class="stat"><div class="val">${t.fat}г</div><div class="label">жиры</div></div>`;
+    html += `<div class="stat"><div class="val">${t.carbs}г</div><div class="label">углев.</div></div>`;
+    html += `<div class="stat cyan"><div class="val">${t.water}</div><div class="label">мл воды</div></div>`;
+    html += `</div>`;
+    html += `<div style="white-space:pre-line">${data.analysis}</div>`;
+    el.innerHTML = html;
+  } catch (e) { el.textContent = 'Ошибка: ' + e.message; }
 }
 
 async function handleMealPhoto(e) {
