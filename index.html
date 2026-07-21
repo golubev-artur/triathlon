@@ -1313,6 +1313,7 @@ function handleLabUpload(e) {
   renderCharts(DATA || { runData: [], sleepData: [], hrData: [], swimData: [] });
   addCoachButtons();
   setupExpand();
+  loadMealsFromServer().then(() => renderMeals());
 })();
 </script>
 
