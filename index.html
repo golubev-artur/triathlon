@@ -69,6 +69,54 @@
 
     .footer { text-align: center; padding: 16px; color: #505060; font-size: 11px; }
 
+    .tabs { display: flex; gap: 0; padding: 0 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab { background: #16213e; border: 1px solid #2a2a4a; border-bottom: none; color: #808090; padding: 10px 16px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; border-radius: 8px 8px 0 0; transition: all 0.2s; }
+    .tab.active { background: #1a1a2e; color: #fff; border-color: #e94560; border-bottom: 2px solid #1a1a2e; }
+    .tab:hover { color: #c0c0d0; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .lab-section { padding: 16px; }
+    .lab-zones { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 12px; }
+    .lab-zones th { text-align: left; color: #808090; padding: 6px; border-bottom: 1px solid #2a2a4a; font-size: 11px; }
+    .lab-zones td { padding: 6px; border-bottom: 1px solid #1f1f3a; }
+    .lab-zones tr:nth-child(2) td { color: #4ade80; }
+    .lab-zones tr:nth-child(3) td { color: #60a5fa; }
+    .lab-zones tr:nth-child(4) td { color: #fbbf24; }
+    .lab-zones tr:nth-child(5) td { color: #f87171; }
+    .lab-zones tr:nth-child(6) td { color: #e94560; }
+    .lab-steps { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 8px; }
+    .lab-steps th { text-align: left; color: #808090; padding: 4px 6px; border-bottom: 1px solid #2a2a4a; font-size: 10px; }
+    .lab-steps td { padding: 4px 6px; border-bottom: 1px solid #1f1f3a; }
+
+    .lab-upload { background: #16213e; border: 2px dashed #2a2a4a; border-radius: 12px; padding: 24px; text-align: center; margin-top: 16px; cursor: pointer; transition: border-color 0.2s; }
+    .lab-upload:hover { border-color: #60a5fa; }
+    .lab-upload input { display: none; }
+    .lab-upload-icon { font-size: 32px; margin-bottom: 8px; }
+    .lab-upload-text { font-size: 13px; color: #808090; }
+    .lab-upload-or { margin: 12px 0; font-size: 11px; color: #505060; }
+    .lab-link-input { background: #0f1117; border: 1px solid #2a2a4a; border-radius: 8px; padding: 8px 12px; color: #e0e0e0; font-size: 13px; width: 100%; max-width: 400px; }
+
+    .next-test { background: linear-gradient(135deg, #1a2e1a 0%, #16213e 100%); border: 1px solid #2a4a2a; border-radius: 8px; padding: 12px; margin-top: 12px; font-size: 13px; color: #d0e0d0; }
+    .next-test-date { color: #fbbf24; font-weight: 700; }
+
+    .meal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 12px; }
+    .meal-item { background: #16213e; border-radius: 8px; overflow: hidden; position: relative; }
+    .meal-item img { width: 100%; height: 120px; object-fit: cover; display: block; }
+    .meal-item .meal-info { padding: 8px; font-size: 11px; }
+    .meal-item .meal-date { color: #808090; font-size: 10px; }
+    .meal-item .meal-delete { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); border: none; color: #f87171; border-radius: 50%; width: 22px; height: 22px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .meal-add { background: #16213e; border: 2px dashed #2a2a4a; border-radius: 8px; min-height: 120px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-direction: column; gap: 4px; color: #606070; font-size: 24px; transition: border-color 0.2s; }
+    .meal-add:hover { border-color: #60a5fa; }
+    .meal-add input { display: none; }
+    .meal-add-label { font-size: 11px; }
+
+    .health-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .health-table th { text-align: left; color: #808090; padding: 6px; border-bottom: 1px solid #2a2a4a; font-size: 11px; }
+    .health-table td { padding: 6px; border-bottom: 1px solid #1f1f3a; }
+    .health-delta.up { color: #f87171; }
+    .health-delta.down { color: #4ade80; }
+
     .card { cursor: pointer; position: relative; transition: transform 0.2s; }
     .card:active { transform: scale(0.98); }
     .card-expand { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; opacity: 0.3; pointer-events: none; }
@@ -158,6 +206,14 @@
 </div>
 <div class="coach-panel" id="coachPanel"></div>
 
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('dashboard')">Dashboard</div>
+  <div class="tab" onclick="switchTab('lab')">Лаб-тест</div>
+  <div class="tab" onclick="switchTab('nutrition')">Питание</div>
+  <div class="tab" onclick="switchTab('health')">Здоровье</div>
+</div>
+
+<div class="tab-content active" id="tab-dashboard">
 <div class="grid">
 
   <div class="card today wide" id="todayCard">
@@ -234,6 +290,178 @@
     <div style="margin-top:6px;font-size:10px;color:#606070">* укорочен. бег. Зелёным — ЛР</div>
   </div>
 </div>
+
+</div><!-- /tab-dashboard -->
+
+<div class="tab-content" id="tab-lab">
+<div class="grid">
+  <div class="card wide">
+    <h2>Лабораторный тест бег</h2>
+    <div class="stat-row">
+      <div class="stat green"><div class="val">57.5</div><div class="label">VO2max мл/кг</div></div>
+      <div class="stat blue"><div class="val">5:05</div><div class="label">ПАНО темп</div></div>
+      <div class="stat red"><div class="val">175</div><div class="label">ПАНО ЧСС</div></div>
+      <div class="stat yellow"><div class="val">190</div><div class="label">ЧСС макс</div></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="val">6:44</div><div class="label">АэП темп</div></div>
+      <div class="stat"><div class="val">156</div><div class="label">АэП ЧСС</div></div>
+      <div class="stat"><div class="val">7.9</div><div class="label">Лактат макс</div></div>
+      <div class="stat"><div class="val">89%</div><div class="label">ПАНО/VO2max</div></div>
+    </div>
+    <div style="margin-top:8px;font-size:12px;color:#a0a0b0">Профиль: <span style="color:#4ade80;font-weight:600">Стайер</span> &middot; Trisystems Москва &middot; Беговая дорожка &middot; 78 кг, 173 см</div>
+  </div>
+
+  <div class="card wide">
+    <h2>Тренировочные зоны (бег)</h2>
+    <table class="lab-zones">
+      <tr><th>Зона</th><th>ЧСС</th><th>Темп</th><th>Описание</th></tr>
+      <tr><td>Z1</td><td>109-136</td><td>9:50-7:54</td><td>Восстановительная</td></tr>
+      <tr><td>Z2</td><td>136-156</td><td>7:54-6:40</td><td>Базовая выносливость</td></tr>
+      <tr><td>Z3</td><td>156-166</td><td>6:40-5:46</td><td>Темповая</td></tr>
+      <tr><td>Z4</td><td>166-175</td><td>5:46-5:05</td><td>Анаэробный порог</td></tr>
+      <tr><td>Z5</td><td>175-190</td><td>5:05-4:00</td><td>МПК</td></tr>
+    </table>
+  </div>
+
+  <div class="card wide">
+    <h2>Ступени теста (лактат)</h2>
+    <div class="chart-wrap"><canvas id="lactateChart"></canvas></div>
+    <table class="lab-steps" style="margin-top:12px">
+      <tr><th>Скорость</th><th>Темп</th><th>ЧСС</th><th>Лактат</th></tr>
+      <tr><td>7.0 км/ч</td><td>8:34</td><td>135</td><td>1.1</td></tr>
+      <tr><td>8.0 км/ч</td><td>7:30</td><td>145</td><td>1.4</td></tr>
+      <tr><td>9.0 км/ч</td><td>6:40</td><td>156</td><td>1.6</td></tr>
+      <tr><td>10.0 км/ч</td><td>6:00</td><td>162</td><td>2.1</td></tr>
+      <tr><td>11.0 км/ч</td><td>5:27</td><td>168</td><td>2.7</td></tr>
+      <tr><td>12.0 км/ч</td><td>5:00</td><td>177</td><td>3.9</td></tr>
+      <tr><td>13.0 км/ч</td><td>4:37</td><td>186</td><td>5.4</td></tr>
+      <tr><td>15.0 км/ч</td><td>4:00</td><td>190</td><td>7.9</td></tr>
+    </table>
+  </div>
+
+  <div class="card wide">
+    <h2>Даты тестирования</h2>
+    <div class="stat-row">
+      <div class="stat blue"><div class="val">31.01</div><div class="label">Последний тест</div></div>
+      <div class="stat yellow"><div class="val">6 мес</div><div class="label">Прошло</div></div>
+      <div class="stat green"><div class="val">Сен 2026</div><div class="label">Рекомендуемый</div></div>
+    </div>
+    <div class="next-test">
+      Рекомендация: повторить лаб-тест <span class="next-test-date">после Ironstar Москва (август-сентябрь 2026)</span>, чтобы оценить прогресс за тренировочный цикл. Оптимально — через 2-3 недели после старта, когда организм восстановится.
+    </div>
+  </div>
+
+  <div class="card wide">
+    <h2>Загрузить новый тест</h2>
+    <div class="lab-upload" onclick="document.getElementById('labFileInput').click()">
+      <input type="file" id="labFileInput" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" onchange="handleLabUpload(event)">
+      <div class="lab-upload-icon">📄</div>
+      <div class="lab-upload-text">Нажми чтобы загрузить PDF или фото результатов</div>
+    </div>
+    <div class="lab-upload-or">или вставь ссылку</div>
+    <div style="text-align:center"><input type="text" class="lab-link-input" placeholder="https://..." id="labLinkInput"></div>
+    <div id="labUploadResult" style="margin-top:12px"></div>
+  </div>
+</div>
+</div><!-- /tab-lab -->
+
+<div class="tab-content" id="tab-nutrition">
+<div class="grid">
+  <div class="card wide">
+    <h2>Питание</h2>
+    <div class="stat-row">
+      <div class="stat blue"><div class="val" id="mealCount">0</div><div class="label">Записей</div></div>
+      <div class="stat yellow"><div class="val">2500</div><div class="label">Цель ккал/день</div></div>
+      <div class="stat red"><div class="val">300-500</div><div class="label">Дефицит ккал</div></div>
+    </div>
+    <div style="font-size:12px;color:#a0a0b0;margin-bottom:12px">Фотографируй каждый приём пищи. Данные хранятся локально в браузере.</div>
+    <div class="meal-grid" id="mealGrid">
+      <div class="meal-add" onclick="document.getElementById('mealPhotoInput').click()">
+        <input type="file" id="mealPhotoInput" accept="image/*" capture="environment" onchange="handleMealPhoto(event)">
+        <span>+</span>
+        <span class="meal-add-label">Добавить фото</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card wide">
+    <h2>Рекомендации к Ironstar</h2>
+    <ul style="list-style:none;font-size:13px;line-height:2;color:#d0e0d0">
+      <li>▪️ Дефицит 300-500 ккал/день для снижения к 77-78 кг</li>
+      <li>▪️ После 19:00 — белок + овощи, без простых углеводов</li>
+      <li>▪️ Вода 2.5-3 л/день (контроль по цвету мочи)</li>
+      <li>▪️ Белок в течение 30 мин после тренировки</li>
+      <li>▪️ Изотоник каждые 20 мин на вело и длинном беге</li>
+      <li>▪️ Каждый лишний кг = ~10-15 сек/км на беге</li>
+    </ul>
+  </div>
+</div>
+</div><!-- /tab-nutrition -->
+
+<div class="tab-content" id="tab-health">
+<div class="grid">
+  <div class="card wide">
+    <h2>Состав тела</h2>
+    <div class="stat-row">
+      <div class="stat red"><div class="val">80.1</div><div class="label">Вес, кг</div></div>
+      <div class="stat yellow"><div class="val">25.0%</div><div class="label">Жир</div></div>
+      <div class="stat green"><div class="val">56.96</div><div class="label">Мышцы, кг</div></div>
+      <div class="stat cyan"><div class="val">51.4%</div><div class="label">Вода</div></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="val">26.2</div><div class="label">ИМТ</div></div>
+      <div class="stat"><div class="val">12</div><div class="label">Висцер. жир</div></div>
+      <div class="stat"><div class="val">1586</div><div class="label">Осн. обмен</div></div>
+      <div class="stat"><div class="val">33</div><div class="label">Возраст тела</div></div>
+    </div>
+  </div>
+
+  <div class="card wide">
+    <h2>Динамика (биоимпеданс)</h2>
+    <table class="health-table">
+      <tr><th>Показатель</th><th>31.05</th><th>12.07</th><th>Дельта</th><th>Цель</th></tr>
+      <tr><td>Вес</td><td>76.70 кг</td><td>80.10 кг</td><td class="health-delta up">+3.40</td><td>73 кг</td></tr>
+      <tr><td>Жир %</td><td>23.4%</td><td>25.0%</td><td class="health-delta up">+1.6%</td><td>18-20%</td></tr>
+      <tr><td>Жир кг</td><td>17.9 кг</td><td>20.0 кг</td><td class="health-delta up">+2.08</td><td>~14 кг</td></tr>
+      <tr><td>Мышцы</td><td>55.69 кг</td><td>56.96 кг</td><td class="health-delta down">+1.27</td><td>сохранить</td></tr>
+      <tr><td>Вода</td><td>52.4%</td><td>51.4%</td><td class="health-delta up">-1.0%</td><td>55-60%</td></tr>
+      <tr><td>ИМТ</td><td>25.0</td><td>26.2</td><td class="health-delta up">+1.2</td><td>24.4</td></tr>
+      <tr><td>Висцер. жир</td><td>12</td><td>12</td><td>0</td><td>&lt;9</td></tr>
+      <tr><td>Костная масса</td><td>2.98 кг</td><td>3.05 кг</td><td class="health-delta down">+0.07</td><td>3.2+</td></tr>
+      <tr><td>Белок</td><td>20.1%</td><td>19.7%</td><td class="health-delta up">-0.4%</td><td>20%+</td></tr>
+    </table>
+    <div style="margin-top:6px;font-size:10px;color:#606070">* замер 12.07 после бега — жир завышен из-за обезвоживания</div>
+  </div>
+
+  <div class="card wide">
+    <h2>Динамика веса</h2>
+    <div class="chart-wrap"><canvas id="weightChart"></canvas></div>
+  </div>
+
+  <div class="card wide">
+    <h2>Ключевые проблемы</h2>
+    <ul style="list-style:none;font-size:13px;line-height:2;color:#d0e0d0">
+      <li style="color:#f87171">▪️ Набор жира +2 кг за 6 недель (снижение объёма тренировок в июне)</li>
+      <li style="color:#f87171">▪️ Висцеральный жир 12 — выше нормы (&lt;9), метаболический риск</li>
+      <li style="color:#fbbf24">▪️ Вода 51.4% ниже нормы — пить больше (2.5-3 л/день)</li>
+      <li style="color:#fbbf24">▪️ Костная масса 3.05 ниже нормы (3.2+) — кальций, витамин D</li>
+      <li style="color:#4ade80">▪️ Мышцы +1.27 кг — положительная динамика</li>
+    </ul>
+  </div>
+
+  <div class="card wide">
+    <h2>Garmin — сводка</h2>
+    <div class="stat-row">
+      <div class="stat green"><div class="val">57.5</div><div class="label">VO2max</div></div>
+      <div class="stat blue"><div class="val" id="healthRhr">44</div><div class="label">ЧСС покоя</div></div>
+      <div class="stat cyan"><div class="val" id="healthHrv">68</div><div class="label">HRV</div></div>
+      <div class="stat yellow"><div class="val" id="healthBb">62</div><div class="label">Body Battery</div></div>
+      <div class="stat"><div class="val" id="healthSleep">6.8</div><div class="label">Сон, ч</div></div>
+    </div>
+  </div>
+</div>
+</div><!-- /tab-health -->
 
 <div class="footer">Garmin Connect &middot; 21.07.2026</div>
 
@@ -566,6 +794,10 @@ function addCoachButtons() {
     if (h2text.includes('форма')) coachKey = 'form';
     if (h2text.includes('неделя 2')) coachKey = 'week';
     if (h2text.includes('результаты')) coachKey = 'race';
+    if (h2text.includes('лабораторный тест')) coachKey = 'lab';
+    if (h2text.includes('тренировочные зоны')) coachKey = 'lab';
+    if (h2text.includes('состав тела')) coachKey = 'health';
+    if (h2text.includes('динамика (биоимпеданс)')) coachKey = 'health';
 
     if (!coachKey) return;
     card.dataset.coachKey = coachKey;
@@ -664,6 +896,83 @@ function toggleCoach() {
   else text += `${daysLeft} дней до Ironstar. Тренируйся по плану.`;
   p.innerHTML = text;
   p.classList.add('active');
+}
+
+// Tabs
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    const tabs = ['dashboard','lab','nutrition','health'];
+    t.classList.toggle('active', tabs[i] === id);
+  });
+  document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  if (id === 'lab') renderLactateChart();
+  if (id === 'health') renderWeightChart();
+  if (id === 'nutrition') renderMeals();
+}
+
+// Lactate chart
+function renderLactateChart() {
+  if (Chart.getChart(document.getElementById('lactateChart'))) return;
+  const steps = [{s:7,hr:135,la:1.1},{s:8,hr:145,la:1.4},{s:9,hr:156,la:1.6},{s:10,hr:162,la:2.1},{s:11,hr:168,la:2.7},{s:12,hr:177,la:3.9},{s:13,hr:186,la:5.4},{s:15,hr:190,la:7.9}];
+  makeChart('lactateChart', { type:'line', data:{ labels: steps.map(s=>s.s+' км/ч'), datasets:[
+    { label:'Лактат', data: steps.map(s=>s.la), borderColor:'#e94560', backgroundColor:'#e9456020', fill:true, tension:0.3, pointRadius:5, yAxisID:'y' },
+    { label:'ЧСС', data: steps.map(s=>s.hr), borderColor:'#60a5fa', tension:0.3, pointRadius:4, yAxisID:'y1' },
+  ]}, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{boxWidth:10,padding:8} }, annotation: false }, scales:{ y:{ title:{display:true,text:'Лактат ммоль/л'}, min:0, max:9 }, y1:{ position:'right', title:{display:true,text:'ЧСС'}, min:120, max:200, grid:{display:false} }}}});
+}
+
+// Weight chart
+function renderWeightChart() {
+  if (Chart.getChart(document.getElementById('weightChart'))) return;
+  const points = [{d:'31.05',w:76.7},{d:'12.07',w:80.1}];
+  makeChart('weightChart', { type:'line', data:{ labels: points.map(p=>p.d), datasets:[
+    { label:'Вес', data: points.map(p=>p.w), borderColor:'#f87171', backgroundColor:'#f8717120', fill:true, tension:0.3, pointRadius:6 },
+    { label:'Цель', data: points.map(()=>73), borderColor:'#4ade80', borderDash:[4,4], pointRadius:0, fill:false },
+    { label:'Старт (78 кг)', data: points.map(()=>78), borderColor:'#fbbf24', borderDash:[4,4], pointRadius:0, fill:false },
+  ]}, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{boxWidth:10,padding:8} }}, scales:{ y:{ min:70, max:85 }}}});
+}
+
+// Meal photos (localStorage)
+function renderMeals() {
+  const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
+  const grid = document.getElementById('mealGrid');
+  let html = '';
+  meals.forEach((m, i) => {
+    html += `<div class="meal-item"><img src="${m.data}" alt="meal"><div class="meal-info"><div class="meal-date">${m.date}</div><div>${m.note||''}</div></div><button class="meal-delete" onclick="deleteMeal(${i})">&times;</button></div>`;
+  });
+  html += `<div class="meal-add" onclick="document.getElementById('mealPhotoInput').click()"><input type="file" id="mealPhotoInput" accept="image/*" capture="environment" onchange="handleMealPhoto(event)"><span>+</span><span class="meal-add-label">Добавить фото</span></div>`;
+  grid.innerHTML = html;
+  document.getElementById('mealCount').textContent = meals.length;
+}
+
+function handleMealPhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
+    const now = new Date();
+    const date = String(now.getDate()).padStart(2,'0') + '.' + String(now.getMonth()+1).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    meals.unshift({ data: ev.target.result, date: date, note: '' });
+    localStorage.setItem('tri_meals', JSON.stringify(meals));
+    renderMeals();
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+function deleteMeal(idx) {
+  const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
+  meals.splice(idx, 1);
+  localStorage.setItem('tri_meals', JSON.stringify(meals));
+  renderMeals();
+}
+
+function handleLabUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const el = document.getElementById('labUploadResult');
+  el.innerHTML = `<div style="background:#16213e;border-radius:8px;padding:12px;font-size:13px"><span style="color:#4ade80">✓</span> Загружен: <b>${file.name}</b> (${(file.size/1024).toFixed(0)} KB)<br><span style="color:#808090;font-size:11px">Файл сохранён локально. Для анализа отправь тренеру.</span></div>`;
 }
 
 // Init
