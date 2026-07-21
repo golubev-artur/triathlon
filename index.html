@@ -304,7 +304,7 @@ function renderWeek() {
     const isPast = dateObj < new Date(msk.toDateString());
     const isRest = d.trainings.length === 0;
     let cls = 'wday' + (isToday ? ' is-today' : isPast ? ' is-past' : '') + (isRest ? ' is-rest' : '');
-    whtml += `<div class="${cls}"><div class="wday-label"><div class="wd-name">${d.day}</div><div class="wd-date">${d.date}</div>${d.wakeup ? `<div class="wakeup">${d.wakeup}</div>` : ''}</div><div class="wday-trains">`;
+    whtml += `<div class="${cls}"><div class="wday-label"><div class="wd-name">${d.day}</div><div class="wd-date">${d.date}</div>${d.wakeup ? `<div class="wakeup">${ICONS.alarm} ${d.wakeup}</div>` : ''}</div><div class="wday-trains">`;
     if (isRest) {
       whtml += `<div class="rest-text">${ICONS.rest} Отдых</div>`;
     } else {
