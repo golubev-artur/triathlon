@@ -445,9 +445,8 @@ function renderCalendar() {
       html += `<div class="${cls}"><div class="cal-num">${d}</div>`;
       if (trains.length > 0) {
         for (const t of trains) {
-          const c = typeColor[t.type] || '#a0a0b0';
-          const label = shortType[t.type] || t.type;
-          html += `<div class="cal-train"><div class="cal-train-dot" style="background:${c}"></div><span class="cal-train-name" style="color:${c}">${label}</span></div>`;
+          const icon = ICONS[t.type+'_sm'] || '';
+          html += `<div class="cal-train">${icon}</div>`;
           html += `<div class="cal-train-details">${t.details || t.name}</div>`;
         }
       }
