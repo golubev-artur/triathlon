@@ -87,6 +87,27 @@
     .coach-panel.active { display: block; }
     .coach-panel .coach-title { font-weight: 700; color: #4ade80; font-size: 15px; margin-bottom: 8px; }
 
+    .week-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .week-nav h2 { margin: 0; }
+    .week-nav-btns { display: flex; gap: 6px; }
+    .week-nav-btns button { background: #16213e; border: 1px solid #2a2a4a; color: #a0a0b0; border-radius: 6px; width: 32px; height: 32px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .week-nav-btns button:hover { background: #1e3050; color: #fff; }
+    .week-nav-btns button.active { background: #e94560; color: #fff; border-color: #e94560; }
+    .week-nav-btns button:disabled { opacity: 0.3; cursor: default; }
+
+    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-header { text-align: center; font-size: 10px; color: #606070; font-weight: 600; padding: 4px 0; text-transform: uppercase; }
+    .cal-day { background: #16213e; border-radius: 6px; padding: 6px 4px; min-height: 52px; text-align: center; font-size: 11px; position: relative; }
+    .cal-day.empty { background: transparent; }
+    .cal-day .cal-num { color: #808090; font-weight: 600; margin-bottom: 4px; }
+    .cal-day.is-today .cal-num { color: #e94560; font-weight: 700; }
+    .cal-day.is-race { border: 2px solid #e94560; background: #2a1020; }
+    .cal-day.is-race .cal-num { color: #e94560; font-weight: 700; }
+    .cal-day .cal-dots { display: flex; gap: 3px; justify-content: center; flex-wrap: wrap; }
+    .cal-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .cal-race-label { font-size: 8px; color: #e94560; font-weight: 700; margin-top: 2px; line-height: 1.1; }
+    .cal-month-title { grid-column: 1 / -1; text-align: center; font-size: 13px; color: #a0a0b0; font-weight: 600; padding: 8px 0 4px; }
+
     .card-overlay { display: none; }
     .card-overlay.active { display: block; position: fixed; inset: 0; z-index: 1000; background: #0f1117; overflow-y: auto; padding: 0; }
     .card-overlay.active .card-inner { min-height: 100vh; padding: 16px; padding-top: 48px; }
@@ -138,16 +159,20 @@
     <div id="todayContent"></div>
   </div>
 
-  <div class="card wide">
-    <h2>Неделя 2 (19-25 июля)</h2>
-    <div class="week-days" id="weekDays"></div>
-    <div class="stat-row" style="margin-top:12px">
-      <div class="stat green"><div class="val" id="weekDone">0/6</div><div class="label">Тренировок</div></div>
-      <div class="stat blue"><div class="val">~6.5ч</div><div class="label">План</div></div>
-      <div class="stat red"><div class="val">27</div><div class="label">Бег, км</div></div>
-      <div class="stat yellow"><div class="val">1</div><div class="label">Вело</div></div>
-      <div class="stat cyan"><div class="val">2</div><div class="label">Плав ОВ</div></div>
+  <div class="card wide" id="weekCard">
+    <div class="week-nav">
+      <h2 id="weekTitle">Неделя</h2>
+      <div class="week-nav-btns">
+        <button id="weekPrev" onclick="changeWeek(-1)" title="Предыдущая неделя">&#8249;</button>
+        <button id="calToggle" onclick="toggleCalendar()" title="Календарь">&#9776;</button>
+        <button id="weekNext" onclick="changeWeek(1)" title="Следующая неделя">&#8250;</button>
+      </div>
     </div>
+    <div id="weekContent">
+      <div class="week-days" id="weekDays"></div>
+      <div class="stat-row" style="margin-top:12px" id="weekStats"></div>
+    </div>
+    <div id="calendarContent" style="display:none"></div>
   </div>
 
   <div class="card">
@@ -164,19 +189,6 @@
     </div>
   </div>
 
-  <div class="card">
-    <h2>Неделя 1 (12-19 июля)</h2>
-    <div class="stat-row">
-      <div class="stat green"><div class="val">5/5</div><div class="label">Тренировок</div></div>
-      <div class="stat blue"><div class="val">5:00</div><div class="label">Время</div></div>
-      <div class="stat"><div class="val">3404</div><div class="label">Калории</div></div>
-    </div>
-    <div class="stat-row">
-      <div class="stat red"><div class="val">24.3</div><div class="label">Бег, км</div></div>
-      <div class="stat yellow"><div class="val">67.9</div><div class="label">Вело, км</div></div>
-      <div class="stat cyan"><div class="val">730</div><div class="label">Плав, м</div></div>
-    </div>
-  </div>
 
   <div class="card"><h2>Аэробная эффективность</h2><div class="chart-wrap"><canvas id="efficiencyChart"></canvas></div></div>
   <div class="card"><h2>Объём по неделям</h2><div class="chart-wrap"><canvas id="volumeChart"></canvas></div></div>
@@ -235,18 +247,37 @@ const ICONS = {
 const typeColor = { run: '#f87171', bike: '#fbbf24', swim: '#67e8f9' };
 const coachIcon = `<svg style="width:14px;height:14px;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
 
-const weekPlan = [
-  { day: 'Вс', date: '19.07', garminDate: '2026-07-19', wakeup: '10:00', trainings: [{ time: '12:00', type: 'swim', name: 'Плавание ОВ 1200м', details: '40 мин, RPE 5-6, дыхание на 3' }] },
-  { day: 'Пн', date: '20.07', garminDate: '2026-07-20', wakeup: '6:45', trainings: [] },
-  { day: 'Вт', date: '21.07', garminDate: '2026-07-21', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.5 км, ЧСС 136-150' }] },
-  { day: 'Ср', date: '22.07', garminDate: '2026-07-22', wakeup: '6:45', trainings: [{ time: '20:30', type: 'bike', name: 'Вело станок интервалы', details: "50 мин, 4x3' Z3 / 2' отдых, каденс 85+" }] },
-  { day: 'Чт', date: '23.07', garminDate: '2026-07-23', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый', details: "55 мин, 30' темп 5:50-6:10/км" }] },
-  { day: 'Пт', date: '24.07', garminDate: '2026-07-24', wakeup: '6:45', trainings: [] },
-  { day: 'Сб', date: '25.07', garminDate: '2026-07-25', wakeup: '7:00', trainings: [
-    { time: '8:00', type: 'run', name: 'Длинный бег Z2', details: '75 мин, ~12-13 км, ЧСС 136-150' },
-    { time: '12:00', type: 'swim', name: 'Плавание ОВ 1500м', details: '45 мин, 3x600, RPE 5-6' }
-  ] },
+const allWeeks = [
+  { label: 'Неделя 1 — Вкатывание', range: '12-18 июля', stats: { plan: '~5ч', runKm: 24.3, bikeKm: 67.9, swimM: 730 },
+    days: [
+      { day: 'Сб', date: '12.07', garminDate: '2026-07-12', wakeup: '8:00', trainings: [{ time: '9:00', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.8 км, ЧСС 136-150', done: true }] },
+      { day: 'Вс', date: '13.07', garminDate: '2026-07-13', trainings: [] },
+      { day: 'Пн', date: '14.07', garminDate: '2026-07-14', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег лёгкий Z1-Z2', details: '45 мин, ~7.4 км, ЧСС до 145', done: true }] },
+      { day: 'Вт', date: '15.07', garminDate: '2026-07-15', wakeup: '6:45', trainings: [{ time: '22:15', type: 'bike', name: 'Вело станок лайт', details: '47 мин, Z1, каденс 65', done: true }] },
+      { day: 'Ср', date: '16.07', garminDate: '2026-07-16', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый Z3', details: "50 мин, 25' темп 5:50-6:10/км", done: true }] },
+      { day: 'Чт', date: '17.07', garminDate: '2026-07-17', trainings: [] },
+      { day: 'Пт', date: '18.07', garminDate: '2026-07-18', wakeup: '7:00', trainings: [{ time: '9:00', type: 'bike', name: 'Вело улица', details: '70 мин, ЧСС до 145, каденс 80+', done: true }] },
+    ]
+  },
+  { label: 'Неделя 2 — Строительство', range: '19-25 июля', stats: { plan: '~6.5ч', runKm: 27, bikeKm: 0, swimM: 2700, bikeCount: 1, swimOW: 2 },
+    days: [
+      { day: 'Сб', date: '19.07', garminDate: '2026-07-19', wakeup: '10:00', trainings: [{ time: '12:00', type: 'swim', name: 'Плавание ОВ 1200м', details: '40 мин, RPE 5-6, дыхание на 3' }] },
+      { day: 'Вс', date: '20.07', garminDate: '2026-07-20', wakeup: '6:45', trainings: [] },
+      { day: 'Пн', date: '21.07', garminDate: '2026-07-21', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.5 км, ЧСС 136-150' }] },
+      { day: 'Вт', date: '22.07', garminDate: '2026-07-22', wakeup: '6:45', trainings: [{ time: '20:30', type: 'bike', name: 'Вело станок интервалы', details: "50 мин, 4x3' Z3 / 2' отдых, каденс 85+" }] },
+      { day: 'Ср', date: '23.07', garminDate: '2026-07-23', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый', details: "55 мин, 30' темп 5:50-6:10/км" }] },
+      { day: 'Чт', date: '24.07', garminDate: '2026-07-24', wakeup: '6:45', trainings: [] },
+      { day: 'Пт', date: '25.07', garminDate: '2026-07-25', wakeup: '7:00', trainings: [
+        { time: '8:00', type: 'run', name: 'Длинный бег Z2', details: '75 мин, ~12-13 км, ЧСС 136-150' },
+        { time: '12:00', type: 'swim', name: 'Плавание ОВ 1500м', details: '45 мин, 3x600, RPE 5-6' }
+      ] },
+    ]
+  },
 ];
+
+let currentWeekIdx = allWeeks.length - 1;
+let calendarMode = false;
+const weekPlan = allWeeks[currentWeekIdx].days;
 
 let DATA = null;
 
@@ -267,10 +298,12 @@ function fmtPace(s) { return Math.floor(s/60)+':'+String(Math.round(s%60)).padSt
 
 function applyWeekStatus(weekStatus) {
   if (!weekStatus) return;
-  for (const d of weekPlan) {
-    const ws = weekStatus.find(s => s.date === d.garminDate);
-    if (ws) {
-      d.trainings.forEach((t, i) => { t.done = ws.done[i] || false; });
+  for (const week of allWeeks) {
+    for (const d of week.days) {
+      const ws = weekStatus.find(s => s.date === d.garminDate);
+      if (ws) {
+        d.trainings.forEach((t, i) => { t.done = ws.done[i] || false; });
+      }
     }
   }
 }
@@ -296,13 +329,20 @@ function renderToday() {
 }
 
 function renderWeek() {
+  const week = allWeeks[currentWeekIdx];
+  const days = week.days;
+  document.getElementById('weekTitle').textContent = `${week.label} (${week.range})`;
+  document.getElementById('weekPrev').disabled = currentWeekIdx === 0;
+  document.getElementById('weekNext').disabled = currentWeekIdx === allWeeks.length - 1;
+
   const el = document.getElementById('weekDays');
-  let whtml = '', doneCount = 0;
-  for (const d of weekPlan) {
+  let whtml = '', doneCount = 0, totalTrainings = 0;
+  for (const d of days) {
     const isToday = d.date === todayDate;
     const dateObj = new Date('2026-' + d.date.split('.').reverse().join('-'));
     const isPast = dateObj < new Date(msk.toDateString());
     const isRest = d.trainings.length === 0;
+    totalTrainings += d.trainings.length;
     let cls = 'wday' + (isToday ? ' is-today' : isPast ? ' is-past' : '') + (isRest ? ' is-rest' : '');
     whtml += `<div class="${cls}"><div class="wday-label"><div class="wd-name">${d.day}</div><div class="wd-date">${d.date}</div>${d.wakeup ? `<div class="wakeup">${ICONS.alarm} ${d.wakeup}</div>` : ''}</div><div class="wday-trains">`;
     if (isRest) {
@@ -316,7 +356,97 @@ function renderWeek() {
     whtml += '</div></div>';
   }
   el.innerHTML = whtml;
-  document.getElementById('weekDone').textContent = `${doneCount}/${weekPlan.reduce((s,d) => s + d.trainings.length, 0)}`;
+
+  const st = week.stats;
+  let statsHtml = `<div class="stat green"><div class="val">${doneCount}/${totalTrainings}</div><div class="label">Тренировок</div></div>`;
+  statsHtml += `<div class="stat blue"><div class="val">${st.plan}</div><div class="label">План</div></div>`;
+  if (st.runKm) statsHtml += `<div class="stat red"><div class="val">${st.runKm}</div><div class="label">Бег, км</div></div>`;
+  if (st.bikeKm) statsHtml += `<div class="stat yellow"><div class="val">${st.bikeKm}</div><div class="label">Вело, км</div></div>`;
+  if (st.swimM) statsHtml += `<div class="stat cyan"><div class="val">${st.swimM}</div><div class="label">Плав, м</div></div>`;
+  document.getElementById('weekStats').innerHTML = statsHtml;
+}
+
+function changeWeek(dir) {
+  const next = currentWeekIdx + dir;
+  if (next < 0 || next >= allWeeks.length) return;
+  currentWeekIdx = next;
+  if (calendarMode) { calendarMode = false; toggleCalendarView(); }
+  renderWeek();
+}
+
+function toggleCalendar() {
+  calendarMode = !calendarMode;
+  toggleCalendarView();
+}
+
+function toggleCalendarView() {
+  const weekEl = document.getElementById('weekContent');
+  const calEl = document.getElementById('calendarContent');
+  const btn = document.getElementById('calToggle');
+  if (calendarMode) {
+    weekEl.style.display = 'none';
+    calEl.style.display = 'block';
+    btn.classList.add('active');
+    renderCalendar();
+  } else {
+    weekEl.style.display = '';
+    calEl.style.display = 'none';
+    btn.classList.remove('active');
+  }
+}
+
+function getAllTrainings() {
+  const map = {};
+  for (const week of allWeeks) {
+    for (const d of week.days) {
+      if (d.trainings.length > 0) {
+        map[d.garminDate] = d.trainings;
+      }
+    }
+  }
+  return map;
+}
+
+function renderCalendar() {
+  const trainMap = getAllTrainings();
+  const raceDateStr = '2026-08-08';
+  const months = [
+    { name: 'Июль 2026', year: 2026, month: 6 },
+    { name: 'Август 2026', year: 2026, month: 7 },
+  ];
+  const dayNames = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  const todayISO = `2026-${String(msk.getMonth()+1).padStart(2,'0')}-${String(msk.getDate()).padStart(2,'0')}`;
+
+  let html = '<div class="calendar">';
+  html += dayNames.map(d => `<div class="cal-header">${d}</div>`).join('');
+
+  for (const m of months) {
+    html += `<div class="cal-month-title">${m.name}</div>`;
+    const firstDay = new Date(m.year, m.month, 1).getDay();
+    const offset = firstDay === 0 ? 6 : firstDay - 1;
+    for (let i = 0; i < offset; i++) html += '<div class="cal-day empty"></div>';
+    const daysInMonth = new Date(m.year, m.month + 1, 0).getDate();
+    for (let d = 1; d <= daysInMonth; d++) {
+      const iso = `${m.year}-${String(m.month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const isToday = iso === todayISO;
+      const isRace = iso === raceDateStr;
+      const trains = trainMap[iso] || [];
+      let cls = 'cal-day' + (isToday ? ' is-today' : '') + (isRace ? ' is-race' : '');
+      html += `<div class="${cls}"><div class="cal-num">${d}</div>`;
+      if (trains.length > 0) {
+        html += '<div class="cal-dots">';
+        for (const t of trains) {
+          const c = typeColor[t.type] || '#a0a0b0';
+          html += `<div class="cal-dot" style="background:${c}" title="${t.name}"></div>`;
+        }
+        html += '</div>';
+      }
+      if (isRace) html += '<div class="cal-race-label">IRONSTAR</div>';
+      html += '</div>';
+    }
+  }
+  html += '</div>';
+  document.getElementById('calendarContent').innerHTML = html;
 }
 
 function renderSleepStats(sd) {
