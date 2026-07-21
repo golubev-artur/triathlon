@@ -100,16 +100,36 @@
     .next-test { background: linear-gradient(135deg, #1a2e1a 0%, #16213e 100%); border: 1px solid #2a4a2a; border-radius: 8px; padding: 12px; margin-top: 12px; font-size: 13px; color: #d0e0d0; }
     .next-test-date { color: #fbbf24; font-weight: 700; }
 
-    .meal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 12px; }
+    .meal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 12px; }
     .meal-item { background: #16213e; border-radius: 8px; overflow: hidden; position: relative; }
-    .meal-item img { width: 100%; height: 120px; object-fit: cover; display: block; }
+    .meal-item img { width: 100%; height: 120px; object-fit: cover; display: block; cursor: pointer; }
     .meal-item .meal-info { padding: 8px; font-size: 11px; }
     .meal-item .meal-date { color: #808090; font-size: 10px; }
+    .meal-item .meal-kcal { color: #fbbf24; font-weight: 700; font-size: 13px; margin-top: 4px; }
+    .meal-item .meal-macros { color: #a0a0b0; font-size: 10px; margin-top: 2px; display: flex; gap: 6px; flex-wrap: wrap; }
+    .meal-item .meal-macros span { white-space: nowrap; }
+    .meal-item .meal-foods { color: #c0c0d0; font-size: 10px; margin-top: 4px; line-height: 1.4; }
     .meal-item .meal-delete { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); border: none; color: #f87171; border-radius: 50%; width: 22px; height: 22px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .meal-item .meal-reanalyze { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.6); border: none; color: #60a5fa; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .meal-item.analyzing img { opacity: 0.5; }
+    .meal-item .meal-loader { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); color: #60a5fa; font-size: 11px; font-weight: 600; text-align: center; }
+    .meal-item .meal-loader::after { content: ''; display: block; width: 20px; height: 20px; margin: 6px auto 0; border: 2px solid #60a5fa; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
     .meal-add { background: #16213e; border: 2px dashed #2a2a4a; border-radius: 8px; min-height: 120px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-direction: column; gap: 4px; color: #606070; font-size: 24px; transition: border-color 0.2s; }
     .meal-add:hover { border-color: #60a5fa; }
     .meal-add input { display: none; }
     .meal-add-label { font-size: 11px; }
+    .meal-daily-summary { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; padding: 10px 14px; background: linear-gradient(135deg, #1a2e1a 0%, #16213e 100%); border: 1px solid #2a4a2a; border-radius: 8px; align-items: center; }
+    .meal-daily-summary .daily-title { font-size: 12px; color: #808090; font-weight: 600; }
+    .meal-daily-summary .daily-val { font-size: 16px; font-weight: 700; color: #fbbf24; }
+    .meal-daily-summary .daily-macro { font-size: 11px; color: #a0a0b0; }
+    .meal-daily-summary .daily-macro b { color: #e0e0e0; }
+    .meal-daily-progress { height: 4px; background: #2a2a4a; border-radius: 2px; flex: 1; min-width: 100px; overflow: hidden; }
+    .meal-daily-progress .bar { height: 100%; border-radius: 2px; transition: width 0.3s; }
+    .meal-photo-overlay { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
+    .meal-photo-overlay.active { display: flex; }
+    .meal-photo-overlay img { max-width: 90vw; max-height: 80vh; border-radius: 8px; }
+    .meal-photo-overlay .close-btn { position: fixed; top: 10px; right: 14px; z-index: 2001; background: #e94560; color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .meal-photo-overlay .overlay-info { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #16213e; border: 1px solid #2a2a4a; border-radius: 12px; padding: 14px 20px; max-width: 90vw; font-size: 13px; line-height: 1.6; color: #d0e0d0; white-space: pre-line; }
 
     .health-table { width: 100%; border-collapse: collapse; font-size: 12px; }
     .health-table th { text-align: left; color: #808090; padding: 6px; border-bottom: 1px solid #2a2a4a; font-size: 11px; }
@@ -372,10 +392,20 @@
     <h2>Питание</h2>
     <div class="stat-row">
       <div class="stat blue"><div class="val" id="mealCount">0</div><div class="label">Записей</div></div>
-      <div class="stat yellow"><div class="val">2500</div><div class="label">Цель ккал/день</div></div>
-      <div class="stat red"><div class="val">300-500</div><div class="label">Дефицит ккал</div></div>
+      <div class="stat yellow"><div class="val" id="mealTotalKcal">0</div><div class="label">ккал сегодня</div></div>
+      <div class="stat red"><div class="val">2500</div><div class="label">Цель ккал</div></div>
     </div>
-    <div style="font-size:12px;color:#a0a0b0;margin-bottom:12px">Фотографируй каждый приём пищи. Данные хранятся локально в браузере.</div>
+    <div id="mealDailySummary" class="meal-daily-summary" style="display:none">
+      <div>
+        <div class="daily-title">Сегодня</div>
+        <div class="daily-val" id="dailyKcal">0 ккал</div>
+      </div>
+      <div class="daily-macro"><b id="dailyP">0</b> г белка</div>
+      <div class="daily-macro"><b id="dailyF">0</b> г жиров</div>
+      <div class="daily-macro"><b id="dailyC">0</b> г углев.</div>
+      <div class="meal-daily-progress"><div class="bar" id="dailyBar" style="width:0%;background:#4ade80"></div></div>
+    </div>
+    <div style="font-size:12px;color:#a0a0b0;margin-bottom:12px">Фотографируй еду — AI определит порцию и калории. Данные хранятся локально.</div>
     <div class="meal-grid" id="mealGrid">
       <div class="meal-add" onclick="document.getElementById('mealPhotoInput').click()">
         <input type="file" id="mealPhotoInput" accept="image/*" capture="environment" onchange="handleMealPhoto(event)">
@@ -462,6 +492,12 @@
   </div>
 </div>
 </div><!-- /tab-health -->
+
+<div class="meal-photo-overlay" id="mealOverlay" onclick="closeMealOverlay(event)">
+  <button class="close-btn" onclick="closeMealOverlay()">&times;</button>
+  <img id="mealOverlayImg" src="">
+  <div class="overlay-info" id="mealOverlayInfo"></div>
+</div>
 
 <div class="footer">Garmin Connect &middot; 21.07.2026</div>
 
@@ -992,33 +1028,155 @@ function renderWeightChart() {
   ]}, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{boxWidth:10,padding:8} }}, scales:{ y:{ min:70, max:85 }}}});
 }
 
-// Meal photos (localStorage)
+// ── Анализ еды через серверный API (Gemini) ──
+const FOOD_API_URL = 'http://localhost:3456/api/analyze-food';
+
+function resizeImage(dataUrl, maxSize) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      let w = img.width, h = img.height;
+      if (w > maxSize || h > maxSize) {
+        const ratio = Math.min(maxSize / w, maxSize / h);
+        w = Math.round(w * ratio);
+        h = Math.round(h * ratio);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', 0.8));
+    };
+    img.src = dataUrl;
+  });
+}
+
+async function analyzeFood(base64data, mimeType) {
+  const resp = await fetch(FOOD_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ image: base64data, mimeType: mimeType || 'image/jpeg' })
+  });
+  if (!resp.ok) throw new Error('Сервер: ' + resp.status);
+  return await resp.json();
+}
+
+// ── Meal photos (localStorage) ──
 function renderMeals() {
   const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
   const grid = document.getElementById('mealGrid');
   let html = '';
   meals.forEach((m, i) => {
-    html += `<div class="meal-item"><img src="${m.data}" alt="meal"><div class="meal-info"><div class="meal-date">${m.date}</div><div>${m.note||''}</div></div><button class="meal-delete" onclick="deleteMeal(${i})">&times;</button></div>`;
+    const analyzing = m.analyzing ? ' analyzing' : '';
+    let infoHtml = `<div class="meal-date">${m.date}</div>`;
+    if (m.analysis && m.analysis.total) {
+      const t = m.analysis.total;
+      infoHtml += `<div class="meal-kcal">${t.kcal} ккал</div>`;
+      infoHtml += `<div class="meal-macros"><span>Б ${t.protein}г</span><span>Ж ${t.fat}г</span><span>У ${t.carbs}г</span></div>`;
+      if (m.analysis.foods) {
+        infoHtml += `<div class="meal-foods">${m.analysis.foods.map(f => f.name + ' ' + f.weight).join(', ')}</div>`;
+      }
+    } else if (m.analysis?.error) {
+      infoHtml += `<div style="color:#f87171;font-size:10px;margin-top:4px">${m.analysis.error}</div>`;
+    } else if (m.note) {
+      infoHtml += `<div>${m.note}</div>`;
+    }
+    html += `<div class="meal-item${analyzing}" id="meal-${i}">` +
+      `<img src="${m.data}" alt="meal" onclick="openMealOverlay(${i})">` +
+      (analyzing ? '<div class="meal-loader">Анализ...</div>' : '') +
+      `<div class="meal-info">${infoHtml}</div>` +
+      `<button class="meal-delete" onclick="deleteMeal(${i})">&times;</button>` +
+      (!m.analyzing ? `<button class="meal-reanalyze" onclick="reanalyzeMeal(${i})" title="Переанализировать">↻</button>` : '') +
+      `</div>`;
   });
   html += `<div class="meal-add" onclick="document.getElementById('mealPhotoInput').click()"><input type="file" id="mealPhotoInput" accept="image/*" capture="environment" onchange="handleMealPhoto(event)"><span>+</span><span class="meal-add-label">Добавить фото</span></div>`;
   grid.innerHTML = html;
   document.getElementById('mealCount').textContent = meals.length;
+  updateDailySummary(meals);
 }
 
-function handleMealPhoto(e) {
+function updateDailySummary(meals) {
+  const today = new Date();
+  const todayStr = String(today.getDate()).padStart(2,'0') + '.' + String(today.getMonth()+1).padStart(2,'0');
+  let kcal = 0, p = 0, f = 0, c = 0, count = 0;
+  meals.forEach(m => {
+    if (m.date && m.date.startsWith(todayStr) && m.analysis?.total) {
+      kcal += m.analysis.total.kcal || 0;
+      p += m.analysis.total.protein || 0;
+      f += m.analysis.total.fat || 0;
+      c += m.analysis.total.carbs || 0;
+      count++;
+    }
+  });
+  const summary = document.getElementById('mealDailySummary');
+  if (count > 0) {
+    summary.style.display = 'flex';
+    document.getElementById('dailyKcal').textContent = kcal + ' ккал';
+    document.getElementById('dailyP').textContent = p;
+    document.getElementById('dailyF').textContent = f;
+    document.getElementById('dailyC').textContent = c;
+    const pct = Math.min(100, Math.round(kcal / 2500 * 100));
+    const bar = document.getElementById('dailyBar');
+    bar.style.width = pct + '%';
+    bar.style.background = pct > 100 ? '#f87171' : pct > 80 ? '#fbbf24' : '#4ade80';
+  } else {
+    summary.style.display = 'none';
+  }
+  document.getElementById('mealTotalKcal').textContent = kcal || 0;
+}
+
+async function handleMealPhoto(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = function(ev) {
+  reader.onload = async function(ev) {
     const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
     const now = new Date();
     const date = String(now.getDate()).padStart(2,'0') + '.' + String(now.getMonth()+1).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-    meals.unshift({ data: ev.target.result, date: date, note: '' });
+    const resized = await resizeImage(ev.target.result, 1024);
+    const meal = { data: resized, date: date, note: '', analyzing: true };
+    meals.unshift(meal);
     localStorage.setItem('tri_meals', JSON.stringify(meals));
+    renderMeals();
+    try {
+      const base64 = resized.split(',')[1];
+      const result = await analyzeFood(base64, 'image/jpeg');
+      const updated = JSON.parse(localStorage.getItem('tri_meals') || '[]');
+      updated[0].analysis = result;
+      updated[0].analyzing = false;
+      localStorage.setItem('tri_meals', JSON.stringify(updated));
+    } catch (err) {
+      const updated = JSON.parse(localStorage.getItem('tri_meals') || '[]');
+      updated[0].analysis = { error: 'Ошибка: ' + err.message };
+      updated[0].analyzing = false;
+      localStorage.setItem('tri_meals', JSON.stringify(updated));
+    }
     renderMeals();
   };
   reader.readAsDataURL(file);
   e.target.value = '';
+}
+
+async function reanalyzeMeal(idx) {
+  const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
+  if (!meals[idx]) return;
+  meals[idx].analyzing = true;
+  meals[idx].analysis = null;
+  localStorage.setItem('tri_meals', JSON.stringify(meals));
+  renderMeals();
+  try {
+    const base64 = meals[idx].data.split(',')[1];
+    const result = await analyzeFood(base64, 'image/jpeg');
+    const updated = JSON.parse(localStorage.getItem('tri_meals') || '[]');
+    updated[idx].analysis = result;
+    updated[idx].analyzing = false;
+    localStorage.setItem('tri_meals', JSON.stringify(updated));
+  } catch (err) {
+    const updated = JSON.parse(localStorage.getItem('tri_meals') || '[]');
+    updated[idx].analysis = { error: 'Ошибка: ' + err.message };
+    updated[idx].analyzing = false;
+    localStorage.setItem('tri_meals', JSON.stringify(updated));
+  }
+  renderMeals();
 }
 
 function deleteMeal(idx) {
@@ -1026,6 +1184,30 @@ function deleteMeal(idx) {
   meals.splice(idx, 1);
   localStorage.setItem('tri_meals', JSON.stringify(meals));
   renderMeals();
+}
+
+function openMealOverlay(idx) {
+  const meals = JSON.parse(localStorage.getItem('tri_meals') || '[]');
+  const m = meals[idx];
+  if (!m) return;
+  document.getElementById('mealOverlayImg').src = m.data;
+  let info = m.date;
+  if (m.analysis?.foods) {
+    info += '\n\n';
+    m.analysis.foods.forEach(f => {
+      info += f.name + ' — ' + f.weight + ' — ' + f.kcal + ' ккал (Б' + f.protein + ' Ж' + f.fat + ' У' + f.carbs + ')\n';
+    });
+    if (m.analysis.total) {
+      info += '\nИтого: ' + m.analysis.total.kcal + ' ккал | Б' + m.analysis.total.protein + ' Ж' + m.analysis.total.fat + ' У' + m.analysis.total.carbs;
+    }
+  }
+  document.getElementById('mealOverlayInfo').textContent = info;
+  document.getElementById('mealOverlay').classList.add('active');
+}
+
+function closeMealOverlay(e) {
+  if (e && e.target !== e.currentTarget && !e.target.classList.contains('close-btn')) return;
+  document.getElementById('mealOverlay').classList.remove('active');
 }
 
 function handleLabUpload(e) {
