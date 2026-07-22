@@ -1116,6 +1116,7 @@ function renderMeals() {
   const grid = document.getElementById('mealGrid');
   let html = '';
   meals.forEach((m, i) => {
+    if (m.type === 'water') return;
     const analyzing = m.analyzing ? ' analyzing' : '';
     const src = getMealImgSrc(m);
     const sourceTag = m.source === 'telegram' ? '<span style="color:#60a5fa;font-size:9px">TG</span> ' : m.source === 'web-text' ? '<span style="color:#4ade80;font-size:9px">TXT</span> ' : '';
