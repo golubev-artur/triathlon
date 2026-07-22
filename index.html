@@ -1294,7 +1294,7 @@ async function handleMealPhoto(e) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = async function(ev) {
-    const resized = await resizeImage(ev.target.result, 1024);
+    const resized = await resizeImage(ev.target.result, 512);
     const base64 = resized.split(',')[1];
     mealsCache.unshift({ data: resized, date: '...', analyzing: true, source: 'web' });
     renderMeals();
