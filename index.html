@@ -1057,9 +1057,8 @@ function renderWeightChart() {
 }
 
 // ── Питание: серверное хранилище (meals.json) ──
-const IS_STATIC = window.location.hostname.includes('github.io');
-const FOOD_API_HOST = IS_STATIC ? '' : (window.location.port === '3456' || window.location.hostname === 'localhost') ? '' : 'http://202.148.53.125:3456';
-const FOOD_API = FOOD_API_HOST + '/api';
+const FOOD_API_HOST = '';
+const FOOD_API = '/api';
 let mealsCache = [];
 
 function resizeImage(dataUrl, maxSize) {
@@ -1083,19 +1082,14 @@ function resizeImage(dataUrl, maxSize) {
 
 async function loadMealsFromServer() {
   try {
-    if (IS_STATIC) {
-      const resp = await fetch('meals.json?t=' + Date.now());
-      if (resp.ok) mealsCache = await resp.json();
-    } else {
-      const resp = await fetch(FOOD_API + '/meals');
-      if (resp.ok) mealsCache = await resp.json();
-    }
+    const resp = await fetch(FOOD_API + '/meals');
+    if (resp.ok) mealsCache = await resp.json();
   } catch (e) { console.error('Meals load error:', e); }
   return mealsCache;
 }
 
 function getMealImgSrc(m) {
-  if (m.photo) return IS_STATIC ? m.photo : FOOD_API_HOST + '/' + m.photo;
+  if (m.photo) return '/' + m.photo;
   if (m.data) return m.data;
   return '';
 }
@@ -1127,11 +1121,7 @@ function renderMeals() {
       `<button class="meal-delete" onclick="deleteMeal(${i})">&times;</button>` +
       `</div>`;
   });
-  if (IS_STATIC) {
-    html += `<div class="meal-add" style="cursor:default;opacity:0.6"><span style="font-size:20px">📱</span><span class="meal-add-label" style="font-size:10px">Добавить через<br>Telegram бот</span></div>`;
-  } else {
-    html += `<div class="meal-add" onclick="document.getElementById('mealPhotoInput').click()"><input type="file" id="mealPhotoInput" accept="image/*" capture="environment" onchange="handleMealPhoto(event)"><span>+</span><span class="meal-add-label">Добавить фото</span></div>`;
-  }
+  html += `<div class="meal-add" onclick="document.getElementById('mealPhotoInput').click()"><input type="file" id="mealPhotoInput" accept="image/*" capture="environment" onchange="handleMealPhoto(event)"><span>+</span><span class="meal-add-label">Добавить фото</span></div>`;
   grid.innerHTML = html;
   document.getElementById('mealCount').textContent = meals.length;
   updateDailySummary(meals);
