@@ -1048,6 +1048,7 @@ function switchTab(id) {
   if (id === 'lab') renderLactateChart();
   if (id === 'health') renderWeightChart();
   if (id === 'nutrition') loadMealsFromServer().then(() => renderMeals());
+  try { localStorage.setItem('triathlon-tab', id); } catch {}
 }
 
 // Lactate chart
@@ -1142,7 +1143,6 @@ function renderMeals() {
   });
   html += `<div class="meal-add" onclick="document.getElementById('mealPhotoInput').click()"><input type="file" id="mealPhotoInput" accept="image/*" capture="environment" onchange="handleMealPhoto(event)"><span>+</span><span class="meal-add-label">Добавить фото</span></div>`;
   grid.innerHTML = html;
-  document.getElementById('mealCount').textContent = meals.length;
   updateDailySummary(meals);
 }
 
@@ -1376,6 +1376,11 @@ function handleLabUpload(e) {
 
   document.getElementById('foodTextInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') handleFoodText(); });
   document.getElementById('customWaterInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') addCustomWater(); });
+
+  try {
+    const savedTab = localStorage.getItem('triathlon-tab');
+    if (savedTab && document.getElementById('tab-' + savedTab)) switchTab(savedTab);
+  } catch {}
 })();
 </script>
 
