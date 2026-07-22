@@ -1160,6 +1160,10 @@ function updateDailySummary(meals) {
       p += m.analysis.total.protein || 0;
       f += m.analysis.total.fat || 0;
       c += m.analysis.total.carbs || 0;
+      if (m.analysis.water_ml) {
+        water += m.analysis.water_ml;
+        waterEntries.push({ ml: m.analysis.water_ml, time: m.date.slice(6), idx: i, source: m.source, fromFood: true });
+      }
     }
   });
   document.getElementById('mealTotalKcal').textContent = kcal;
@@ -1183,7 +1187,9 @@ function updateDailySummary(meals) {
   if (waterEntries.length > 0) {
     wlog.innerHTML = waterEntries.map(w => {
       const src = w.source === 'telegram' ? '<span style="color:#60a5fa;font-size:9px">TG</span> ' : '';
-      return `<span style="display:inline-flex;align-items:center;gap:3px">${glassSvg}${src}${w.time} ${w.ml}мл <span onclick="deleteMeal(${w.idx})" style="color:#f87171;cursor:pointer;font-size:13px" title="Удалить">×</span></span>`;
+      const label = w.fromFood ? '<span style="color:#4ade80;font-size:9px">напиток</span> ' : '';
+      const del = w.fromFood ? '' : ` <span onclick="deleteMeal(${w.idx})" style="color:#f87171;cursor:pointer;font-size:13px" title="Удалить">×</span>`;
+      return `<span style="display:inline-flex;align-items:center;gap:3px">${glassSvg}${src}${label}${w.time} ${w.ml}мл${del}</span>`;
     }).join(' &nbsp; ');
   } else {
     wlog.innerHTML = '';
