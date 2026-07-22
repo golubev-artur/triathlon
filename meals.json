@@ -1,0 +1,59 @@
+[
+  {
+    "photo": "meals/1784666178650.jpg",
+    "date": "21.07 22:36",
+    "dateISO": "2026-07-21T20:36:46.950Z",
+    "source": "telegram",
+    "caption": "",
+    "analysis": {
+      "foods": [
+        {
+          "name": "Яичница глазунья (3 яйца)",
+          "weight": "150г",
+          "kcal": 270,
+          "protein": 19,
+          "fat": 21,
+          "carbs": 1
+        },
+        {
+          "name": "Запеченный картофель",
+          "weight": "100г",
+          "kcal": 120,
+          "protein": 2,
+          "fat": 4,
+          "carbs": 20
+        },
+        {
+          "name": "Томаты черри (гриль)",
+          "weight": "150г",
+          "kcal": 27,
+          "protein": 1,
+          "fat": 0,
+          "carbs": 6
+        },
+        {
+          "name": "Зелень (руккола)",
+          "weight": "30г",
+          "kcal": 8,
+          "protein": 1,
+          "fat": 0,
+          "carbs": 1
+        },
+        {
+          "name": "Томатный соус/чатни",
+          "weight": "20г",
+          "kcal": 20,
+          "protein": 0,
+          "fat": 1,
+          "carbs": 3
+        }
+      ],
+      "total": {
+        "kcal": 445,
+        "protein": 23,
+        "fat": 26,
+        "carbs": 31
+      }
+    }
+  }
+]
