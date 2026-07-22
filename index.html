@@ -415,11 +415,19 @@
         <button onclick="addWater(200)" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+200мл</button>
         <button onclick="addWater(250)" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+250мл</button>
         <button onclick="addWater(500)" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+500мл</button>
+        <input type="number" id="customWaterInput" placeholder="мл" min="1" style="width:60px;background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 8px;font-size:11px;text-align:center">
+        <button onclick="addCustomWater()" style="background:#0e3a4a;border:1px solid #67e8f9;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+</button>
       </div>
       <div class="meal-daily-progress"><div class="bar" id="waterBar" style="width:0%;background:#67e8f9"></div></div>
     </div>
     <div id="waterLog" style="font-size:11px;color:#808090;margin-bottom:8px"></div>
-    <div style="font-size:12px;color:#a0a0b0;margin-bottom:12px">Фотографируй еду — AI определит порцию и калории. Воду можно добавить кнопками или из ТГ-бота.</div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;color:#a0a0b0;margin-bottom:8px">Добавь фото еды или опиши текстом что съел/выпил — AI посчитает калории и БЖУ</div>
+      <div style="display:flex;gap:6px">
+        <input type="text" id="foodTextInput" placeholder="Например: борщ 300г, хлеб 2 куска, чай с сахаром" style="flex:1;background:#16213e;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:8px;padding:10px 12px;font-size:13px">
+        <button onclick="handleFoodText()" id="foodTextBtn" style="background:#1a3a2a;border:1px solid #4ade80;color:#4ade80;border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;white-space:nowrap">Добавить</button>
+      </div>
+    </div>
     <div class="meal-grid" id="mealGrid">
       <div class="meal-add" onclick="document.getElementById('mealPhotoInput').click()">
         <input type="file" id="mealPhotoInput" accept="image/*" capture="environment" onchange="handleMealPhoto(event)">
@@ -1101,7 +1109,7 @@ function renderMeals() {
   meals.forEach((m, i) => {
     const analyzing = m.analyzing ? ' analyzing' : '';
     const src = getMealImgSrc(m);
-    const sourceTag = m.source === 'telegram' ? '<span style="color:#60a5fa;font-size:9px">TG</span> ' : '';
+    const sourceTag = m.source === 'telegram' ? '<span style="color:#60a5fa;font-size:9px">TG</span> ' : m.source === 'web-text' ? '<span style="color:#4ade80;font-size:9px">TXT</span> ' : '';
     let infoHtml = `<div class="meal-date">${sourceTag}${m.date}</div>`;
     if (m.caption) infoHtml += `<div style="color:#c0c0d0;font-size:10px;font-style:italic">${m.caption}</div>`;
     if (m.analysis && m.analysis.total) {
@@ -1114,8 +1122,11 @@ function renderMeals() {
     } else if (m.analysis?.error) {
       infoHtml += `<div style="color:#f87171;font-size:10px;margin-top:4px">${m.analysis.error}</div>`;
     }
+    const imgHtml = src
+      ? `<img src="${src}" alt="meal" onclick="openMealOverlay(${i})">`
+      : `<div style="width:80px;height:80px;background:#16213e;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;cursor:pointer" onclick="openMealOverlay(${i})">🍽</div>`;
     html += `<div class="meal-item${analyzing}" id="meal-${i}">` +
-      `<img src="${src}" alt="meal" onclick="openMealOverlay(${i})">` +
+      imgHtml +
       (analyzing ? '<div class="meal-loader">Анализ...</div>' : '') +
       `<div class="meal-info">${infoHtml}</div>` +
       `<button class="meal-delete" onclick="deleteMeal(${i})">&times;</button>` +
@@ -1182,6 +1193,40 @@ async function addWater(ml) {
     await loadMealsFromServer();
     renderMeals();
   } catch (e) { console.error('Water error:', e); }
+}
+
+function addCustomWater() {
+  const input = document.getElementById('customWaterInput');
+  const ml = parseInt(input.value);
+  if (!ml || ml <= 0) return;
+  input.value = '';
+  addWater(ml);
+}
+
+async function handleFoodText() {
+  const input = document.getElementById('foodTextInput');
+  const btn = document.getElementById('foodTextBtn');
+  const text = input.value.trim();
+  if (!text) return;
+  btn.textContent = 'Анализ...';
+  btn.disabled = true;
+  try {
+    const resp = await fetch(FOOD_API + '/analyze-food-text', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
+    if (!resp.ok) throw new Error('Сервер: ' + resp.status);
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    input.value = '';
+    await loadMealsFromServer();
+    renderMeals();
+  } catch (err) {
+    alert('Ошибка: ' + err.message);
+  }
+  btn.textContent = 'Добавить';
+  btn.disabled = false;
 }
 
 async function requestDayAnalysis(dateStr) {
@@ -1315,6 +1360,9 @@ function handleLabUpload(e) {
   addCoachButtons();
   setupExpand();
   loadMealsFromServer().then(() => renderMeals());
+
+  document.getElementById('foodTextInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') handleFoodText(); });
+  document.getElementById('customWaterInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') addCustomWater(); });
 })();
 </script>
 
