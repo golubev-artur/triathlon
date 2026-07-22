@@ -964,6 +964,7 @@ const expandIcon = `<svg class="card-expand" viewBox="0 0 24 24" fill="none" str
 
 function setupExpand() {
   document.querySelectorAll('.card').forEach(card => {
+    if (card.closest('#tab-nutrition')) return;
     card.insertAdjacentHTML('beforeend', expandIcon);
     card.addEventListener('click', (e) => {
       if (e.target.closest('.close-btn') || e.target.closest('.coach-card-btn') || e.target.closest('.coach-tip')) return;
