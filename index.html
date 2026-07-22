@@ -8,6 +8,7 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1117; color: #e0e0e0; -webkit-font-smoothing: antialiased; }
+    #tab-nutrition input, #tab-nutrition select, #tab-nutrition textarea, #tab-nutrition button { font-size: 16px !important; touch-action: manipulation; }
 
     .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 20px; border-bottom: 2px solid #e94560; }
     .header h1 { font-size: 20px; font-weight: 700; color: #fff; }
@@ -407,24 +408,30 @@
       <div class="meal-daily-progress"><div class="bar" id="dailyBar" style="width:0%;background:#4ade80"></div></div>
     </div>
     <div id="waterSection" class="meal-daily-summary" style="margin-top:8px">
-      <div>
-        <div class="daily-title">💧 Вода</div>
-        <div class="daily-val" id="dailyWater">0 / 3000 мл</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12l-2 18H8L6 2z"/><path d="M6 6h12"/><path d="M8.5 12c1.5 1.5 5.5 1.5 7 0" opacity="0.5"/></svg>
+        <div>
+          <div class="daily-title" style="margin:0">Вода</div>
+          <div class="daily-val" id="dailyWater">0 / 3000 мл</div>
+        </div>
       </div>
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        <button onclick="addWater(200)" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+200мл</button>
-        <button onclick="addWater(250)" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+250мл</button>
-        <button onclick="addWater(500)" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+500мл</button>
-        <input type="number" id="customWaterInput" placeholder="мл" min="1" style="width:60px;background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 8px;font-size:11px;text-align:center">
-        <button onclick="addCustomWater()" style="background:#0e3a4a;border:1px solid #67e8f9;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+</button>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
+        <button onclick="addWater(200);return false" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+200мл</button>
+        <button onclick="addWater(250);return false" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+250мл</button>
+        <button onclick="addWater(500);return false" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+500мл</button>
+        <input type="number" id="customWaterInput" placeholder="мл" min="1" style="width:60px;background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 8px;font-size:16px;text-align:center">
+        <button onclick="addCustomWater();return false" style="background:#0e3a4a;border:1px solid #67e8f9;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+</button>
       </div>
-      <div class="meal-daily-progress"><div class="bar" id="waterBar" style="width:0%;background:#67e8f9"></div></div>
+      <div style="position:relative;height:22px;background:#16213e;border-radius:11px;overflow:hidden;border:1px solid #2a2a4a">
+        <div id="waterBar" style="position:absolute;left:0;top:0;height:100%;width:0%;background:linear-gradient(90deg,#0e7490,#67e8f9);border-radius:11px;transition:width 0.5s ease"></div>
+        <div id="waterPct" style="position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.5)">0%</div>
+      </div>
     </div>
-    <div id="waterLog" style="font-size:11px;color:#808090;margin-bottom:8px"></div>
+    <div id="waterLog" style="font-size:11px;color:#808090;margin:8px 0"></div>
     <div style="margin-bottom:12px">
       <div style="font-size:12px;color:#a0a0b0;margin-bottom:8px">Добавь фото еды или опиши текстом что съел/выпил — AI посчитает калории и БЖУ</div>
       <div style="display:flex;gap:6px">
-        <input type="text" id="foodTextInput" placeholder="Например: борщ 300г, хлеб 2 куска, чай с сахаром" style="flex:1;background:#16213e;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:8px;padding:10px 12px;font-size:13px">
+        <input type="text" id="foodTextInput" placeholder="Например: борщ 300г, хлеб 2 куска, чай с сахаром" style="flex:1;background:#16213e;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:8px;padding:10px 12px;font-size:16px">
         <button onclick="handleFoodText()" id="foodTextBtn" style="background:#1a3a2a;border:1px solid #4ade80;color:#4ade80;border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;white-space:nowrap">Добавить</button>
       </div>
     </div>
@@ -1065,8 +1072,9 @@ function renderWeightChart() {
 }
 
 // ── Питание: серверное хранилище (meals.json) ──
-const FOOD_API_HOST = '';
-const FOOD_API = '/api';
+const TUNNEL_URL = 'https://prototype-disabled-len-persons.trycloudflare.com';
+const FOOD_API_HOST = (window.location.port === '3456' || window.location.hostname === 'localhost') ? '' : TUNNEL_URL;
+const FOOD_API = FOOD_API_HOST + '/api';
 let mealsCache = [];
 
 function resizeImage(dataUrl, maxSize) {
@@ -1097,7 +1105,7 @@ async function loadMealsFromServer() {
 }
 
 function getMealImgSrc(m) {
-  if (m.photo) return '/' + m.photo;
+  if (m.photo) return FOOD_API_HOST + '/' + m.photo;
   if (m.data) return m.data;
   return '';
 }
@@ -1166,16 +1174,16 @@ function updateDailySummary(meals) {
   document.getElementById('waterTotal').textContent = water;
   document.getElementById('dailyWater').textContent = water + ' / 3000 мл';
   const waterPct = Math.min(100, Math.round(water / 3000 * 100));
-  const wbar = document.getElementById('waterBar');
-  wbar.style.width = waterPct + '%';
-  wbar.style.background = waterPct >= 100 ? '#4ade80' : '#67e8f9';
+  document.getElementById('waterBar').style.width = waterPct + '%';
+  document.getElementById('waterPct').textContent = waterPct + '%';
 
+  const glassSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round"><path d="M6 2h12l-2 18H8L6 2z"/><path d="M6 6h12"/></svg>';
   const wlog = document.getElementById('waterLog');
   if (waterEntries.length > 0) {
     wlog.innerHTML = waterEntries.map(w => {
-      const src = w.source === 'telegram' ? '<span style="color:#60a5fa">TG</span> ' : '';
-      return `${src}${w.time} — ${w.ml}мл <span onclick="deleteMeal(${w.idx})" style="color:#f87171;cursor:pointer;font-size:13px" title="Удалить">×</span>`;
-    }).join(' &nbsp;|&nbsp; ');
+      const src = w.source === 'telegram' ? '<span style="color:#60a5fa;font-size:9px">TG</span> ' : '';
+      return `<span style="display:inline-flex;align-items:center;gap:3px">${glassSvg}${src}${w.time} ${w.ml}мл <span onclick="deleteMeal(${w.idx})" style="color:#f87171;cursor:pointer;font-size:13px" title="Удалить">×</span></span>`;
+    }).join(' &nbsp; ');
   } else {
     wlog.innerHTML = '';
   }
@@ -1191,7 +1199,7 @@ async function addWater(ml) {
       body: JSON.stringify({ ml })
     });
     await loadMealsFromServer();
-    renderMeals();
+    updateDailySummary(mealsCache);
   } catch (e) { console.error('Water error:', e); }
 }
 
@@ -1302,11 +1310,16 @@ async function handleMealPhoto(e) {
 
 async function deleteMeal(idx) {
   if (!confirm('Удалить запись?')) return;
+  const isWater = mealsCache[idx]?.type === 'water';
   try {
     await fetch(FOOD_API + '/meals/' + idx, { method: 'DELETE' });
     await loadMealsFromServer();
   } catch (e) { mealsCache.splice(idx, 1); }
-  renderMeals();
+  if (isWater) {
+    updateDailySummary(mealsCache);
+  } else {
+    renderMeals();
+  }
 }
 
 function openMealOverlay(idx) {
