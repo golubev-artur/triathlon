@@ -451,10 +451,11 @@
   </div>
 
   <div class="card wide">
-    <h2>Дневной отчёт
-      <select id="reportDateSelect" onchange="loadDayReport(this.value)" style="float:right;background:#16213e;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:6px;padding:4px 8px;font-size:11px"></select>
-    </h2>
-    <div id="dayReport" style="font-size:13px;line-height:1.7;color:#d0e0d0;padding:8px 0">Выберите дату для просмотра отчёта</div>
+    <h2>Дневные отчёты</h2>
+    <div id="dayReportsList" style="display:flex;flex-direction:column;gap:6px"></div>
+    <div id="dayReportDetail" style="margin-top:12px;display:none">
+      <div id="dayReportContent" style="font-size:13px;line-height:1.7;color:#d0e0d0;padding:8px 0"></div>
+    </div>
   </div>
 
   <div class="card wide">
@@ -1257,26 +1258,55 @@ async function requestDayAnalysis(dateStr) {
 }
 
 function populateReportDates(meals) {
-  const dates = new Set();
-  meals.forEach(m => { if (m.date) dates.add(m.date.slice(0, 5)); });
-  const sel = document.getElementById('reportDateSelect');
-  const current = sel.value;
-  sel.innerHTML = '<option value="">-- дата --</option>';
-  [...dates].sort().reverse().forEach(d => {
-    sel.innerHTML += `<option value="${d}" ${d === current ? 'selected' : ''}>${d}</option>`;
+  const days = {};
+  meals.forEach(m => {
+    if (!m.date) return;
+    const d = m.date.slice(0, 5);
+    if (!days[d]) days[d] = { kcal: 0, p: 0, f: 0, c: 0, water: 0, meals: 0, items: [] };
+    if (m.type === 'water') { days[d].water += m.ml || 0; return; }
+    if (m.analysis?.total) {
+      days[d].kcal += m.analysis.total.kcal || 0;
+      days[d].p += m.analysis.total.protein || 0;
+      days[d].f += m.analysis.total.fat || 0;
+      days[d].c += m.analysis.total.carbs || 0;
+      if (m.analysis.water_ml) days[d].water += m.analysis.water_ml;
+      days[d].meals++;
+      if (m.caption) days[d].items.push(m.caption);
+    }
   });
+  const list = document.getElementById('dayReportsList');
+  if (!list) return;
+  const today = new Date();
+  const todayStr = String(today.getDate()).padStart(2,'0') + '.' + String(today.getMonth()+1).padStart(2,'0');
+  let html = '';
+  [...Object.keys(days)].sort().reverse().forEach(d => {
+    if (d === todayStr) return;
+    const s = days[d];
+    const kcalColor = s.kcal > 2500 ? '#f87171' : s.kcal > 2000 ? '#fbbf24' : '#4ade80';
+    const waterColor = s.water >= 3000 ? '#4ade80' : s.water >= 2000 ? '#67e8f9' : '#f87171';
+    html += `<div style="background:#16213e;border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">`;
+    html += `<span style="font-weight:700;color:#fff;min-width:40px">${d}</span>`;
+    html += `<span style="color:${kcalColor};font-size:13px;font-weight:600">${s.kcal} ккал</span>`;
+    html += `<span style="color:#a0a0b0;font-size:11px">Б${s.p} Ж${s.f} У${s.c}</span>`;
+    html += `<span style="color:${waterColor};font-size:11px">${s.water} мл</span>`;
+    html += `<span style="color:#606070;font-size:10px">${s.meals} приёмов</span>`;
+    html += `<button onclick="showDayDetail('${d}')" style="margin-left:auto;background:#2e2a1a;border:1px solid #4a4a2a;color:#fbbf24;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer">Анализ</button>`;
+    html += `</div>`;
+  });
+  list.innerHTML = html || '<div style="color:#606070;font-size:12px">Нет данных за прошлые дни</div>';
 }
 
-async function loadDayReport(dateStr) {
-  if (!dateStr) { document.getElementById('dayReport').textContent = 'Выберите дату'; return; }
-  const el = document.getElementById('dayReport');
-  el.textContent = 'Загрузка...';
+async function showDayDetail(dateStr) {
+  const detail = document.getElementById('dayReportDetail');
+  const content = document.getElementById('dayReportContent');
+  detail.style.display = 'block';
+  content.innerHTML = `<div style="color:#fbbf24;font-weight:600;margin-bottom:8px">${dateStr} — загрузка анализа...</div>`;
   try {
     const resp = await fetch(FOOD_API + '/day-analysis?date=' + dateStr);
     const data = await resp.json();
-    if (!data.totals) { el.textContent = data.analysis || 'Нет данных'; return; }
+    if (!data.totals) { content.textContent = data.analysis || 'Нет данных'; return; }
     const t = data.totals;
-    let html = `<div style="margin-bottom:10px"><b>${dateStr}</b> — ${t.meals} приёмов пищи, ${t.waterEntries || 0} записей воды</div>`;
+    let html = `<div style="font-weight:700;color:#fff;margin-bottom:8px">${dateStr}</div>`;
     html += `<div class="stat-row" style="margin-bottom:10px">`;
     html += `<div class="stat yellow"><div class="val">${t.kcal}</div><div class="label">ккал</div></div>`;
     html += `<div class="stat"><div class="val">${t.protein}г</div><div class="label">белок</div></div>`;
@@ -1284,9 +1314,9 @@ async function loadDayReport(dateStr) {
     html += `<div class="stat"><div class="val">${t.carbs}г</div><div class="label">углев.</div></div>`;
     html += `<div class="stat cyan"><div class="val">${t.water}</div><div class="label">мл воды</div></div>`;
     html += `</div>`;
-    html += `<div style="white-space:pre-line">${data.analysis}</div>`;
-    el.innerHTML = html;
-  } catch (e) { el.textContent = 'Ошибка: ' + e.message; }
+    html += `<div style="white-space:pre-line;font-size:13px;line-height:1.7;color:#d0e0d0">${data.analysis}</div>`;
+    content.innerHTML = html;
+  } catch (e) { content.textContent = 'Ошибка: ' + e.message; }
 }
 
 async function handleMealPhoto(e) {
