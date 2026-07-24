@@ -429,9 +429,13 @@
     <div id="waterLog" style="font-size:11px;color:#808090;margin:8px 0"></div>
     <div style="margin-bottom:12px">
       <div style="font-size:12px;color:#a0a0b0;margin-bottom:8px">Добавь фото еды или опиши текстом что съел/выпил — AI посчитает калории и БЖУ</div>
-      <div style="display:flex;gap:6px">
+      <div style="display:flex;gap:6px;margin-bottom:6px">
         <input type="text" id="foodTextInput" placeholder="Например: борщ 300г, хлеб 2 куска, чай с сахаром" style="flex:1;background:#16213e;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:8px;padding:10px 12px;font-size:16px">
         <button onclick="handleFoodText()" id="foodTextBtn" style="background:#1a3a2a;border:1px solid #4ade80;color:#4ade80;border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;white-space:nowrap">Добавить</button>
+      </div>
+      <div style="display:flex;gap:6px">
+        <input type="text" id="foodUrlInput" placeholder="Ссылка на фото еды..." style="flex:1;background:#16213e;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:8px;padding:10px 12px;font-size:16px">
+        <button onclick="handleFoodUrl()" id="foodUrlBtn" style="background:#1a2a3a;border:1px solid #60a5fa;color:#60a5fa;border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;white-space:nowrap">📎 Фото</button>
       </div>
     </div>
     <div class="meal-grid" id="mealGrid">
@@ -1222,6 +1226,30 @@ function addCustomWater() {
   addWater(ml);
 }
 
+async function handleFoodUrl() {
+  const input = document.getElementById('foodUrlInput');
+  const btn = document.getElementById('foodUrlBtn');
+  const url = input.value.trim();
+  if (!url) return;
+  btn.textContent = 'Анализ...';
+  btn.disabled = true;
+  try {
+    const resp = await fetch(FOOD_API + '/analyze-food', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageUrl: url })
+    });
+    if (!resp.ok) throw new Error('Сервер: ' + resp.status);
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    input.value = '';
+    await loadMealsFromServer();
+    renderMeals();
+  } catch (err) { alert('Ошибка: ' + err.message); }
+  btn.textContent = '📎 Фото';
+  btn.disabled = false;
+}
+
 async function handleFoodText() {
   const input = document.getElementById('foodTextInput');
   const btn = document.getElementById('foodTextBtn');
@@ -1310,6 +1338,14 @@ function populateReportDates(meals) {
     } else {
       html += `<div style="color:#606070;font-size:11px">Нет записей</div>`;
     }
+    const inputId = 'dayInput_' + d.replace('.','');
+    const urlId = 'dayUrl_' + d.replace('.','');
+    const photoId = 'dayPhoto_' + d.replace('.','');
+    html += `<div style="margin-top:10px;padding-top:8px;border-top:1px solid #1e3a5f;display:flex;flex-direction:column;gap:6px">`;
+    html += `<div style="display:flex;gap:6px"><input id="${inputId}" type="text" placeholder="Добавить еду текстом..." style="flex:1;background:#0f172a;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:6px;padding:6px 10px;font-size:14px"><button onclick="addPastDayText('${d}','${inputId}')" style="background:#1a3a2a;border:1px solid #4ade80;color:#4ade80;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer">+</button></div>`;
+    html += `<div style="display:flex;gap:6px"><input id="${urlId}" type="text" placeholder="Ссылка на фото еды..." style="flex:1;background:#0f172a;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:6px;padding:6px 10px;font-size:14px"><button onclick="addPastDayPhotoUrl('${d}','${urlId}')" style="background:#1a2a3a;border:1px solid #60a5fa;color:#60a5fa;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer">📎</button></div>`;
+    html += `<div style="display:flex;gap:6px;align-items:center"><input id="${photoId}" type="file" accept="image/*" capture="environment" onchange="addPastDayPhoto('${d}',this)" style="display:none"><button onclick="document.getElementById('${photoId}').click()" style="background:#1a2a3a;border:1px solid #60a5fa;color:#60a5fa;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;width:100%">📷 Добавить фото</button></div>`;
+    html += `</div>`;
     html += `</div></div>`;
   });
   list.innerHTML = html || '<div style="color:#606070;font-size:12px">Нет данных за прошлые дни</div>';
@@ -1321,6 +1357,76 @@ function toggleDayItems(id, arrow) {
   const open = el.style.display !== 'none';
   el.style.display = open ? 'none' : 'block';
   arrow.textContent = open ? '▶' : '▼';
+}
+
+function pastDayToISO(dateStr) {
+  const [dd, mm] = dateStr.split('.');
+  const year = new Date().getFullYear();
+  return new Date(year, parseInt(mm) - 1, parseInt(dd), 12, 0).toISOString();
+}
+
+async function addPastDayText(dateStr, inputId) {
+  const input = document.getElementById(inputId);
+  const text = input.value.trim();
+  if (!text) return;
+  input.disabled = true;
+  try {
+    const resp = await fetch(FOOD_API + '/analyze-food-text', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, date: pastDayToISO(dateStr) })
+    });
+    if (!resp.ok) throw new Error('Сервер: ' + resp.status);
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    input.value = '';
+    await loadMealsFromServer();
+    renderMeals();
+  } catch (err) { alert('Ошибка: ' + err.message); }
+  input.disabled = false;
+}
+
+async function addPastDayPhotoUrl(dateStr, inputId) {
+  const input = document.getElementById(inputId);
+  const url = input.value.trim();
+  if (!url) return;
+  input.disabled = true;
+  try {
+    const resp = await fetch(FOOD_API + '/analyze-food', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageUrl: url, date: pastDayToISO(dateStr) })
+    });
+    if (!resp.ok) throw new Error('Сервер: ' + resp.status);
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    input.value = '';
+    await loadMealsFromServer();
+    renderMeals();
+  } catch (err) { alert('Ошибка: ' + err.message); }
+  input.disabled = false;
+}
+
+async function addPastDayPhoto(dateStr, fileInput) {
+  const file = fileInput.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async function(ev) {
+    const resized = await resizeImage(ev.target.result, 512);
+    const base64 = resized.split(',')[1];
+    try {
+      const resp = await fetch(FOOD_API + '/analyze-food', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64, mimeType: 'image/jpeg', date: pastDayToISO(dateStr) })
+      });
+      if (!resp.ok) throw new Error('Сервер: ' + resp.status);
+      await loadMealsFromServer();
+      renderMeals();
+    } catch (err) { alert('Ошибка: ' + err.message); }
+  };
+  reader.readAsDataURL(file);
+  fileInput.value = '';
 }
 
 async function showDayDetail(dateStr) {
