@@ -569,24 +569,24 @@ const coachIcon = `<svg style="width:14px;height:14px;vertical-align:middle" vie
 const allWeeks = [
   { label: 'Неделя 1 — Вкатывание', range: '12-18 июля', stats: { plan: '~5ч', runKm: 24.3, bikeKm: 67.9, swimM: 730 },
     days: [
-      { day: 'Сб', date: '12.07', garminDate: '2026-07-12', wakeup: '8:00', trainings: [{ time: '9:00', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.8 км, ЧСС 136-150', done: true }] },
-      { day: 'Вс', date: '13.07', garminDate: '2026-07-13', trainings: [] },
-      { day: 'Пн', date: '14.07', garminDate: '2026-07-14', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег лёгкий Z1-Z2', details: '45 мин, ~7.4 км, ЧСС до 145', done: true }] },
-      { day: 'Вт', date: '15.07', garminDate: '2026-07-15', wakeup: '6:45', trainings: [{ time: '22:15', type: 'bike', name: 'Вело станок лайт', details: '47 мин, Z1, каденс 65', done: true }] },
-      { day: 'Ср', date: '16.07', garminDate: '2026-07-16', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый Z3', details: "50 мин, 25' темп 5:50-6:10/км", done: true }] },
-      { day: 'Чт', date: '17.07', garminDate: '2026-07-17', trainings: [] },
-      { day: 'Пт', date: '18.07', garminDate: '2026-07-18', wakeup: '7:00', trainings: [{ time: '9:00', type: 'bike', name: 'Вело улица', details: '70 мин, ЧСС до 145, каденс 80+', done: true }] },
+      { day: 'Вс', date: '12.07', garminDate: '2026-07-12', wakeup: '8:00', trainings: [{ time: '9:00', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.8 км, ЧСС 136-150', done: true }] },
+      { day: 'Пн', date: '13.07', garminDate: '2026-07-13', trainings: [] },
+      { day: 'Вт', date: '14.07', garminDate: '2026-07-14', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег лёгкий Z1-Z2', details: '45 мин, ~7.4 км, ЧСС до 145', done: true }] },
+      { day: 'Ср', date: '15.07', garminDate: '2026-07-15', wakeup: '6:45', trainings: [{ time: '22:15', type: 'bike', name: 'Вело станок лайт', details: '47 мин, Z1, каденс 65', done: true }] },
+      { day: 'Чт', date: '16.07', garminDate: '2026-07-16', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый Z3', details: "50 мин, 25' темп 5:50-6:10/км", done: true }] },
+      { day: 'Пт', date: '17.07', garminDate: '2026-07-17', trainings: [] },
+      { day: 'Сб', date: '18.07', garminDate: '2026-07-18', wakeup: '7:00', trainings: [{ time: '9:00', type: 'bike', name: 'Вело улица', details: '70 мин, ЧСС до 145, каденс 80+', done: true }] },
     ]
   },
   { label: 'Неделя 2 — Строительство', range: '19-25 июля', stats: { plan: '~6.5ч', runKm: 27, bikeKm: 0, swimM: 2700, bikeCount: 1, swimOW: 2 },
     days: [
-      { day: 'Сб', date: '19.07', garminDate: '2026-07-19', wakeup: '10:00', trainings: [{ time: '12:00', type: 'swim', name: 'Плавание ОВ 1200м', details: '40 мин, RPE 5-6, дыхание на 3' }] },
-      { day: 'Вс', date: '20.07', garminDate: '2026-07-20', wakeup: '6:45', trainings: [] },
-      { day: 'Пн', date: '21.07', garminDate: '2026-07-21', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.5 км, ЧСС 136-150' }] },
-      { day: 'Вт', date: '22.07', garminDate: '2026-07-22', wakeup: '6:45', trainings: [{ time: '20:30', type: 'bike', name: 'Вело станок интервалы', details: "50 мин, 5' разм 100W → 20' 140-155W кад 85+ → 4x3' 170-185W / 2' 105W → 5' заминка 100W" }] },
-      { day: 'Ср', date: '23.07', garminDate: '2026-07-23', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый', details: "55 мин, 30' темп 5:50-6:10/км" }] },
-      { day: 'Чт', date: '24.07', garminDate: '2026-07-24', wakeup: '6:45', trainings: [] },
-      { day: 'Пт', date: '25.07', garminDate: '2026-07-25', wakeup: '7:00', trainings: [
+      { day: 'Вс', date: '19.07', garminDate: '2026-07-19', wakeup: '10:00', trainings: [{ time: '12:00', type: 'swim', name: 'Плавание ОВ 1200м', details: '40 мин, RPE 5-6, дыхание на 3' }] },
+      { day: 'Пн', date: '20.07', garminDate: '2026-07-20', wakeup: '6:45', trainings: [] },
+      { day: 'Вт', date: '21.07', garminDate: '2026-07-21', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег Z2 базовый', details: '50 мин, ~8.5 км, ЧСС 136-150' }] },
+      { day: 'Ср', date: '22.07', garminDate: '2026-07-22', wakeup: '6:45', trainings: [{ time: '20:30', type: 'bike', name: 'Вело станок интервалы', details: "50 мин, 5' разм 100W → 20' 140-155W кад 85+ → 4x3' 170-185W / 2' 105W → 5' заминка 100W" }] },
+      { day: 'Чт', date: '23.07', garminDate: '2026-07-23', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег темповый', details: "55 мин, 30' темп 5:50-6:10/км" }] },
+      { day: 'Пт', date: '24.07', garminDate: '2026-07-24', wakeup: '6:45', trainings: [] },
+      { day: 'Сб', date: '25.07', garminDate: '2026-07-25', wakeup: '7:00', trainings: [
         { time: '8:00', type: 'run', name: 'Длинный бег Z2', details: '75 мин, ~12-13 км, ЧСС 136-150' },
         { time: '12:00', type: 'swim', name: 'Плавание ОВ 1500м', details: '45 мин, 3x600, RPE 5-6' }
       ] },
