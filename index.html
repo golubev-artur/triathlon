@@ -1115,9 +1115,12 @@ function getMealImgSrc(m) {
 function renderMeals() {
   const meals = mealsCache;
   const grid = document.getElementById('mealGrid');
+  const today = new Date();
+  const todayStr = String(today.getDate()).padStart(2,'0') + '.' + String(today.getMonth()+1).padStart(2,'0');
   let html = '';
   meals.forEach((m, i) => {
     if (m.type === 'water') return;
+    if (m.date && !m.date.startsWith(todayStr)) return;
     const analyzing = m.analyzing ? ' analyzing' : '';
     const src = getMealImgSrc(m);
     const sourceTag = m.source === 'telegram' ? '<span style="color:#60a5fa;font-size:9px">TG</span> ' : m.source === 'web-text' ? '<span style="color:#4ade80;font-size:9px">TXT</span> ' : '';
@@ -1271,8 +1274,8 @@ function populateReportDates(meals) {
       days[d].c += m.analysis.total.carbs || 0;
       if (m.analysis.water_ml) days[d].water += m.analysis.water_ml;
       days[d].meals++;
-      if (m.caption) days[d].items.push(m.caption);
     }
+    if (m.caption) days[d].items.push({ caption: m.caption, time: m.date.slice(6) || '', kcal: m.analysis?.total?.kcal || 0 });
   });
   const list = document.getElementById('dayReportsList');
   if (!list) return;
@@ -1284,7 +1287,10 @@ function populateReportDates(meals) {
     const s = days[d];
     const kcalColor = s.kcal > 2500 ? '#f87171' : s.kcal > 2000 ? '#fbbf24' : '#4ade80';
     const waterColor = s.water >= 3000 ? '#4ade80' : s.water >= 2000 ? '#67e8f9' : '#f87171';
-    html += `<div style="background:#16213e;border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">`;
+    const id = 'dayItems_' + d.replace('.','');
+    html += `<div style="background:#16213e;border-radius:8px;padding:10px 12px">`;
+    html += `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">`;
+    html += `<span onclick="toggleDayItems('${id}',this)" style="cursor:pointer;color:#606070;font-size:12px;user-select:none" title="Раскрыть">▶</span>`;
     html += `<span style="font-weight:700;color:#fff;min-width:40px">${d}</span>`;
     html += `<span style="color:${kcalColor};font-size:13px;font-weight:600">${s.kcal} ккал</span>`;
     html += `<span style="color:#a0a0b0;font-size:11px">Б${s.p} Ж${s.f} У${s.c}</span>`;
@@ -1292,8 +1298,29 @@ function populateReportDates(meals) {
     html += `<span style="color:#606070;font-size:10px">${s.meals} приёмов</span>`;
     html += `<button onclick="showDayDetail('${d}')" style="margin-left:auto;background:#2e2a1a;border:1px solid #4a4a2a;color:#fbbf24;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer">Анализ</button>`;
     html += `</div>`;
+    html += `<div id="${id}" style="display:none;margin-top:8px;padding-top:8px;border-top:1px solid #1e3a5f">`;
+    if (s.items.length > 0) {
+      s.items.forEach(item => {
+        html += `<div style="display:flex;align-items:center;gap:8px;padding:3px 0;font-size:12px">`;
+        html += `<span style="color:#606070;min-width:36px">${item.time}</span>`;
+        html += `<span style="color:#c0c0d0;flex:1">${item.caption}</span>`;
+        html += `<span style="color:#a0a0b0;font-size:11px">${item.kcal} ккал</span>`;
+        html += `</div>`;
+      });
+    } else {
+      html += `<div style="color:#606070;font-size:11px">Нет записей</div>`;
+    }
+    html += `</div></div>`;
   });
   list.innerHTML = html || '<div style="color:#606070;font-size:12px">Нет данных за прошлые дни</div>';
+}
+
+function toggleDayItems(id, arrow) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const open = el.style.display !== 'none';
+  el.style.display = open ? 'none' : 'block';
+  arrow.textContent = open ? '▶' : '▼';
 }
 
 async function showDayDetail(dateStr) {
