@@ -659,10 +659,26 @@ function renderToday() {
       html += `<li style="border-left:3px solid #fbbf24;padding-left:8px"><div class="sport-icon">↩️</div><div class="info"><span class="type" style="color:#fbbf24">${r.training}</span><div class="details" style="color:#fbbf24">Перенесена с ${r.fromDate}${r.reason ? ' — ' + r.reason : ''}</div></div></li>`;
     }
     if (todayEntry.actual && todayEntry.actual.length > 0) {
+      const activePlans = todayEntry.trainings.filter(t => !movedFrom.find(r => r.training === t.name));
       html += `<li style="border-top:1px solid #1e3a5f;margin-top:8px;padding-top:8px"><div class="sport-icon">📊</div><div class="info"><span class="type" style="color:#4ade80;font-size:12px">Факт (Garmin):</span>`;
       for (const a of todayEntry.actual) {
         const paceStr = a.pace ? `, ${Math.floor(a.pace/60)}:${String(a.pace%60).padStart(2,'0')}/км` : '';
-        html += `<div class="details" style="color:#a0a0b0">${a.name} — ${a.duration} мин${a.distance ? ', '+a.distance+' км' : ''}${paceStr}${a.avgHR ? ', ♥'+a.avgHR : ''}</div>`;
+        const matchedPlan = activePlans.find(t => t.type === a.type);
+        let note = '';
+        if (activePlans.length > 0 && !matchedPlan) {
+          const expected = activePlans.map(t => t.type === 'run' ? 'бег' : t.type === 'bike' ? 'вело' : 'плавание').join('/');
+          note = `<div style="color:#f87171;font-size:11px">⚠ По плану: ${expected}, сделано другое</div>`;
+        } else if (matchedPlan) {
+          const dM = matchedPlan.details.match(/(\d+)\s*мин/);
+          const kM = matchedPlan.details.match(/~?(\d+(?:[.,]\d+)?)\s*км/);
+          const pD = dM ? parseInt(dM[1]) : 0;
+          const pK = kM ? parseFloat(kM[1].replace(',','.')) : 0;
+          const nn = [];
+          if (pD && Math.abs(a.duration - pD) > 5) nn.push(a.duration < pD ? `⏱ ${a.duration}/${pD} мин (короче)` : `⏱ ${a.duration}/${pD} мин (длиннее)`);
+          if (pK && a.distance && (a.distance/pK < 0.8 || a.distance/pK > 1.2)) nn.push(`📏 ${a.distance}/${pK} км`);
+          if (nn.length) note = `<div style="color:#fbbf24;font-size:11px">${nn.join(' ')}</div>`;
+        }
+        html += `<div class="details" style="color:#a0a0b0">${a.name} — ${a.duration} мин${a.distance ? ', '+a.distance+' км' : ''}${paceStr}${a.avgHR ? ', ♥'+a.avgHR : ''}</div>${note}`;
       }
       html += `</div></li>`;
     }
@@ -719,9 +735,34 @@ function renderWeek() {
       }
     }
     if (d.actual && d.actual.length > 0 && isPast) {
+      const planned = d.trainings.filter(t => !dayR.movedFrom.find(r => r.training === t.name));
       for (const a of d.actual) {
         const paceStr = a.pace ? ` ${Math.floor(a.pace/60)}:${String(a.pace%60).padStart(2,'0')}/км` : '';
-        whtml += `<div class="wt" style="font-size:10px;color:#a0a0b0;margin-top:2px;border-top:1px solid #1e3a5f;padding-top:2px">${ICONS[a.type+'_sm']||'📊'} <span style="color:#4ade80">${a.name}</span> <span>${a.duration}мин${a.distance ? ', '+a.distance+'км' : ''}${paceStr}${a.avgHR ? ', ♥'+a.avgHR : ''}</span></div>`;
+        const matchedPlan = planned.find(t => t.type === a.type);
+        let mismatchHtml = '';
+        if (planned.length > 0 && !matchedPlan) {
+          const expectedTypes = planned.map(t => t.type === 'run' ? 'бег' : t.type === 'bike' ? 'вело' : t.type === 'swim' ? 'плавание' : t.type).join('/');
+          mismatchHtml = `<div style="color:#f87171;font-size:9px;margin-top:1px">⚠ По плану: ${expectedTypes}, сделано другое</div>`;
+        } else if (matchedPlan) {
+          const dMatch = matchedPlan.details.match(/(\d+)\s*мин/);
+          const kmMatch = matchedPlan.details.match(/~?(\d+(?:[.,]\d+)?)\s*км/);
+          const planDur = dMatch ? parseInt(dMatch[1]) : 0;
+          const planDist = kmMatch ? parseFloat(kmMatch[1].replace(',','.')) : 0;
+          const notes = [];
+          if (planDur && a.duration && Math.abs(a.duration - planDur) > 5) notes.push(a.duration < planDur ? `⏱ ${a.duration}/${planDur} мин (короче)` : `⏱ ${a.duration}/${planDur} мин (длиннее)`);
+          if (planDist && a.distance && (a.distance / planDist < 0.8 || a.distance / planDist > 1.2)) notes.push(`📏 ${a.distance}/${planDist} км`);
+          if (notes.length > 0) mismatchHtml = `<div style="color:#fbbf24;font-size:9px;margin-top:1px">${notes.join(' ')}</div>`;
+        }
+        const factColor = mismatchHtml && mismatchHtml.includes('f87171') ? '#f87171' : '#4ade80';
+        whtml += `<div class="wt" style="font-size:10px;color:#a0a0b0;margin-top:2px;border-top:1px solid #1e3a5f;padding-top:2px">${ICONS[a.type+'_sm']||'📊'} <span style="color:${factColor}">${a.name}</span> <span>${a.duration}мин${a.distance ? ', '+a.distance+'км' : ''}${paceStr}${a.avgHR ? ', ♥'+a.avgHR : ''}</span>${mismatchHtml}</div>`;
+      }
+      if (planned.length > 0 && d.actual.length === 0) {
+        whtml += `<div class="wt" style="font-size:10px;color:#f87171;margin-top:2px;border-top:1px solid #1e3a5f;padding-top:2px">⚠ Тренировка не выполнена</div>`;
+      }
+    } else if (isPast && !isRest && d.trainings.length > 0 && (!d.actual || d.actual.length === 0)) {
+      const notMoved = d.trainings.filter(t => !dayR.movedFrom.find(r => r.training === t.name));
+      if (notMoved.length > 0 && notMoved.some(t => !t.done)) {
+        whtml += `<div class="wt" style="font-size:10px;color:#f87171;margin-top:2px;border-top:1px solid #1e3a5f;padding-top:2px">⚠ Нет данных Garmin</div>`;
       }
     }
     if (d.extra && d.extra.length > 0) {
