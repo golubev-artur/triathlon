@@ -599,6 +599,7 @@ let calendarMode = false;
 const weekPlan = allWeeks[currentWeekIdx].days;
 
 let DATA = null;
+let reschedules = [];
 
 const now = new Date();
 const msk = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
@@ -627,18 +628,33 @@ function applyWeekStatus(weekStatus) {
   }
 }
 
+function getReschedulesForDate(dateStr) {
+  const movedFrom = reschedules.filter(r => r.fromDate === dateStr);
+  const movedTo = reschedules.filter(r => r.toDate === dateStr);
+  return { movedFrom, movedTo };
+}
+
 function renderToday() {
   const todayEntry = weekPlan.find(d => d.date === todayDate);
   document.getElementById('todayTitle').textContent = `Сегодня, ${daysLong[todayDayIdx]} ${todayDate}`;
   const el = document.getElementById('todayContent');
   if (!todayEntry) return;
+  const { movedFrom, movedTo } = getReschedulesForDate(todayDate);
   let html = '';
   if (todayEntry.wakeup) html += `<div class="wakeup-today">${ICONS.alarm} Подъём ${todayEntry.wakeup}</div>`;
-  if (todayEntry.trainings.length > 0) {
+  if (todayEntry.trainings.length > 0 || movedTo.length > 0) {
     html += '<ul class="today-plan">';
     for (const t of todayEntry.trainings) {
-      const status = t.done ? ICONS.done : ICONS.today_marker;
-      html += `<li><div class="sport-icon">${ICONS[t.type]||''}</div><div class="info"><span class="time">${t.time}</span> <span class="type" style="color:${typeColor[t.type]}">${t.name}</span> ${status}<div class="details">${t.details}</div></div></li>`;
+      const isMovedAway = movedFrom.find(r => r.training === t.name);
+      if (isMovedAway) {
+        html += `<li style="opacity:0.4;text-decoration:line-through"><div class="sport-icon">${ICONS[t.type]||''}</div><div class="info"><span class="time">${t.time}</span> <span class="type" style="color:${typeColor[t.type]}">${t.name}</span><div class="details" style="color:#f87171">Перенесена на ${isMovedAway.toDate}${isMovedAway.reason ? ' — ' + isMovedAway.reason : ''}</div></div></li>`;
+      } else {
+        const status = t.done ? ICONS.done : ICONS.today_marker;
+        html += `<li><div class="sport-icon">${ICONS[t.type]||''}</div><div class="info"><span class="time">${t.time}</span> <span class="type" style="color:${typeColor[t.type]}">${t.name}</span> ${status}<div class="details">${t.details}</div></div></li>`;
+      }
+    }
+    for (const r of movedTo) {
+      html += `<li style="border-left:3px solid #fbbf24;padding-left:8px"><div class="sport-icon">↩️</div><div class="info"><span class="type" style="color:#fbbf24">${r.training}</span><div class="details" style="color:#fbbf24">Перенесена с ${r.fromDate}${r.reason ? ' — ' + r.reason : ''}</div></div></li>`;
     }
     html += '</ul>';
   } else {
@@ -664,12 +680,21 @@ function renderWeek() {
     totalTrainings += d.trainings.length;
     let cls = 'wday' + (isToday ? ' is-today' : isPast ? ' is-past' : '') + (isRest ? ' is-rest' : '');
     whtml += `<div class="${cls}"><div class="wday-label"><div class="wd-name">${d.day}</div><div class="wd-date">${d.date}</div>${d.wakeup ? `<div class="wakeup">${ICONS.alarm} ${d.wakeup}</div>` : ''}</div><div class="wday-trains">`;
-    if (isRest) {
+    const dayR = getReschedulesForDate(d.date);
+    if (isRest && dayR.movedTo.length === 0) {
       whtml += `<div class="rest-text">${ICONS.rest} Отдых</div>`;
     } else {
       for (const t of d.trainings) {
-        let si; if (t.done) { si = ICONS.done; doneCount++; } else if (isToday) si = ICONS.today_marker; else if (isPast) si = ICONS.miss; else si = ICONS.pending;
-        whtml += `<div class="wt">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span><span class="wt-status">${si}</span></div>`;
+        const isMovedAway = dayR.movedFrom.find(r => r.training === t.name);
+        if (isMovedAway) {
+          whtml += `<div class="wt" style="opacity:0.4;text-decoration:line-through">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span><span style="color:#f87171;font-size:9px;margin-left:4px">→${isMovedAway.toDate}</span></div>`;
+        } else {
+          let si; if (t.done) { si = ICONS.done; doneCount++; } else if (isToday) si = ICONS.today_marker; else if (isPast) si = ICONS.miss; else si = ICONS.pending;
+          whtml += `<div class="wt">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span><span class="wt-status">${si}</span></div>`;
+        }
+      }
+      for (const r of dayR.movedTo) {
+        whtml += `<div class="wt" style="border-left:2px solid #fbbf24;padding-left:4px"><span style="color:#fbbf24;font-size:9px">←${r.fromDate}</span> <span class="wt-name" style="color:#fbbf24">${r.training}</span></div>`;
       }
     }
     whtml += '</div></div>';
@@ -1011,6 +1036,7 @@ async function refreshData() {
     if (resp.ok) {
       DATA = await resp.json();
       applyWeekStatus(DATA.weekStatus);
+      try { const rr = await fetch(FOOD_API + '/reschedules'); if (rr.ok) reschedules = await rr.json(); } catch {}
       renderToday();
       renderWeek();
       if (DATA.sleepData) renderSleepStats(DATA.sleepData);
@@ -1536,6 +1562,8 @@ function handleLabUpload(e) {
     if (DATA.sleepData) renderSleepStats(DATA.sleepData);
     showUpdatedTime(DATA.updated);
   }
+
+  try { const rr = await fetch(FOOD_API + '/reschedules'); if (rr.ok) reschedules = await rr.json(); } catch {}
 
   renderToday();
   renderWeek();
