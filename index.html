@@ -152,11 +152,16 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .refresh-time { font-size: 11px; color: #505060; }
 
-    .chat-fab { position: fixed; bottom: 20px; right: 20px; width: 52px; height: 52px; border-radius: 50%; background: #e94560; border: none; color: #fff; font-size: 24px; cursor: pointer; z-index: 1000; box-shadow: 0 4px 12px rgba(233,69,96,0.4); display: flex; align-items: center; justify-content: center; }
+    .chat-fab { position: fixed; bottom: 20px; right: 20px; width: 52px; height: 52px; border-radius: 50%; background: #e94560; border: none; color: #fff; cursor: pointer; z-index: 1000; box-shadow: 0 4px 12px rgba(233,69,96,0.4); display: flex; align-items: center; justify-content: center; }
+    .chat-fab svg { width: 26px; height: 26px; }
     .chat-panel { display: none; position: fixed; bottom: 80px; right: 12px; width: 340px; max-width: calc(100vw - 24px); height: 440px; max-height: 60vh; background: #0f1117; border: 1px solid #2a2a4a; border-radius: 16px; z-index: 1001; flex-direction: column; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
     .chat-panel.open { display: flex; }
     .chat-header { padding: 10px 14px; background: #16213e; border-bottom: 1px solid #2a2a4a; display: flex; align-items: center; gap: 8px; }
     .chat-header select { background: #0f1117; border: 1px solid #2a2a4a; color: #e0e0e0; border-radius: 6px; padding: 4px 8px; font-size: 13px; flex: 1; }
+    .chat-spec-btns { display: flex; gap: 4px; flex: 1; }
+    .chat-spec-btn { background: #0f1117; border: 1px solid #2a2a4a; color: #808090; border-radius: 6px; padding: 5px 8px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px; flex: 1; justify-content: center; white-space: nowrap; }
+    .chat-spec-btn.active { border-color: #e94560; color: #e0e0e0; background: #1e1e3e; }
+    .chat-spec-btn svg { width: 14px; height: 14px; }
     .chat-header .chat-close { background: none; border: none; color: #808090; font-size: 18px; cursor: pointer; padding: 0 4px; }
     .chat-messages { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
     .chat-msg { max-width: 85%; padding: 8px 12px; border-radius: 12px; font-size: 13px; line-height: 1.5; word-wrap: break-word; }
@@ -571,14 +576,14 @@
   <div class="overlay-info" id="mealOverlayInfo"></div>
 </div>
 
-<button class="chat-fab" id="chatFab" onclick="toggleChat()">💬</button>
+<button class="chat-fab" id="chatFab" onclick="toggleChat()"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
 <div class="chat-panel" id="chatPanel">
   <div class="chat-header">
-    <select id="chatSpecialist">
-      <option value="coach">🏃 Тренер</option>
-      <option value="nutritionist">🥗 Нутрициолог</option>
-      <option value="doctor">🩺 Спортивный врач</option>
-    </select>
+    <div class="chat-spec-btns">
+      <button class="chat-spec-btn active" data-spec="coach" onclick="selectSpec(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="3" r="2"/><path d="M17 11l-2-2-3 4-2-1-4 5"/><path d="M7 20l3-5 2 1 3-4 2 2 3-2"/></svg>Тренер</button>
+      <button class="chat-spec-btn" data-spec="nutritionist" onclick="selectSpec(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>Питание</button>
+      <button class="chat-spec-btn" data-spec="doctor" onclick="selectSpec(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Врач</button>
+    </div>
     <button class="chat-close" onclick="toggleChat()">&times;</button>
   </div>
   <div class="chat-messages" id="chatMessages">
@@ -1311,7 +1316,7 @@ function renderMeals() {
     }
     const imgHtml = src
       ? `<img src="${src}" alt="meal" onclick="openMealOverlay(${i})">`
-      : `<div style="width:80px;height:80px;background:#16213e;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;cursor:pointer" onclick="openMealOverlay(${i})">🍽</div>`;
+      : `<div style="width:80px;height:80px;background:#16213e;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer" onclick="openMealOverlay(${i})"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#505060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg></div>`;
     html += `<div class="meal-item${analyzing}" id="meal-${i}">` +
       imgHtml +
       (analyzing ? '<div class="meal-loader">Анализ...</div>' : '') +
@@ -1724,10 +1729,16 @@ function handleLabUpload(e) {
   } catch {}
 })();
 
+let selectedSpec = 'coach';
 function toggleChat() {
   const p = document.getElementById('chatPanel');
   p.classList.toggle('open');
   if (p.classList.contains('open')) document.getElementById('chatInput').focus();
+}
+function selectSpec(btn) {
+  document.querySelectorAll('.chat-spec-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedSpec = btn.dataset.spec;
 }
 
 function getCurrentTab() {
@@ -1761,7 +1772,7 @@ async function sendChat() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: msg,
-        specialist: document.getElementById('chatSpecialist').value,
+        specialist: selectedSpec,
         tab: getCurrentTab(),
         context: getPageContext()
       })
