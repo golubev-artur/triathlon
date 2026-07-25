@@ -593,6 +593,7 @@
 <div class="footer">Garmin Connect &middot; 25.07.2026</div>
 
 <script>
+function fmtMacro(v) { const n = Number(v) || 0; return n % 1 === 0 ? String(Math.round(n)) : n.toFixed(1); }
 document.getElementById('weekCard').addEventListener('dblclick', e => e.preventDefault());
 document.getElementById('weekCard').addEventListener('gesturestart', e => e.preventDefault());
 document.getElementById('weekCard').addEventListener('gesturechange', e => e.preventDefault());
@@ -1301,7 +1302,7 @@ function renderMeals() {
     if (m.analysis && m.analysis.total) {
       const t = m.analysis.total;
       infoHtml += `<div class="meal-kcal">${t.kcal} ккал</div>`;
-      infoHtml += `<div class="meal-macros"><span>Б ${t.protein}г</span><span>Ж ${t.fat}г</span><span>У ${t.carbs}г</span></div>`;
+      infoHtml += `<div class="meal-macros"><span>Б ${fmtMacro(t.protein)}г</span><span>Ж ${fmtMacro(t.fat)}г</span><span>У ${fmtMacro(t.carbs)}г</span></div>`;
       if (m.analysis.foods) {
         infoHtml += `<div class="meal-foods">${m.analysis.foods.map(f => f.name + ' ' + f.weight).join(', ')}</div>`;
       }
@@ -1344,9 +1345,9 @@ function updateDailySummary(meals) {
   });
   document.getElementById('mealTotalKcal').textContent = kcal;
   document.getElementById('dailyKcal').textContent = kcal + ' / 2500';
-  document.getElementById('dailyP').textContent = p;
-  document.getElementById('dailyF').textContent = f;
-  document.getElementById('dailyC').textContent = c;
+  document.getElementById('dailyP').textContent = fmtMacro(p);
+  document.getElementById('dailyF').textContent = fmtMacro(f);
+  document.getElementById('dailyC').textContent = fmtMacro(c);
   const kcalPct = Math.min(100, Math.round(kcal / 2500 * 100));
   const bar = document.getElementById('dailyBar');
   bar.style.width = kcalPct + '%';
@@ -1489,7 +1490,7 @@ function populateReportDates(meals) {
     html += `<span onclick="toggleDayItems('${id}',this)" style="cursor:pointer;color:#606070;font-size:12px;user-select:none" title="Раскрыть">▶</span>`;
     html += `<span style="font-weight:700;color:#fff;min-width:40px">${d}</span>`;
     html += `<span style="color:${kcalColor};font-size:13px;font-weight:600">${s.kcal} ккал</span>`;
-    html += `<span style="color:#a0a0b0;font-size:11px">Б${s.p} Ж${s.f} У${s.c}</span>`;
+    html += `<span style="color:#a0a0b0;font-size:11px">Б${fmtMacro(s.p)} Ж${fmtMacro(s.f)} У${fmtMacro(s.c)}</span>`;
     html += `<span style="color:${waterColor};font-size:11px">${s.water} мл</span>`;
     html += `<span style="color:#606070;font-size:10px">${s.meals} приёмов</span>`;
     html += `<button onclick="showDayDetail('${d}')" style="margin-left:auto;background:#2e2a1a;border:1px solid #4a4a2a;color:#fbbf24;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer">Анализ</button>`;
@@ -1610,9 +1611,9 @@ async function showDayDetail(dateStr) {
     let html = `<div style="font-weight:700;color:#fff;margin-bottom:8px">${dateStr}</div>`;
     html += `<div class="stat-row" style="margin-bottom:10px">`;
     html += `<div class="stat yellow"><div class="val">${t.kcal}</div><div class="label">ккал</div></div>`;
-    html += `<div class="stat"><div class="val">${t.protein}г</div><div class="label">белок</div></div>`;
-    html += `<div class="stat"><div class="val">${t.fat}г</div><div class="label">жиры</div></div>`;
-    html += `<div class="stat"><div class="val">${t.carbs}г</div><div class="label">углев.</div></div>`;
+    html += `<div class="stat"><div class="val">${fmtMacro(t.protein)}г</div><div class="label">белок</div></div>`;
+    html += `<div class="stat"><div class="val">${fmtMacro(t.fat)}г</div><div class="label">жиры</div></div>`;
+    html += `<div class="stat"><div class="val">${fmtMacro(t.carbs)}г</div><div class="label">углев.</div></div>`;
     html += `<div class="stat cyan"><div class="val">${t.water}</div><div class="label">мл воды</div></div>`;
     html += `</div>`;
     html += `<div style="white-space:pre-line;font-size:13px;line-height:1.7;color:#d0e0d0">${data.analysis}</div>`;
@@ -1670,10 +1671,10 @@ function openMealOverlay(idx) {
   if (m.analysis?.foods) {
     info += '\n\n';
     m.analysis.foods.forEach(f => {
-      info += f.name + ' — ' + f.weight + ' — ' + f.kcal + ' ккал (Б' + f.protein + ' Ж' + f.fat + ' У' + f.carbs + ')\n';
+      info += f.name + ' — ' + f.weight + ' — ' + f.kcal + ' ккал (Б' + fmtMacro(f.protein) + ' Ж' + fmtMacro(f.fat) + ' У' + fmtMacro(f.carbs) + ')\n';
     });
     if (m.analysis.total) {
-      info += '\nИтого: ' + m.analysis.total.kcal + ' ккал | Б' + m.analysis.total.protein + ' Ж' + m.analysis.total.fat + ' У' + m.analysis.total.carbs;
+      info += '\nИтого: ' + m.analysis.total.kcal + ' ккал | Б' + fmtMacro(m.analysis.total.protein) + ' Ж' + fmtMacro(m.analysis.total.fat) + ' У' + fmtMacro(m.analysis.total.carbs);
     }
   }
   document.getElementById('mealOverlayInfo').textContent = info;
