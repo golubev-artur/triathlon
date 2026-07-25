@@ -479,36 +479,44 @@
 <div class="tab-content" id="tab-health">
 <div class="grid">
   <div class="card wide">
-    <h2>Состав тела</h2>
+    <h2>Состав тела <span style="font-size:11px;color:#606070;font-weight:400">25.07.2026</span></h2>
     <div class="stat-row">
-      <div class="stat red"><div class="val">80.1</div><div class="label">Вес, кг</div></div>
-      <div class="stat yellow"><div class="val">25.0%</div><div class="label">Жир</div></div>
-      <div class="stat green"><div class="val">56.96</div><div class="label">Мышцы, кг</div></div>
-      <div class="stat cyan"><div class="val">51.4%</div><div class="label">Вода</div></div>
+      <div class="stat green"><div class="val">78.1</div><div class="label">Вес, кг <span style="color:#4ade80;font-size:10px">-2.0</span></div></div>
+      <div class="stat green"><div class="val">24.3%</div><div class="label">Жир <span style="color:#4ade80;font-size:10px">-0.7%</span></div></div>
+      <div class="stat yellow"><div class="val">56.10</div><div class="label">Мышцы, кг <span style="color:#fbbf24;font-size:10px">-0.86</span></div></div>
+      <div class="stat green"><div class="val">51.9%</div><div class="label">Вода <span style="color:#4ade80;font-size:10px">+0.5%</span></div></div>
     </div>
     <div class="stat-row">
-      <div class="stat"><div class="val">26.2</div><div class="label">ИМТ</div></div>
+      <div class="stat"><div class="val">25.5</div><div class="label">ИМТ</div></div>
       <div class="stat"><div class="val">12</div><div class="label">Висцер. жир</div></div>
-      <div class="stat"><div class="val">1586</div><div class="label">Осн. обмен</div></div>
-      <div class="stat"><div class="val">33</div><div class="label">Возраст тела</div></div>
+      <div class="stat"><div class="val">1556</div><div class="label">Осн. обмен</div></div>
+      <div class="stat"><div class="val">61</div><div class="label">Оценка тела</div></div>
     </div>
+    <div style="margin-top:8px;font-size:11px;color:#606070">Костная масса: 3.01 кг · Белок: 19.9% · Возраст тела: 33 · Идеальный вес: 66.50 кг</div>
   </div>
 
   <div class="card wide">
-    <h2>Динамика (биоимпеданс)</h2>
-    <table class="health-table">
-      <tr><th>Показатель</th><th>31.05</th><th>12.07</th><th>Дельта</th><th>Цель</th></tr>
-      <tr><td>Вес</td><td>76.70 кг</td><td>80.10 кг</td><td class="health-delta up">+3.40</td><td>73 кг</td></tr>
-      <tr><td>Жир %</td><td>23.4%</td><td>25.0%</td><td class="health-delta up">+1.6%</td><td>18-20%</td></tr>
-      <tr><td>Жир кг</td><td>17.9 кг</td><td>20.0 кг</td><td class="health-delta up">+2.08</td><td>~14 кг</td></tr>
-      <tr><td>Мышцы</td><td>55.69 кг</td><td>56.96 кг</td><td class="health-delta down">+1.27</td><td>сохранить</td></tr>
-      <tr><td>Вода</td><td>52.4%</td><td>51.4%</td><td class="health-delta up">-1.0%</td><td>55-60%</td></tr>
-      <tr><td>ИМТ</td><td>25.0</td><td>26.2</td><td class="health-delta up">+1.2</td><td>24.4</td></tr>
-      <tr><td>Висцер. жир</td><td>12</td><td>12</td><td>0</td><td>&lt;9</td></tr>
-      <tr><td>Костная масса</td><td>2.98 кг</td><td>3.05 кг</td><td class="health-delta down">+0.07</td><td>3.2+</td></tr>
-      <tr><td>Белок</td><td>20.1%</td><td>19.7%</td><td class="health-delta up">-0.4%</td><td>20%+</td></tr>
-    </table>
-    <div style="margin-top:6px;font-size:10px;color:#606070">* замер 12.07 после бега — жир завышен из-за обезвоживания</div>
+    <h2 style="cursor:pointer" onclick="document.getElementById('bodyHistory').style.display = document.getElementById('bodyHistory').style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-arrow').textContent = document.getElementById('bodyHistory').style.display === 'none' ? '▶' : '▼'">
+      <span class="toggle-arrow">▶</span> История замеров (биоимпеданс)
+    </h2>
+    <div id="bodyHistory" style="display:none">
+      <table class="health-table">
+        <tr><th>Показатель</th><th>31.05</th><th>12.07</th><th>25.07</th><th>Дельта</th><th>Цель</th></tr>
+        <tr><td>Вес</td><td>76.70</td><td>80.10</td><td style="color:#4ade80;font-weight:600">78.10</td><td class="health-delta down">-2.00</td><td>73 кг</td></tr>
+        <tr><td>Жир %</td><td>23.4%</td><td>25.0%</td><td style="color:#4ade80;font-weight:600">24.3%</td><td class="health-delta down">-0.7%</td><td>18-20%</td></tr>
+        <tr><td>Жир кг</td><td>17.9</td><td>20.0</td><td style="color:#4ade80;font-weight:600">18.98</td><td class="health-delta down">-1.02</td><td>~14 кг</td></tr>
+        <tr><td>Мышцы</td><td>55.69</td><td>56.96</td><td style="color:#fbbf24;font-weight:600">56.10</td><td class="health-delta up">-0.86</td><td>сохранить</td></tr>
+        <tr><td>Вода</td><td>52.4%</td><td>51.4%</td><td style="color:#4ade80;font-weight:600">51.9%</td><td class="health-delta down">+0.5%</td><td>55-60%</td></tr>
+        <tr><td>ИМТ</td><td>25.0</td><td>26.2</td><td style="color:#4ade80;font-weight:600">25.5</td><td class="health-delta down">-0.7</td><td>24.4</td></tr>
+        <tr><td>Оценка тела</td><td>62</td><td>59</td><td style="color:#4ade80;font-weight:600">61</td><td class="health-delta down">+2</td><td>70+</td></tr>
+        <tr><td>Осн. обмен</td><td>1535</td><td>1586</td><td>1556</td><td>-30</td><td>—</td></tr>
+        <tr><td>Висцер. жир</td><td>12</td><td>12</td><td>12</td><td>0</td><td>&lt;9</td></tr>
+        <tr><td>Костная масса</td><td>2.98</td><td>3.05</td><td>3.01</td><td class="health-delta up">-0.04</td><td>3.2+</td></tr>
+        <tr><td>Белок</td><td>20.1%</td><td>19.7%</td><td style="color:#4ade80;font-weight:600">19.9%</td><td class="health-delta down">+0.2%</td><td>20%+</td></tr>
+        <tr><td>Возраст тела</td><td>32</td><td>33</td><td>33</td><td>0</td><td>&lt;35</td></tr>
+      </table>
+      <div style="margin-top:6px;font-size:10px;color:#606070">* замер 12.07 после бега — жир завышен из-за обезвоживания. Дельта = разница 12.07→25.07</div>
+    </div>
   </div>
 
   <div class="card wide">
@@ -517,13 +525,14 @@
   </div>
 
   <div class="card wide">
-    <h2>Ключевые проблемы</h2>
+    <h2>Ключевые выводы (25.07)</h2>
     <ul style="list-style:none;font-size:13px;line-height:2;color:#d0e0d0">
-      <li style="color:#f87171">▪️ Набор жира +2 кг за 6 недель (снижение объёма тренировок в июне)</li>
-      <li style="color:#f87171">▪️ Висцеральный жир 12 — выше нормы (&lt;9), метаболический риск</li>
-      <li style="color:#fbbf24">▪️ Вода 51.4% ниже нормы — пить больше (2.5-3 л/день)</li>
-      <li style="color:#fbbf24">▪️ Костная масса 3.05 ниже нормы (3.2+) — кальций, витамин D</li>
-      <li style="color:#4ade80">▪️ Мышцы +1.27 кг — положительная динамика</li>
+      <li style="color:#4ade80">▪️ Вес -2 кг за 13 дней (80.1→78.1), цель 77-78 к старту почти достигнута</li>
+      <li style="color:#4ade80">▪️ Жир -1 кг, оценка тела +2 — тренировки работают</li>
+      <li style="color:#fbbf24">▪️ Мышцы -0.86 кг — увеличить белок (1.6-2.0 г/кг) для сохранения массы</li>
+      <li style="color:#f87171">▪️ Висцеральный жир 12 — стабильно выше нормы (&lt;9)</li>
+      <li style="color:#fbbf24">▪️ Вода 51.9% ниже нормы — пить 2.5-3 л/день</li>
+      <li style="color:#fbbf24">▪️ Костная масса 3.01 ниже нормы (3.2+) — кальций, витамин D</li>
     </ul>
   </div>
 
