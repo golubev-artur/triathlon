@@ -643,7 +643,9 @@ function applyWeekStatus(weekStatus) {
     for (const d of week.days) {
       const ws = weekStatus.find(s => s.date === d.garminDate);
       if (ws) {
-        d.trainings.forEach((t, i) => { t.done = ws.done[i] || false; });
+        d.trainings.forEach((t, i) => {
+          if (!t.movedTo && !t.movedFrom) t.done = ws.done[i] || false;
+        });
         d.actual = ws.actual || [];
         d.extra = ws.extra || [];
       }
@@ -1136,6 +1138,8 @@ async function refreshData() {
   btn.classList.add('loading');
   btn.querySelector('svg').style.animation = 'spin 1s linear infinite';
   try {
+    await fetch('/api/triathlon-sync', { method: 'POST' });
+    await new Promise(r => setTimeout(r, 3000));
     const resp = await fetch('data.json?t=' + Date.now());
     if (resp.ok) {
       DATA = await resp.json();
