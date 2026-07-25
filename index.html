@@ -735,7 +735,7 @@ function renderWeek() {
     const dateObj = new Date('2026-' + d.date.split('.').reverse().join('-'));
     const isPast = dateObj < new Date(msk.toDateString());
     const isRest = d.trainings.length === 0;
-    totalTrainings += d.trainings.length;
+    totalTrainings += d.trainings.filter(t => !t.movedTo).length;
     let cls = 'wday' + (isToday ? ' is-today' : isPast ? ' is-past' : '') + (isRest ? ' is-rest' : '');
     whtml += `<div class="${cls}"><div class="wday-label"><div class="wd-name">${d.day}</div><div class="wd-date">${d.date}</div>${d.wakeup ? `<div class="wakeup">${ICONS.alarm} ${d.wakeup}</div>` : ''}</div><div class="wday-trains">`;
     const dayR = getReschedulesForDate(d.date);
@@ -747,8 +747,9 @@ function renderWeek() {
         const durMatch = t.details.match(/(\d+)\s*мин/);
         const tMin = durMatch ? parseInt(durMatch[1]) : 0;
         if (!t.movedFrom) planMin += tMin;
-        if (isMovedAway) {
-          whtml += `<div class="wt" style="opacity:0.4;text-decoration:line-through">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span><span style="color:#f87171;font-size:9px;margin-left:4px">→${isMovedAway.toDate}</span></div>`;
+        if (isMovedAway || t.movedTo) {
+          const toDate = t.movedTo || (isMovedAway && isMovedAway.toDate);
+          whtml += `<div class="wt" style="opacity:0.4;text-decoration:line-through">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span><span style="color:#fbbf24;font-size:9px;margin-left:4px">→${toDate}</span></div>`;
         } else {
           let si; if (t.done) { si = ICONS.done; doneCount++; const ga = d.actual && d.actual.find(a => a.type === t.type); factMin += ga ? ga.duration : tMin; } else if (isToday) si = ICONS.today_marker; else if (isPast) si = ICONS.miss; else si = ICONS.pending;
           whtml += `<div class="wt">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span><span class="wt-status">${si}</span></div>`;
