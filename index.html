@@ -729,7 +729,7 @@ function renderWeek() {
   document.getElementById('weekNext').disabled = currentWeekIdx === allWeeks.length - 1;
 
   const el = document.getElementById('weekDays');
-  let whtml = '', doneCount = 0, totalTrainings = 0;
+  let whtml = '', doneCount = 0, totalTrainings = 0, planMin = 0, factMin = 0;
   for (const d of days) {
     const isToday = d.date === todayDate;
     const dateObj = new Date('2026-' + d.date.split('.').reverse().join('-'));
@@ -744,10 +744,13 @@ function renderWeek() {
     } else {
       for (const t of d.trainings) {
         const isMovedAway = dayR.movedFrom.find(r => r.training === t.name);
+        const durMatch = t.details.match(/(\d+)\s*мин/);
+        const tMin = durMatch ? parseInt(durMatch[1]) : 0;
+        if (!t.movedFrom) planMin += tMin;
         if (isMovedAway) {
           whtml += `<div class="wt" style="opacity:0.4;text-decoration:line-through">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span><span style="color:#f87171;font-size:9px;margin-left:4px">→${isMovedAway.toDate}</span></div>`;
         } else {
-          let si; if (t.done) { si = ICONS.done; doneCount++; } else if (isToday) si = ICONS.today_marker; else if (isPast) si = ICONS.miss; else si = ICONS.pending;
+          let si; if (t.done) { si = ICONS.done; doneCount++; const ga = d.actual && d.actual.find(a => a.type === t.type); factMin += ga ? ga.duration : tMin; } else if (isToday) si = ICONS.today_marker; else if (isPast) si = ICONS.miss; else si = ICONS.pending;
           whtml += `<div class="wt">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span><span class="wt-status">${si}</span></div>`;
         }
       }
@@ -797,10 +800,14 @@ function renderWeek() {
   el.innerHTML = whtml;
 
   const st = week.stats;
+  const planH = Math.floor(planMin / 60), planM = planMin % 60;
+  const factH = Math.floor(factMin / 60), factM = factMin % 60;
+  const pct = planMin > 0 ? Math.round(factMin / planMin * 100) : 0;
+  const pctColor = pct >= 90 ? '#4ade80' : pct >= 60 ? '#fbbf24' : '#f87171';
   let statsHtml = `<div class="stat green"><div class="val">${doneCount}/${totalTrainings}</div><div class="label">Тренировок</div></div>`;
-  statsHtml += `<div class="stat blue"><div class="val">${st.plan}</div><div class="label">План</div></div>`;
+  statsHtml += `<div class="stat blue"><div class="val">${planH}ч${planM ? ' '+planM+'м' : ''}</div><div class="label">План</div></div>`;
+  statsHtml += `<div class="stat" style="color:${pctColor}"><div class="val">${factH}ч${factM ? ' '+factM+'м' : ''}</div><div class="label">Факт (${pct}%)</div></div>`;
   if (st.runKm) statsHtml += `<div class="stat red"><div class="val">${st.runKm}</div><div class="label">Бег, км</div></div>`;
-  if (st.bikeKm) statsHtml += `<div class="stat yellow"><div class="val">${st.bikeKm}</div><div class="label">Вело, км</div></div>`;
   if (st.swimM) statsHtml += `<div class="stat cyan"><div class="val">${st.swimM}</div><div class="label">Плав, м</div></div>`;
   document.getElementById('weekStats').innerHTML = statsHtml;
 }
