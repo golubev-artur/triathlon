@@ -270,6 +270,7 @@
       </div>
       <h2 id="weekTitle">Неделя</h2>
       <div class="week-nav-btns">
+        <button id="weekSyncBtn" onclick="syncWeekData()" title="Обновить из Garmin"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
         <button id="calToggle" onclick="toggleCalendar()" title="Календарь">&#9776;</button>
       </div>
     </div>
@@ -1170,6 +1171,27 @@ function setupExpand() {
       document.addEventListener('keydown', function esc(ev) { if (ev.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }});
     });
   });
+}
+
+async function syncWeekData() {
+  const btn = document.getElementById('weekSyncBtn');
+  btn.disabled = true;
+  btn.querySelector('svg').style.animation = 'spin 1s linear infinite';
+  try {
+    await fetch('/api/triathlon-sync', { method: 'POST' });
+    await new Promise(r => setTimeout(r, 3000));
+    const resp = await fetch('data.json?t=' + Date.now());
+    if (resp.ok) {
+      DATA = await resp.json();
+      applyWeekStatus(DATA.weekStatus);
+      try { const rr = await fetch(FOOD_API + '/reschedules'); if (rr.ok) reschedules = await rr.json(); } catch {}
+      renderToday();
+      renderWeek();
+      showUpdatedTime(DATA.updated);
+    }
+  } catch(e) { console.log('Week sync error:', e); }
+  btn.disabled = false;
+  btn.querySelector('svg').style.animation = '';
 }
 
 // Refresh: fetch data.json, update, push new data via bot
