@@ -176,9 +176,9 @@
     .coach-panel.active { display: block; }
     .coach-panel .coach-title { font-weight: 700; color: #4ade80; font-size: 15px; margin-bottom: 8px; }
 
-    .week-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-    .week-nav h2 { margin: 0; }
-    .week-nav-btns { display: flex; gap: 6px; }
+    .week-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+    .week-nav h2 { margin: 0; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .week-nav-btns { display: flex; gap: 6px; flex-shrink: 0; }
     .week-nav-btns button { background: #16213e; border: 1px solid #2a2a4a; color: #a0a0b0; border-radius: 6px; width: 32px; height: 32px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .week-nav-btns button:hover { background: #1e3050; color: #fff; }
     .week-nav-btns button.active { background: #e94560; color: #fff; border-color: #e94560; }
