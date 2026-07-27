@@ -660,10 +660,11 @@ const allWeeks = [
       { day: 'Пт', date: '31.07', garminDate: '2026-07-31', trainings: [] },
       { day: 'Сб', date: '01.08', garminDate: '2026-08-01', wakeup: '7:00', trainings: [
         { time: '8:00', type: 'run', name: 'Длинный бег Z2 13 км', details: "ЧСС 136-150, питьё каждые 20', до жары", done: false },
-        { time: '12:00', type: 'swim', name: 'Плавание ОВ 1800м', details: 'RPE 5-6, гоночная дистанция, без гидрокостюма', done: false }
+        { time: '12:00', type: 'swim', name: 'Плавание ОВ 1800м', details: 'перенесено на Вс 02.08 (Арзамас) — в субботу нет воды', movedTo: '02.08', done: false }
       ] },
       { day: 'Вс', date: '02.08', garminDate: '2026-08-02', wakeup: '8:00', trainings: [
-        { time: '9:00', type: 'bike', name: 'Вело улица холмистое 70 км + брик', details: "подъёмы ЧСС до 155, каденс 70-80; брик-бег 12'", done: false }
+        { time: '9:00', type: 'bike', name: 'Вело улица холмистое 70 км + брик', details: "Арзамас, рельеф; подъёмы ЧСС до 155, каденс 70-80; брик-бег 12'", done: false },
+        { time: '12:00', type: 'swim', name: 'Плавание ОВ 1800м (перенос с Сб)', details: 'Арзамас, по возможности — отдельно и легко, не клеить к брику', movedFrom: '01.08', done: false }
       ] },
     ]
   },
