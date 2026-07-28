@@ -819,13 +819,15 @@ function renderWeek() {
         const isMovedAway = dayR.movedFrom.find(r => r.training === t.name);
         const durMatch = t.details.match(/(\d+)\s*мин/);
         const tMin = durMatch ? parseInt(durMatch[1]) : 0;
+        const isEst = /~\s*\d+\s*мин/.test(t.details);
+        const durLabel = tMin > 0 ? `<span class="wt-dur" style="color:#7dd3fc;font-size:9px;margin-left:4px;white-space:nowrap">⏱ ${isEst ? '~' : ''}${tMin} мин</span>` : '';
         if (!t.movedFrom) planMin += tMin;
         if (isMovedAway || t.movedTo) {
           const toDate = t.movedTo || (isMovedAway && isMovedAway.toDate);
-          whtml += `<div class="wt" style="opacity:0.4;text-decoration:line-through">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span><span style="color:#fbbf24;font-size:9px;margin-left:4px">→${toDate}</span></div>`;
+          whtml += `<div class="wt" style="opacity:0.4;text-decoration:line-through">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span>${durLabel}<span style="color:#fbbf24;font-size:9px;margin-left:4px">→${toDate}</span></div>`;
         } else {
           let si; if (t.done) { si = ICONS.done; doneCount++; const ga = d.actual && d.actual.find(a => a.type === t.type); factMin += ga ? ga.duration : tMin; } else if (isToday) si = ICONS.today_marker; else if (isPast) si = ICONS.miss; else si = ICONS.pending;
-          whtml += `<div class="wt">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span><span class="wt-status">${si}</span></div>`;
+          whtml += `<div class="wt">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span>${durLabel}<span class="wt-status">${si}</span></div>`;
         }
       }
       for (const r of dayR.movedTo) {
