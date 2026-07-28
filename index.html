@@ -266,7 +266,7 @@
       </div>
       <h2 id="weekTitle">Неделя</h2>
       <div class="week-nav-btns">
-        <button id="coachBtn" onclick="toggleCoach()" title="Тренер" style="color:#4ade80;border-color:#2a4a2a"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+        <button id="coachBtn" onclick="toggleCoach()" title="Тренер" style="color:#4ade80;border-color:#2a4a2a;display:inline-flex;align-items:center;gap:4px;width:auto;padding:0 10px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span style="font-size:12px;font-weight:600">Тренер</span></button>
         <button id="weekSyncBtn" onclick="syncWeekData()" title="Обновить из Garmin"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
         <button id="calToggle" onclick="toggleCalendar()" title="Календарь">&#9776;</button>
       </div>
@@ -1090,7 +1090,6 @@ function addCoachButtons() {
     // Find form card, week card by h2 text
     const h2text = h2.textContent.toLowerCase();
     if (h2text.includes('форма')) coachKey = 'form';
-    if (h2text.includes('неделя 2')) coachKey = 'week';
     if (h2text.includes('результаты')) coachKey = 'race';
     if (h2text.includes('лабораторный тест')) coachKey = 'lab';
     if (h2text.includes('тренировочные зоны')) coachKey = 'lab';
@@ -1264,7 +1263,8 @@ function toggleCoach() {
   const p = document.getElementById('coachPanel');
   if (p.classList.contains('active')) { p.classList.remove('active'); p.innerHTML = ''; return; }
   let text = '<div class="coach-title">Мнение тренера</div>';
-  if (DATA?.coach?.today) text += DATA.coach.today;
+  if (DATA?.coach?.week) text += DATA.coach.week;
+  else if (DATA?.coach?.today) text += DATA.coach.today;
   else text += `${daysLeft} дней до Самарканда. Тренируйся по плану.`;
   p.innerHTML = text;
   p.classList.add('active');
