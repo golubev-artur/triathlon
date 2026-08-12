@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Вода">
+<meta name="theme-color" content="#0a0a1a">
+<title>💧 Вода</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: -apple-system, system-ui, sans-serif; background: #0a0a1a; color: #e6e6f0;
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 24px 16px; }
+  h1 { font-size: 22px; margin: 8px 0 2px; }
+  .who { color: #7dd3fc; font-size: 14px; margin-bottom: 18px; }
+  .total { font-size: 15px; color: #a0a0b0; margin-bottom: 4px; }
+  .big { font-size: 40px; font-weight: 800; color: #38bdf8; margin: 2px 0 6px; }
+  .goal { color: #6b7280; font-size: 12px; margin-bottom: 22px; }
+  .bar { width: 100%; max-width: 420px; height: 10px; background: #1a1a2e; border-radius: 6px; overflow: hidden; margin-bottom: 26px; }
+  .bar > div { height: 100%; background: linear-gradient(90deg,#0ea5e9,#38bdf8); width: 0; transition: width .3s; }
+  .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; width: 100%; max-width: 420px; }
+  button { border: none; border-radius: 18px; padding: 26px 0; font-size: 24px; font-weight: 700; color: #fff;
+    background: #14304d; transition: transform .06s, background .15s; cursor: pointer; }
+  button:active { transform: scale(0.95); background: #0ea5e9; }
+  .b500 { grid-column: span 2; background: #123a2e; }
+  .b500:active { background: #10b981; }
+  .custom { grid-column: span 2; display: flex; gap: 10px; margin-top: 4px; }
+  .custom input { flex: 1; border-radius: 14px; border: 1px solid #2a2a4a; background: #10101e; color: #e6e6f0; font-size: 18px; padding: 0 14px; text-align: center; }
+  .custom button { padding: 16px 0; font-size: 18px; flex: 0 0 110px; }
+  .toast { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: #10b981; color: #fff; padding: 12px 22px; border-radius: 14px; font-weight: 700; font-size: 16px;
+    opacity: 0; transition: all .3s; }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .err { color: #f87171; font-size: 13px; margin-top: 16px; min-height: 18px; }
+</style>
+</head>
+<body>
+  <h1>💧 Вода</h1>
+  <div class="who" id="who"></div>
+  <div class="total">Сегодня</div>
+  <div class="big"><span id="total">0</span> мл</div>
+  <div class="goal">цель 3000 мл</div>
+  <div class="bar"><div id="fill"></div></div>
+
+  <div class="btns">
+    <button onclick="add(200)">200 мл</button>
+    <button onclick="add(300)">300 мл</button>
+    <button class="b500" onclick="add(500)">500 мл</button>
+    <div class="custom">
+      <input id="cust" type="number" inputmode="numeric" placeholder="своё, мл">
+      <button onclick="addCustom()">+</button>
+    </div>
+  </div>
+  <div class="err" id="err"></div>
+  <div class="toast" id="toast"></div>
+
+<script>
+  const API = 'https://station-companion-designs-allied.trycloudflare.com';
+  const GOAL = 3000;
+  const p = new URLSearchParams(location.search);
+  const USER_ID = p.get('u') ? parseInt(p.get('u')) : null;
+  const NAME = p.get('name') || '';
+  document.getElementById('who').textContent = NAME ? NAME : '';
+
+  function todayKey() {
+    const n = new Date();
+    return String(n.getDate()).padStart(2,'0') + '.' + String(n.getMonth()+1).padStart(2,'0');
+  }
+  function render(total) {
+    document.getElementById('total').textContent = total;
+    document.getElementById('fill').style.width = Math.min(100, total/GOAL*100) + '%';
+  }
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1400);
+  }
+  async function loadTotal() {
+    try {
+      const r = await fetch(API + '/api/meals');
+      const meals = await r.json();
+      const tk = todayKey();
+      const total = meals.filter(m => m.type === 'water' && m.date && m.date.startsWith(tk)
+        && (USER_ID ? m.userId === USER_ID : true)).reduce((s,m) => s + (m.ml||0), 0);
+      render(total);
+    } catch (e) { document.getElementById('err').textContent = 'Нет связи с сервером'; }
+  }
+  async function add(ml) {
+    try {
+      document.getElementById('err').textContent = '';
+      const r = await fetch(API + '/api/water', { method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ ml, userId: USER_ID, name: NAME }) });
+      const d = await r.json();
+      if (d.ok) { render(d.total); toast('+' + ml + ' мл'); if (navigator.vibrate) navigator.vibrate(30); }
+      else document.getElementById('err').textContent = d.error || 'Ошибка';
+    } catch (e) { document.getElementById('err').textContent = 'Не удалось отправить'; }
+  }
+  function addCustom() {
+    const v = parseInt(document.getElementById('cust').value);
+    if (v > 0) { add(v); document.getElementById('cust').value = ''; }
+  }
+  loadTotal();
+</script>
+</body>
+</html>
