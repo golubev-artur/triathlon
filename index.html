@@ -670,10 +670,10 @@ const allWeeks = [
   },
   { label: 'Мини-сбор · Арзамас (усиленный)', range: '3 – 9 авг', stats: { plan: '12ч 10мин', runKm: 40, bikeKm: 160, swimM: 1800, bikeCount: 2, swimOW: 2 },
     days: [
-      { day: 'Пн', date: '03.08', garminDate: '2026-08-03', trainings: [{ time: '18:00', type: 'run', name: 'Бег Z2 открытие', details: '~55 мин, ЧСС 136-150, разбегаться после переезда', done: false }] },
+      { day: 'Пн', date: '03.08', garminDate: '2026-08-03', trainings: [{ time: '18:00', type: 'run', name: 'Бег Z2 открытие', details: '~55 мин, ЧСС 136-150, разбегаться после переезда', done: true }] },
       { day: 'Вт', date: '04.08', garminDate: '2026-08-04', wakeup: '6:30', trainings: [
-        { time: '7:00', type: 'bike', name: 'Вело холмистое 2.5ч', details: '~150 мин, sweet-spot на подъёмах, ЧСС до 155, каденс 70-85', done: false },
-        { time: '18:00', type: 'swim', name: 'ОВ 1800м', details: '~45 мин, без гидрокостюма, sighting', done: false }
+        { time: '7:00', type: 'bike', name: 'Вело холмистое 2.5ч', details: '~150 мин, sweet-spot на подъёмах, ЧСС до 155, каденс 70-85', done: true },
+        { time: '18:00', type: 'swim', name: 'ОВ 1800м', details: '~45 мин, без гидрокостюма, sighting', done: true }
       ] },
       { day: 'Ср', date: '05.08', garminDate: '2026-08-05', wakeup: '6:30', trainings: [{ time: '7:00', type: 'run', name: 'Бег пороговый Z3-Z4', details: "~70 мин, 4×8' по 5:05-5:20/км (ЧСС до 175), утром до жары", done: false }] },
       { day: 'Чт', date: '06.08', garminDate: '2026-08-06', wakeup: '6:00', trainings: [{ time: '6:30', type: 'bike', name: 'Вело длинное 90 км + брик', details: '~230 мин (вело ~210 + брик 20), рано до жары +30, питание каждые 20', done: false }] },
@@ -683,6 +683,20 @@ const allWeeks = [
         { time: '10:00', type: 'run', name: 'Бег шейкаут', details: '~30 мин лёгкий, перед отъездом', done: false }
       ] },
       { day: 'Вс', date: '09.08', garminDate: '2026-08-09', trainings: [] },
+    ]
+  },
+  { label: 'Пиковая неделя · дом (Балашиха)', range: '10 – 16 авг', stats: { plan: '7ч 30мин', runKm: 27, bikeKm: 118, swimM: 1500, bikeCount: 2, swimOW: 1 },
+    days: [
+      { day: 'Пн', date: '10.08', garminDate: '2026-08-10', trainings: [] },
+      { day: 'Вт', date: '11.08', garminDate: '2026-08-11', trainings: [] },
+      { day: 'Ср', date: '12.08', garminDate: '2026-08-12', wakeup: '6:45', trainings: [{ time: '20:30', type: 'bike', name: 'Вело станок порог', details: "60 мин — 3×10' 160-185W (Z3-Z4), каденс 85+, на улице дождь", done: false }] },
+      { day: 'Чт', date: '13.08', garminDate: '2026-08-13', wakeup: '5:30', trainings: [{ time: '6:15', type: 'run', name: 'Бег лёгкий Z2', details: '45 мин / ~8 км, ЧСС 136-150, до выгула Чили', done: false }] },
+      { day: 'Пт', date: '14.08', garminDate: '2026-08-14', wakeup: '6:45', trainings: [{ time: '19:00', type: 'swim', name: 'Плавание ОВ 1500м', details: '45-50 мин, техника + непрерывно 1.5 км, sighting', done: false }] },
+      { day: 'Сб', date: '15.08', garminDate: '2026-08-15', wakeup: '7:00', trainings: [{ time: '8:00', type: 'bike', name: 'Длинное вело холмистое 88 км + брик', details: "~195 мин (вело ~180 + брик 15) - подъёмы ЧСС 150-155, каденс 70-80, спуски отдых, питание каждые 20'", done: false }] },
+      { day: 'Вс', date: '16.08', garminDate: '2026-08-16', wakeup: '7:00', trainings: [
+        { time: '8:00', type: 'run', name: 'Длинный бег 17 км', details: "~100 мин Z2, последние 4 км в темпе гонки 5:30-5:40/км (ЧСС до 165)", done: false },
+        { time: '11:00', type: 'swim', name: 'ОВ 1 км (опц.)', details: '~25 мин легко, если силы - не клеить к бегу', done: false }
+      ] },
     ]
   },
 ];
