@@ -1,0 +1,99 @@
+{
+  "generated": "2026-08-28",
+  "note": "Экспорт плана 28.08-13.09 для загрузки в Garmin Connect (Тренировки → Календарь). Плавание исключено: воды нет до старта, заменено сухим плаванием с резиной (в Garmin не загружается, тип 'strength' при желании). Загружает локальный агент синхронизации, у которого есть доступ к аккаунту Garmin.",
+  "athlete": { "maxHR": 190, "lthrRun": 175, "ltPaceRun": "5:05", "ftpEstimate": 185 },
+  "workouts": [
+    { "date": "2026-08-28", "sport": "running", "name": "Бег Z2 реактивация 40'", "estimatedDurationMin": 40, "steps": [
+      { "type": "warmup", "durationMin": 10, "target": { "type": "hr", "low": 120, "high": 135 } },
+      { "type": "interval", "durationMin": 25, "target": { "type": "hr", "low": 130, "high": 145 }, "note": "Первая после 19 дней паузы — свободно" },
+      { "type": "cooldown", "durationMin": 5, "target": { "type": "hr", "low": 110, "high": 130 } } ] },
+
+    { "date": "2026-08-29", "sport": "cycling", "name": "Вело Z2 75' + брик 10'", "estimatedDurationMin": 85, "steps": [
+      { "type": "warmup", "durationMin": 10, "target": { "type": "power", "low": 105, "high": 120 } },
+      { "type": "interval", "durationMin": 55, "target": { "type": "hr", "low": 125, "high": 140 }, "note": "Каденс 85-90" },
+      { "type": "cooldown", "durationMin": 10, "target": { "type": "power", "low": 100, "high": 115 } },
+      { "type": "interval", "durationMin": 10, "sport": "running", "target": { "type": "hr", "low": 130, "high": 150 }, "note": "Брик-бег сразу после вело" } ] },
+
+    { "date": "2026-08-30", "sport": "running", "name": "Длинный бег Z2 70'", "estimatedDurationMin": 70, "steps": [
+      { "type": "warmup", "durationMin": 10, "target": { "type": "hr", "low": 120, "high": 136 } },
+      { "type": "interval", "durationMin": 55, "target": { "type": "hr", "low": 136, "high": 150 }, "note": "Питьё каждые 20 мин" },
+      { "type": "cooldown", "durationMin": 5, "target": { "type": "hr", "low": 110, "high": 130 } } ] },
+
+    { "date": "2026-09-01", "sport": "running", "name": "Темповый 4x6'", "estimatedDurationMin": 55, "steps": [
+      { "type": "warmup", "durationMin": 15, "target": { "type": "hr", "low": 120, "high": 140 } },
+      { "type": "repeat", "repeats": 4, "steps": [
+        { "type": "interval", "durationMin": 6, "target": { "type": "pace", "low": "5:45", "high": "5:30" }, "note": "ЧСС до 165" },
+        { "type": "recovery", "durationMin": 2, "target": { "type": "hr", "low": 120, "high": 140 } } ] },
+      { "type": "cooldown", "durationMin": 8, "target": { "type": "hr", "low": 110, "high": 135 } } ] },
+
+    { "date": "2026-09-02", "sport": "cycling", "name": "Станок Sweet Spot 3x10'", "estimatedDurationMin": 60, "steps": [
+      { "type": "warmup", "durationMin": 10, "target": { "type": "power", "low": 110, "high": 125 } },
+      { "type": "repeat", "repeats": 3, "steps": [
+        { "type": "interval", "durationMin": 10, "target": { "type": "power", "low": 145, "high": 155 }, "note": "Каденс 85-90" },
+        { "type": "recovery", "durationMin": 5, "target": { "type": "power", "low": 105, "high": 115 } } ] },
+      { "type": "cooldown", "durationMin": 5, "target": { "type": "power", "low": 100, "high": 115 } } ] },
+
+    { "date": "2026-09-03", "sport": "running", "name": "Бег Z2 45' + страйды", "estimatedDurationMin": 45, "steps": [
+      { "type": "warmup", "durationMin": 10, "target": { "type": "hr", "low": 120, "high": 136 } },
+      { "type": "interval", "durationMin": 27, "target": { "type": "hr", "low": 136, "high": 150 } },
+      { "type": "repeat", "repeats": 6, "steps": [
+        { "type": "interval", "durationSec": 20, "target": { "type": "pace", "low": "4:30", "high": "4:10" } },
+        { "type": "recovery", "durationSec": 60, "target": { "type": "hr", "low": 110, "high": 140 } } ] },
+      { "type": "cooldown", "durationMin": 0, "note": "Заминка шагом 5 мин" } ] },
+
+    { "date": "2026-09-05", "sport": "cycling", "name": "Длинное вело 150' + брик 15'", "estimatedDurationMin": 165, "steps": [
+      { "type": "warmup", "durationMin": 15, "target": { "type": "hr", "low": 115, "high": 135 } },
+      { "type": "interval", "durationMin": 125, "target": { "type": "hr", "low": 130, "high": 150 }, "note": "На подъёмах до 155, спуски отдых, питание каждые 20 мин, ~75 км" },
+      { "type": "cooldown", "durationMin": 10, "target": { "type": "hr", "low": 110, "high": 130 } },
+      { "type": "interval", "durationMin": 15, "sport": "running", "target": { "type": "pace", "low": "6:00", "high": "5:40" }, "note": "Брик в темпе гонки" } ] },
+
+    { "date": "2026-09-06", "sport": "running", "name": "Длинный 16 км с финишем в темпе", "estimatedDurationMin": 100, "steps": [
+      { "type": "warmup", "durationMin": 10, "target": { "type": "hr", "low": 120, "high": 136 } },
+      { "type": "interval", "durationMin": 72, "target": { "type": "hr", "low": 136, "high": 150 } },
+      { "type": "interval", "distanceKm": 3, "target": { "type": "pace", "low": "5:45", "high": "5:35" }, "note": "Темп гонки, ЧСС до 165" },
+      { "type": "cooldown", "durationMin": 5, "target": { "type": "hr", "low": 110, "high": 130 } } ] },
+
+    { "date": "2026-09-08", "sport": "running", "name": "Тейпер: Z2 40' + 4x1' гоночный", "estimatedDurationMin": 40, "steps": [
+      { "type": "warmup", "durationMin": 12, "target": { "type": "hr", "low": 120, "high": 140 } },
+      { "type": "repeat", "repeats": 4, "steps": [
+        { "type": "interval", "durationMin": 1, "target": { "type": "pace", "low": "5:40", "high": "5:30" } },
+        { "type": "recovery", "durationMin": 2, "target": { "type": "hr", "low": 120, "high": 140 } } ] },
+      { "type": "cooldown", "durationMin": 16, "target": { "type": "hr", "low": 120, "high": 145 } } ] },
+
+    { "date": "2026-09-09", "sport": "cycling", "name": "Тейпер: вело 50' + 3x3' гоночная мощность", "estimatedDurationMin": 50, "steps": [
+      { "type": "warmup", "durationMin": 15, "target": { "type": "power", "low": 105, "high": 125 } },
+      { "type": "repeat", "repeats": 3, "steps": [
+        { "type": "interval", "durationMin": 3, "target": { "type": "power", "low": 150, "high": 160 }, "note": "В аэропосадке, каденс 85-90" },
+        { "type": "recovery", "durationMin": 3, "target": { "type": "power", "low": 105, "high": 120 } } ] },
+      { "type": "cooldown", "durationMin": 17, "target": { "type": "power", "low": 100, "high": 120 } } ] },
+
+    { "date": "2026-09-10", "sport": "running", "name": "Лёгкий 30' (день переезда)", "estimatedDurationMin": 30, "steps": [
+      { "type": "interval", "durationMin": 26, "target": { "type": "hr", "low": 115, "high": 140 } },
+      { "type": "repeat", "repeats": 4, "steps": [
+        { "type": "interval", "durationSec": 20, "target": { "type": "pace", "low": "4:40", "high": "4:20" } },
+        { "type": "recovery", "durationSec": 40, "target": { "type": "hr", "low": 110, "high": 135 } } ] } ] },
+
+    { "date": "2026-09-11", "sport": "cycling", "name": "Раскатка после сборки 30'", "estimatedDurationMin": 30, "steps": [
+      { "type": "interval", "durationMin": 30, "target": { "type": "hr", "low": 105, "high": 130 }, "note": "Проверка переключений и тормозов" } ] },
+
+    { "date": "2026-09-11", "sport": "running", "name": "Трусца 15' (акклиматизация)", "estimatedDurationMin": 15, "steps": [
+      { "type": "interval", "durationMin": 15, "target": { "type": "hr", "low": 110, "high": 135 }, "note": "Жара, пить много" } ] },
+
+    { "date": "2026-09-12", "sport": "running", "name": "Шейкаут 20' + 3 страйда", "estimatedDurationMin": 20, "steps": [
+      { "type": "interval", "durationMin": 17, "target": { "type": "hr", "low": 110, "high": 138 } },
+      { "type": "repeat", "repeats": 3, "steps": [
+        { "type": "interval", "durationSec": 20, "target": { "type": "pace", "low": "4:40", "high": "4:20" } },
+        { "type": "recovery", "durationSec": 40, "target": { "type": "hr", "low": 110, "high": 135 } } ] } ] },
+
+    { "date": "2026-09-12", "sport": "cycling", "name": "Вело шейкаут 10'", "estimatedDurationMin": 10, "steps": [
+      { "type": "interval", "durationMin": 10, "target": { "type": "hr", "low": 105, "high": 130 }, "note": "Только проверка передач" } ] }
+  ],
+  "dryLandSwim": [
+    { "date": "2026-08-29", "durationMin": 20, "content": "Резина на гребок 3x8 мин, плечи, ротаторы" },
+    { "date": "2026-08-31", "durationMin": 25, "content": "Резина на гребок, плечи, грудной отдел, мобилити" },
+    { "date": "2026-09-03", "durationMin": 20, "content": "Резина на гребок, вращения плеч, кор" },
+    { "date": "2026-09-07", "durationMin": 20, "content": "Лёгкий гребок с резиной, растяжка" }
+  ],
+  "race": { "date": "2026-09-13", "name": "Challenge Samarkand (Half-Iron)", "startTime": "08:00", "wakeup": "04:30",
+    "pacing": { "swim": "1.9 км спокойно, у края группы, sighting чаще, ориентир 40-42 мин (без воды 5 недель)", "bike": "90 км, ЧСС до 155 на подъёмах, спуски — отдых, питание каждые 15 мин + соль, ориентир ~2:35", "run": "21.1 км, первые 5 км 5:50/км, дальше по ощущениям, вода на каждом пункте, ориентир 1:55-2:00" } }
+}

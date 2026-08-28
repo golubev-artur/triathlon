@@ -258,6 +258,27 @@
     <div id="todayContent"></div>
   </div>
 
+
+  <div class="card wide" id="restartCard" style="border-left:3px solid #fbbf24">
+    <h2>Статус: перезапуск после паузы</h2>
+    <div class="stat-row">
+      <div class="stat" style="color:#f87171"><div class="val">19</div><div class="label">дней без тренировок</div></div>
+      <div class="stat yellow"><div class="val">09.08</div><div class="label">последняя (бег 8.8 км)</div></div>
+      <div class="stat cyan"><div class="val">0</div><div class="label">плавание доступно</div></div>
+      <div class="stat green"><div class="val">16</div><div class="label">дней до старта</div></div>
+    </div>
+    <div style="font-size:12px;color:#a0a0b0;line-height:1.6;margin-top:10px">
+      Последняя подтверждённая тренировка — 09.08 (бег 8.8 км, ЧСС 143). Вся пиковая неделя 10–16.08 и две недели после неё пропущены: 19 дней без нагрузки.
+      За это время аэробная база просела примерно на 5–8% (VO2max почти не теряется за 3 недели, но выносливость и «чувство» темпа — да), зато накопленная усталость ушла полностью.
+      До Challenge Samarkand 16 дней — набирать форму поздно, задача другая: за 9 дней безопасно вернуть привычку к нагрузке и ключевые длинные, затем 7 дней тейпера.
+      Не пытаться «догнать» пропущенное — на возврате после паузы это прямой путь к травме на первой же длинной.
+      <br><br>
+      <b style="color:#67e8f9">Воды нет до старта.</b> Все плавательные тренировки заменены сухим плаванием с резиной (3 раза в неделю по 20–25 мин): гребок, плечи, ротаторы, кор.
+      Это держит мышцы гребка, но не даёт чувства воды — поэтому на старте плыть подчёркнуто спокойно, у края группы, sighting чаще обычного, и заложить +2–3 мин к плавательному сплиту (1.9 км ≈ 40–42 мин вместо 38).
+      Sub-5 остаётся достижимым, но за счёт вело и бега, не плавания.
+    </div>
+  </div>
+
   <div class="card wide" id="weekCard">
     <div class="week-nav">
       <div class="week-nav-btns">
@@ -612,9 +633,13 @@ const ICONS = {
   run_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="#f87171" stroke="#f87171" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="4" r="2.3" stroke="none"/><path d="M15.5 6.5L12 13" stroke-width="3.2" fill="none"/><path d="M12 13L15.5 17L18.5 20.5" stroke-width="2.6" fill="none"/><path d="M12 13L9 16.5L6 20.5" stroke-width="2.6" fill="none"/><path d="M14.5 8L18 9.5L20.5 7.5" stroke-width="2.2" fill="none"/><path d="M14.5 8L11 10L8 8.5" stroke-width="2.2" fill="none"/><rect x="1" y="8.5" width="4.5" height="1.3" rx=".65" stroke="none"/><rect x="1.5" y="11.5" width="4" height="1.3" rx=".65" stroke="none"/><rect x="1" y="14.5" width="4.5" height="1.3" rx=".65" stroke="none"/></svg>`,
   bike_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l3-7h4l2 4h3"/><path d="M9 10l3 7"/><circle cx="13" cy="6" r="1.5"/></svg>`,
   swim_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><path d="M2 14c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><circle cx="12" cy="6" r="2"/><path d="M7 10h10"/></svg>`,
+  gym: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M20 12h2"/><rect x="4" y="8" width="3" height="8" rx="1"/><rect x="17" y="8" width="3" height="8" rx="1"/><path d="M7 12h10"/></svg>`,
+  gym_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M20 12h2"/><rect x="4" y="8" width="3" height="8" rx="1"/><rect x="17" y="8" width="3" height="8" rx="1"/><path d="M7 12h10"/></svg>`,
+  race: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>`,
+  race_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>`,
   miss: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#ef4444" stroke-width="1.5"/><path d="M5 5l6 6M11 5l-6 6" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/></svg>`,
 };
-const typeColor = { run: '#f87171', bike: '#fbbf24', swim: '#67e8f9' };
+const typeColor = { run: '#f87171', bike: '#fbbf24', swim: '#67e8f9', gym: '#a78bfa', race: '#e94560' };
 const coachIcon = `<svg style="width:14px;height:14px;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
 
 const allWeeks = [
@@ -699,9 +724,92 @@ const allWeeks = [
       ] },
     ]
   },
+  { label: 'Пауза — без тренировок', range: '17 – 23 авг', stats: { plan: '0ч', runKm: 0, bikeKm: 0, swimM: 0 },
+    days: [
+      { day: 'Пн', date: '17.08', garminDate: '2026-08-17', trainings: [] },
+      { day: 'Вт', date: '18.08', garminDate: '2026-08-18', trainings: [] },
+      { day: 'Ср', date: '19.08', garminDate: '2026-08-19', trainings: [] },
+      { day: 'Чт', date: '20.08', garminDate: '2026-08-20', trainings: [] },
+      { day: 'Пт', date: '21.08', garminDate: '2026-08-21', trainings: [] },
+      { day: 'Сб', date: '22.08', garminDate: '2026-08-22', trainings: [] },
+      { day: 'Вс', date: '23.08', garminDate: '2026-08-23', trainings: [] },
+    ]
+  },
+  { label: 'Рестарт после паузы · без воды', range: '24 – 30 авг', stats: { plan: '3ч 35мин', runKm: 20, bikeKm: 28, swimM: 0 },
+    days: [
+      { day: 'Пн', date: '24.08', garminDate: '2026-08-24', trainings: [] },
+      { day: 'Вт', date: '25.08', garminDate: '2026-08-25', trainings: [] },
+      { day: 'Ср', date: '26.08', garminDate: '2026-08-26', trainings: [] },
+      { day: 'Чт', date: '27.08', garminDate: '2026-08-27', trainings: [] },
+      { day: 'Пт', date: '28.08', garminDate: '2026-08-28', wakeup: '7:00', trainings: [
+        { time: '19:00', type: 'run', name: 'Бег Z2 реактивация', details: '40 мин, ЧСС 130-145, ~6.5 км — первая после 19 дней паузы, темп свободный, не разгоняться', done: false }
+      ] },
+      { day: 'Сб', date: '29.08', garminDate: '2026-08-29', wakeup: '7:00', trainings: [
+        { time: '8:00', type: 'bike', name: 'Вело Z2 + брик', details: "85 мин (вело 75 + брик-бег 10), ЧСС до 140, каденс 85-90, ~28 км — вернуть посадку и ноги", done: false },
+        { time: '19:00', type: 'gym', name: 'Сухое плавание (резина)', details: '20 мин — эспандер/резина на гребок 3×8 мин, плечи и ротаторы, вода недоступна', done: false }
+      ] },
+      { day: 'Вс', date: '30.08', garminDate: '2026-08-30', wakeup: '7:00', trainings: [
+        { time: '8:00', type: 'run', name: 'Длинный бег Z2', details: '70 мин, ~12 км, ЧСС 136-150, питьё каждые 20 мин', done: false }
+      ] },
+    ]
+  },
+  { label: 'Последний рабочий блок · без воды', range: '31 авг – 6 сен', stats: { plan: '7ч 50мин', runKm: 35, bikeKm: 100, swimM: 0 },
+    days: [
+      { day: 'Пн', date: '31.08', garminDate: '2026-08-31', wakeup: '7:00', trainings: [
+        { time: '20:00', type: 'gym', name: 'Сухое плавание + мобилити', details: '25 мин — резина на гребок, плечи, грудной отдел; замена бассейну', done: false }
+      ] },
+      { day: 'Вт', date: '01.09', garminDate: '2026-09-01', wakeup: '5:45', trainings: [
+        { time: '6:30', type: 'run', name: 'Бег темповый Z3', details: "55 мин — разминка 15 мин, 4×6' в темпе 5:30-5:45/км (ЧСС до 165) через 2 мин трусцы, заминка; ~9 км", done: false }
+      ] },
+      { day: 'Ср', date: '02.09', garminDate: '2026-09-02', wakeup: '6:45', trainings: [
+        { time: '20:30', type: 'bike', name: 'Вело станок Sweet Spot', details: "60 мин — разм 110-125W, 3×10' 145-155W каденс 85-90 через 5 мин 110W, заминка; ~25 км", done: false }
+      ] },
+      { day: 'Чт', date: '03.09', garminDate: '2026-09-03', wakeup: '5:45', trainings: [
+        { time: '6:30', type: 'run', name: 'Бег Z2 + страйды', details: '45 мин, ЧСС 136-150, ~7 км, в конце 6×20 сек ускорения через 60 сек', done: false },
+        { time: '20:00', type: 'gym', name: 'Сухое плавание (резина)', details: '20 мин — гребок с резиной, вращения плеч, кор', done: false }
+      ] },
+      { day: 'Пт', date: '04.09', garminDate: '2026-09-04', trainings: [] },
+      { day: 'Сб', date: '05.09', garminDate: '2026-09-05', wakeup: '6:30', trainings: [
+        { time: '7:30', type: 'bike', name: 'Длинное вело + брик', details: "165 мин (вело 150 + брик-бег 15), ~75 км по холмам, ЧСС до 150-155 на подъёмах, питание каждые 20 мин — последняя длинная", done: false }
+      ] },
+      { day: 'Вс', date: '06.09', garminDate: '2026-09-06', wakeup: '6:30', trainings: [
+        { time: '7:30', type: 'run', name: 'Длинный бег 16 км', details: '100 мин Z2 (ЧСС 136-150), последние 3 км в темпе гонки 5:35-5:45/км — контрольная длинная перед тейпером', done: false }
+      ] },
+    ]
+  },
+  { label: 'Тейпер и старт · Самарканд', range: '7 – 13 сен', stats: { plan: '3ч 35мин', runKm: 20, bikeKm: 35, swimM: 0 },
+    days: [
+      { day: 'Пн', date: '07.09', garminDate: '2026-09-07', trainings: [
+        { time: '20:00', type: 'gym', name: 'Сухое плавание (резина)', details: '20 мин — лёгкий гребок с резиной, растяжка; ноги отдыхают', done: false }
+      ] },
+      { day: 'Вт', date: '08.09', garminDate: '2026-09-08', wakeup: '6:00', trainings: [
+        { time: '6:45', type: 'run', name: 'Бег Z2 + гоночные отрезки', details: "40 мин, ЧСС 136-150, в середине 4×1' в темпе гонки 5:30-5:40/км", done: false }
+      ] },
+      { day: 'Ср', date: '09.09', garminDate: '2026-09-09', wakeup: '6:45', trainings: [
+        { time: '20:00', type: 'bike', name: 'Вело Z2 + гоночная мощность', details: "50 мин, ~20 км, в середине 3×3' 150-160W в аэропосадке, каденс 85-90", done: false }
+      ] },
+      { day: 'Чт', date: '10.09', garminDate: '2026-09-10', trainings: [
+        { time: '7:00', type: 'run', name: 'Бег лёгкий (день переезда)', details: '30 мин Z1-Z2, ~5 км, 4 страйда; вечером сборы, велосипед в кофр', done: false }
+      ] },
+      { day: 'Пт', date: '11.09', garminDate: '2026-09-11', trainings: [
+        { time: '18:00', type: 'bike', name: 'Раскатка после сборки', details: '30 мин очень легко, ~12 км — проверка переключений и тормозов после перелёта', done: false },
+        { time: '19:00', type: 'run', name: 'Бег лёгкий', details: '15 мин трусцой, акклиматизация к жаре, пить много', done: false }
+      ] },
+      { day: 'Сб', date: '12.09', garminDate: '2026-09-12', wakeup: '7:00', trainings: [
+        { time: '8:00', type: 'run', name: 'Шейкаут', details: '20 мин легко + 3 страйда, затем брифинг, чек-ин велосипеда, раскладка транзитки', done: false },
+        { time: '9:00', type: 'bike', name: 'Вело шейкаут', details: '10 мин, ~4 км — проверка передач, больше ничего', done: false }
+      ] },
+      { day: 'Вс', date: '13.09', garminDate: '2026-09-13', wakeup: '4:30', trainings: [
+        { time: '8:00', type: 'race', name: 'CHALLENGE SAMARKAND — старт', details: 'Плавание 1.9 км спокойно у края группы (воды не было 5 недель — плыть ровно, дышать, sighting чаще). Вело 90 км: ЧСС до 155 на подъёмах, спуски отдых, питание каждые 15 мин + соль. Бег 21.1 км: первые 5 км 5:50/км, дальше по ощущениям, вода на каждом пункте', done: false }
+      ] },
+    ]
+  },
 ];
 
-let currentWeekIdx = allWeeks.length - 1;
+const _todayD = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+const _todayDStr = String(_todayD.getDate()).padStart(2, '0') + '.' + String(_todayD.getMonth() + 1).padStart(2, '0');
+const _idxToday = allWeeks.findIndex(w => w.days.some(d => d.date === _todayDStr));
+let currentWeekIdx = _idxToday >= 0 ? _idxToday : allWeeks.length - 1;
 let calendarMode = false;
 const weekPlan = allWeeks[currentWeekIdx].days;
 
@@ -951,10 +1059,11 @@ function renderCalendar() {
   const months = [
     { name: 'Июль 2026', year: 2026, month: 6 },
     { name: 'Август 2026', year: 2026, month: 7 },
+    { name: 'Сентябрь 2026', year: 2026, month: 8 },
   ];
   const dayNames = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
   const todayISO = `2026-${String(msk.getMonth()+1).padStart(2,'0')}-${String(msk.getDate()).padStart(2,'0')}`;
-  const shortType = { run: 'Бег', bike: 'Вело', swim: 'Плав' };
+  const shortType = { run: 'Бег', bike: 'Вело', swim: 'Плав', gym: 'Зал', race: 'Старт' };
 
   let html = '<div class="calendar">';
   html += dayNames.map(d => `<div class="cal-header">${d}</div>`).join('');
@@ -980,7 +1089,7 @@ function renderCalendar() {
           html += `<div class="cal-train-details">${t.details || t.name}</div>`;
         }
       }
-      if (isRace) html += '<div class="cal-race-label">IRONSTAR MSK</div>';
+      if (isRace) html += '<div class="cal-race-label">CHALLENGE SAMARKAND</div>';
       html += '</div>';
     }
   }
