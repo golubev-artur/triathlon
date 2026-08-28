@@ -70,6 +70,8 @@
     .race-table tr.pr td { color: #4ade80; font-weight: 600; }
 
     .footer { text-align: center; padding: 16px; color: #505060; font-size: 11px; }
+    .footer a { color: #7dd3fc; text-decoration: none; border-bottom: 1px solid rgba(125,211,252,.3); }
+    .footer a:hover { color: #a5e4ff; }
 
     .tabs { display: flex; gap: 0; padding: 0 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .tab { background: #16213e; border: 1px solid #2a2a4a; border-bottom: none; color: #808090; padding: 10px 16px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; border-radius: 8px 8px 0 0; transition: all 0.2s; }
@@ -614,7 +616,7 @@
   </div>
 </div>
 
-<div class="footer">Garmin Connect &middot; 25.07.2026</div>
+<div class="footer">Garmin Connect &middot; 25.07.2026<br><a href="https://golubev-consulting.ru" target="_blank" rel="noopener">Голубев Консалтинг</a></div>
 
 <script>
 function fmtMacro(v) { const n = Number(v) || 0; return n % 1 === 0 ? String(Math.round(n)) : n.toFixed(1); }
