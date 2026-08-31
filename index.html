@@ -561,6 +561,11 @@
     </div>
   </div>
 
+  <div class="card wide" id="bloodworkCard">
+    <h2>Анализы крови <span id="bloodworkDate" style="font-size:11px;color:#606070;font-weight:400"></span></h2>
+    <div id="bloodworkBody" style="font-size:13px;color:#808090">Нет данных.</div>
+  </div>
+
   <div class="card wide">
     <h2>Динамика веса</h2>
     <div class="chart-wrap"><canvas id="weightChart"></canvas></div>
@@ -1215,6 +1220,9 @@ function addCoachButtons() {
     if (h2text.includes('ключевые проблемы')) {
       expertKeys.push('health_doctor', 'health_endo');
     }
+    if (h2text.includes('анализы крови')) {
+      expertKeys.push('health_endo', 'health_doctor');
+    }
     if (h2text.includes('питание') || h2text.includes('рекомендации к ironstar')) {
       expertKeys.push('nutrition_expert');
     }
@@ -1865,6 +1873,32 @@ function handleLabUpload(e) {
   el.innerHTML = `<div style="background:#16213e;border-radius:8px;padding:12px;font-size:13px"><span style="color:#4ade80">✓</span> Загружен: <b>${file.name}</b> (${(file.size/1024).toFixed(0)} KB)<br><span style="color:#808090;font-size:11px">Файл сохранён локально. Для анализа отправь тренеру.</span></div>`;
 }
 
+function renderBloodwork() {
+  const bw = DATA?.bloodwork;
+  const body = document.getElementById('bloodworkBody');
+  if (!body || !bw) return;
+  const dateEl = document.getElementById('bloodworkDate');
+  if (dateEl && bw.date) {
+    const [y, m, dd] = bw.date.split('-');
+    dateEl.textContent = `${dd}.${m}.${y}`;
+  }
+  const colors = { ok: '#4ade80', warn: '#fbbf24', bad: '#f87171' };
+  const marks = { ok: 'норма', warn: 'внимание', bad: 'отклонение' };
+  const rows = (bw.tests || []).map(t => {
+    const c = colors[t.status] || '#d0e0d0';
+    return `<tr><td>${t.name}</td>`
+      + `<td style="color:${c};font-weight:600">${t.value} <span style="color:#606070;font-weight:400">${t.unit || ''}</span></td>`
+      + `<td style="color:#808090">${t.ref || ''}</td>`
+      + `<td style="color:${c}">${marks[t.status] || ''}</td>`
+      + `<td style="color:#a0a0b0">${t.comment || ''}</td></tr>`;
+  }).join('');
+  const missing = (bw.missing || []).map(m => `<li style="color:#fbbf24">▪️ ${m}</li>`).join('');
+  body.innerHTML = `<table class="health-table">`
+    + `<tr><th>Показатель</th><th>Результат</th><th>Норма</th><th>Статус</th><th>Комментарий</th></tr>${rows}</table>`
+    + (bw.note ? `<div style="margin-top:8px;font-size:11px;color:#606070">${bw.note}${bw.lab ? ' · ' + bw.lab : ''}</div>` : '')
+    + (missing ? `<div style="margin-top:12px"><div style="font-size:12px;color:#808090;margin-bottom:4px">Ещё стоит сдать:</div><ul style="list-style:none;font-size:12px;line-height:1.9">${missing}</ul></div>` : '');
+}
+
 // Init
 (async function init() {
   try {
@@ -1883,6 +1917,7 @@ function handleLabUpload(e) {
   renderToday();
   renderWeek();
   renderCharts(DATA || { runData: [], sleepData: [], hrData: [], swimData: [] });
+  renderBloodwork();
   addCoachButtons();
   setupExpand();
   loadMealsFromServer().then(() => renderMeals());
