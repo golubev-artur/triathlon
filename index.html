@@ -563,7 +563,13 @@
 
   <div class="card wide" id="bloodworkCard">
     <h2>Анализы крови <span id="bloodworkDate" style="font-size:11px;color:#606070;font-weight:400"></span></h2>
+    <div id="bloodworkDates" style="margin-bottom:10px"></div>
     <div id="bloodworkBody" style="font-size:13px;color:#808090">Нет данных.</div>
+  </div>
+
+  <div class="card wide" id="supplementsCard">
+    <h2>Витамины и добавки <span id="supplementsDate" style="font-size:11px;color:#606070;font-weight:400"></span></h2>
+    <div id="supplementsBody" style="font-size:13px;color:#808090">Нет данных.</div>
   </div>
 
   <div class="card wide">
@@ -1223,6 +1229,9 @@ function addCoachButtons() {
     if (h2text.includes('анализы крови')) {
       expertKeys.push('health_endo', 'health_doctor');
     }
+    if (h2text.includes('витамины и добавки')) {
+      expertKeys.push('health_endo', 'nutrition_expert');
+    }
     if (h2text.includes('питание') || h2text.includes('рекомендации к ironstar')) {
       expertKeys.push('nutrition_expert');
     }
@@ -1873,30 +1882,106 @@ function handleLabUpload(e) {
   el.innerHTML = `<div style="background:#16213e;border-radius:8px;padding:12px;font-size:13px"><span style="color:#4ade80">✓</span> Загружен: <b>${file.name}</b> (${(file.size/1024).toFixed(0)} KB)<br><span style="color:#808090;font-size:11px">Файл сохранён локально. Для анализа отправь тренеру.</span></div>`;
 }
 
+function fmtLabDate(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-');
+  return `${d}.${m}.${y}`;
+}
+
+const LAB_COLORS = { ok: '#4ade80', warn: '#fbbf24', bad: '#f87171' };
+const LAB_MARKS = { ok: 'норма', warn: 'внимание', bad: 'отклонение' };
+
 function renderBloodwork() {
   const bw = DATA?.bloodwork;
   const body = document.getElementById('bloodworkBody');
   if (!body || !bw) return;
-  const dateEl = document.getElementById('bloodworkDate');
-  if (dateEl && bw.date) {
-    const [y, m, dd] = bw.date.split('-');
-    dateEl.textContent = `${dd}.${m}.${y}`;
+  const dates = (bw.dates || []).map(x => x.date);
+  const last = dates[dates.length - 1];
+
+  const titleEl = document.getElementById('bloodworkDate');
+  if (titleEl) titleEl.textContent = last ? fmtLabDate(last) : '';
+
+  // Таблица дат сдачи
+  const datesEl = document.getElementById('bloodworkDates');
+  if (datesEl) {
+    datesEl.innerHTML = `<table class="health-table">`
+      + `<tr><th>Дата сдачи</th><th>Панель</th><th>Лаборатория</th><th>Итог</th></tr>`
+      + (bw.dates || []).map(x => `<tr>`
+          + `<td style="color:#d0e0d0;font-weight:600;white-space:nowrap">${fmtLabDate(x.date)}</td>`
+          + `<td style="color:#a0a0b0">${x.panel || ''}</td>`
+          + `<td style="color:#808090">${x.lab || ''}</td>`
+          + `<td style="color:#4ade80">${x.note || ''}</td></tr>`).join('')
+      + `</table>`;
   }
-  const colors = { ok: '#4ade80', warn: '#fbbf24', bad: '#f87171' };
-  const marks = { ok: 'норма', warn: 'внимание', bad: 'отклонение' };
-  const rows = (bw.tests || []).map(t => {
-    const c = colors[t.status] || '#d0e0d0';
-    return `<tr><td>${t.name}</td>`
-      + `<td style="color:${c};font-weight:600">${t.value} <span style="color:#606070;font-weight:400">${t.unit || ''}</span></td>`
-      + `<td style="color:#808090">${t.ref || ''}</td>`
-      + `<td style="color:${c}">${marks[t.status] || ''}</td>`
-      + `<td style="color:#a0a0b0">${t.comment || ''}</td></tr>`;
+
+  // Таблица показателей: колонка на каждую дату
+  const head = `<tr><th>Показатель</th><th>Норма</th>`
+    + dates.map(dt => `<th style="white-space:nowrap">${fmtLabDate(dt)}</th>`).join('')
+    + `<th>Статус</th><th>Комментарий</th></tr>`;
+  const rows = (bw.markers || []).map(m => {
+    const c = LAB_COLORS[m.status] || '#d0e0d0';
+    const cells = dates.map(dt => {
+      const v = m.values?.[dt];
+      return v === undefined || v === null
+        ? `<td style="color:#4a4a5a">—</td>`
+        : `<td style="color:${c};font-weight:600;white-space:nowrap">${v}</td>`;
+    }).join('');
+    return `<tr><td>${m.name}<div style="font-size:10px;color:#606070">${m.unit || ''}</div></td>`
+      + `<td style="color:#808090;white-space:nowrap">${m.ref || ''}</td>${cells}`
+      + `<td style="color:${c}">${LAB_MARKS[m.status] || ''}</td>`
+      + `<td style="color:#a0a0b0">${m.comment || ''}</td></tr>`;
   }).join('');
-  const missing = (bw.missing || []).map(m => `<li style="color:#fbbf24">▪️ ${m}</li>`).join('');
-  body.innerHTML = `<table class="health-table">`
-    + `<tr><th>Показатель</th><th>Результат</th><th>Норма</th><th>Статус</th><th>Комментарий</th></tr>${rows}</table>`
-    + (bw.note ? `<div style="margin-top:8px;font-size:11px;color:#606070">${bw.note}${bw.lab ? ' · ' + bw.lab : ''}</div>` : '')
+  const missing = (bw.missing || []).map(x => `<li style="color:#fbbf24">▪️ ${x}</li>`).join('');
+
+  body.innerHTML = `<div style="overflow-x:auto"><table class="health-table">${head}${rows}</table></div>`
+    + (bw.note ? `<div style="margin-top:8px;font-size:11px;color:#606070">${bw.note}</div>` : '')
     + (missing ? `<div style="margin-top:12px"><div style="font-size:12px;color:#808090;margin-bottom:4px">Ещё стоит сдать:</div><ul style="list-style:none;font-size:12px;line-height:1.9">${missing}</ul></div>` : '');
+}
+
+function renderSupplements() {
+  const sup = DATA?.supplements;
+  const body = document.getElementById('supplementsBody');
+  if (!body || !sup) return;
+
+  const dateEl = document.getElementById('supplementsDate');
+  if (dateEl) dateEl.textContent = sup.updated ? fmtLabDate(sup.updated) : '';
+
+  const badge = { now: ['#4ade80', 'принимать'], test: ['#fbbf24', 'после анализа'] };
+  const rows = (sup.items || []).map((it, i) => {
+    const [c, label] = badge[it.status] || ['#d0e0d0', ''];
+    return `<tr class="supp-row" data-i="${i}" style="cursor:pointer">`
+      + `<td style="color:#606070;width:14px"><span class="supp-arrow" id="suppArrow${i}">▶</span></td>`
+      + `<td style="color:#d0e0d0;font-weight:600">${it.name}</td>`
+      + `<td style="white-space:nowrap">${it.dose || ''}</td>`
+      + `<td style="color:#808090">${it.when || ''}</td>`
+      + `<td style="color:#a0a0b0">${it.why || ''}</td>`
+      + `<td style="color:${c};white-space:nowrap">${label}</td></tr>`
+      + `<tr id="suppDetail${i}" style="display:none"><td colspan="6" style="padding:0 6px 10px">`
+      + `<div style="background:linear-gradient(135deg,#1e1a2e,#16213e);border:1px solid #3a2a5a;border-radius:8px;padding:12px;font-size:13px;line-height:1.6;color:#d0e0d0;white-space:pre-line">`
+      + `<div style="font-weight:700;color:#a78bfa;font-size:14px;margin-bottom:6px">Комментарий врача — ${it.name}</div>${it.detail || ''}</div></td></tr>`;
+  }).join('');
+
+  const avoid = (sup.avoid || []).map(a =>
+    `<li style="color:#f87171;margin-bottom:4px">▪️ <b>${a.name}</b> <span style="color:#808090">— ${a.reason}</span></li>`).join('');
+
+  body.innerHTML = (sup.basis ? `<div style="font-size:12px;color:#808090;margin-bottom:10px">${sup.basis}</div>` : '')
+    + `<div style="overflow-x:auto"><table class="health-table">`
+    + `<tr><th></th><th>Добавка</th><th>Доза</th><th>Когда</th><th>Зачем</th><th>Статус</th></tr>${rows}</table></div>`
+    + `<div style="margin-top:6px;font-size:11px;color:#606070">Нажми на строку — развернётся пояснение врача.</div>`
+    + (avoid ? `<div style="margin-top:12px"><div style="font-size:12px;color:#808090;margin-bottom:4px">Не принимать:</div><ul style="list-style:none;font-size:12px;line-height:1.7">${avoid}</ul></div>` : '')
+    + (sup.disclaimer ? `<div style="margin-top:12px;font-size:11px;color:#606070;font-style:italic">${sup.disclaimer}</div>` : '');
+
+  body.querySelectorAll('.supp-row').forEach(row => {
+    row.addEventListener('click', e => {
+      e.stopPropagation();
+      const i = row.dataset.i;
+      const det = document.getElementById('suppDetail' + i);
+      const arr = document.getElementById('suppArrow' + i);
+      const open = det.style.display !== 'none';
+      det.style.display = open ? 'none' : 'table-row';
+      if (arr) arr.textContent = open ? '▶' : '▼';
+    });
+  });
 }
 
 // Init
@@ -1916,8 +2001,9 @@ function renderBloodwork() {
 
   renderToday();
   renderWeek();
-  renderCharts(DATA || { runData: [], sleepData: [], hrData: [], swimData: [] });
   renderBloodwork();
+  renderSupplements();
+  renderCharts(DATA || { runData: [], sleepData: [], hrData: [], swimData: [] });
   addCoachButtons();
   setupExpand();
   loadMealsFromServer().then(() => renderMeals());
