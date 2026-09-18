@@ -28,6 +28,13 @@ def load(name, default=None):
 def recent_actuals(days=14):
     """Список (дата, тип, минуты) за последние N дней из доступных источников."""
     out, today = [], dt.date.today()
+    # основной источник — прямая выгрузка из Garmin
+    for a in (load("garmin-activities.json", {}) or {}).get("activities", []):
+        date = dt.date.fromisoformat(a["date"])
+        if (today - date).days <= days and a.get("kind") in ("run", "bike", "swim"):
+            out.append((date, a["kind"], a.get("minutes", 0)))
+    if out:
+        return out
     acts = load("intervals-activities.json", []) or []
     for a in acts:
         d = (a.get("start_date_local") or "")[:10]

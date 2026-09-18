@@ -4,3 +4,4 @@ meals/meals-backups/
 .env
 intervals-activities.json
 autoplan.log
+garmin-activities.json
