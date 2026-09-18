@@ -801,10 +801,28 @@ const allWeeks = [
 
 const _todayD = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
 const _todayDStr = String(_todayD.getDate()).padStart(2, '0') + '.' + String(_todayD.getMonth() + 1).padStart(2, '0');
-const _idxToday = allWeeks.findIndex(w => w.days.some(d => d.date === _todayDStr));
-let currentWeekIdx = _idxToday >= 0 ? _idxToday : allWeeks.length - 1;
+let currentWeekIdx = 0;
 let calendarMode = false;
-const weekPlan = allWeeks[currentWeekIdx].days;
+let weekPlan = [];
+
+// Недели, сгенерированные планировщиком (scripts/autoplan.py → plan-weeks.json),
+// добавляются к зашитым в страницу и заменяют их при совпадении диапазона.
+function mergePlanWeeks(generated) {
+  for (const w of generated || []) {
+    const i = allWeeks.findIndex(x => x.range === w.range);
+    if (i >= 0) allWeeks[i] = w; else allWeeks.push(w);
+  }
+  const key = w => (w.days[0] && w.days[0].garminDate) || '';
+  allWeeks.sort((a, b) => key(a).localeCompare(key(b)));
+  selectCurrentWeek();
+}
+
+function selectCurrentWeek() {
+  const i = allWeeks.findIndex(w => w.days.some(d => d.date === _todayDStr));
+  currentWeekIdx = i >= 0 ? i : allWeeks.length - 1;
+  weekPlan = allWeeks[currentWeekIdx].days;
+}
+selectCurrentWeek();
 
 let DATA = null;
 let reschedules = [];
@@ -1989,6 +2007,11 @@ function renderSupplements() {
   try {
     const resp = await fetch('data.json?t=' + Date.now());
     if (resp.ok) DATA = await resp.json();
+  } catch {}
+
+  try {
+    const pr = await fetch('plan-weeks.json?t=' + Date.now());
+    if (pr.ok) mergePlanWeeks((await pr.json()).weeks);
   } catch {}
 
   if (DATA) {

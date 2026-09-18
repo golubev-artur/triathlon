@@ -1,0 +1,22 @@
+{
+  "_комментарий": "Настройки автопланировщика. Правь руками — скрипт читает их каждый запуск.",
+  "raceDate": null,
+  "raceName": "",
+  "weeklyHours": 7.0,
+  "swimAvailable": false,
+  "restDays": ["fri"],
+  "longDays": ["sat", "sun"],
+  "morningTime": "6:30",
+  "eveningTime": "20:00",
+  "zones": {
+    "hrZ2": [136, 150],
+    "hrTempo": [155, 168],
+    "maxHR": 190,
+    "ltPace": "5:05",
+    "z2Pace": ["6:00", "5:40"],
+    "tempoPace": ["5:45", "5:30"],
+    "ftp": 185
+  },
+  "rampPercent": 10,
+  "returnFactor": 0.65
+}
