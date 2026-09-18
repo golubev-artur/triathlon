@@ -33,7 +33,7 @@ def load_env():
     return key, athlete
 
 
-def call(key, path, method="GET", payload=None):
+def call(key, path, method="GET", payload=None, raw=False):
     url = BASE + path
     data = json.dumps(payload).encode() if payload is not None else None
     req = urllib.request.Request(url, data=data, method=method)
@@ -46,6 +46,8 @@ def call(key, path, method="GET", payload=None):
     try:
         with urllib.request.urlopen(req, timeout=60) as r:
             body = r.read().decode()
+            if raw:
+                return r.status, body
             return json.loads(body) if body else None
     except urllib.error.HTTPError as e:
         sys.exit(f"{method} {path} → {e.code}: {e.read().decode()[:300]}")
@@ -87,8 +89,27 @@ def main():
     ap.add_argument("--push", action="store_true")
     ap.add_argument("--whoami", action="store_true")
     ap.add_argument("--days", type=int, default=30)
+    ap.add_argument("--debug", action="store_true", help="показать сырые ответы нескольких эндпоинтов")
     args = ap.parse_args()
     key, athlete = load_env()
+
+    if args.debug:
+        newest = dt.date.today()
+        oldest = newest - dt.timedelta(days=args.days)
+        probes = [
+            f"/athlete/{athlete}/activities?oldest={oldest}&newest={newest}",
+            f"/athlete/{athlete}/activities",
+            f"/athlete/{athlete}/activities?oldest={oldest}T00:00:00&newest={newest}T23:59:59",
+            f"/athlete/{athlete}/events?oldest={oldest}&newest={newest}",
+            f"/athlete/{athlete}/wellness?oldest={oldest}&newest={newest}",
+        ]
+        for pth in probes:
+            try:
+                code, body = call(key, pth, raw=True)
+                print(f"\n--- {pth}\n    HTTP {code}, длина {len(body)}\n    {body[:400]}")
+            except SystemExit as e:
+                print(f"\n--- {pth}\n    {e}")
+        return
 
     if args.whoami or not (args.pull or args.push):
         me = call(key, f"/athlete/{athlete}/profile")
