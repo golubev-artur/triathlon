@@ -1,2 +1,5 @@
 meals.json
 meals/meals-backups/
+
+.env
+intervals-activities.json
