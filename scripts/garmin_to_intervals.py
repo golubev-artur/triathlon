@@ -43,8 +43,8 @@ def main():
     args = ap.parse_args()
     key, athlete = load_env()
 
-    import garth
-    garth.resume(os.path.expanduser("~/.garth"))
+    from garmin import connect
+    garth = connect()   # спросит логин один раз, дальше по токену
 
     # что уже есть в intervals.icu — чтобы не заливать дважды
     newest = dt.date.today()
