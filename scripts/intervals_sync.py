@@ -40,6 +40,9 @@ def call(key, path, method="GET", payload=None):
     token = base64.b64encode(f"API_KEY:{key}".encode()).decode()
     req.add_header("Authorization", "Basic " + token)
     req.add_header("Content-Type", "application/json")
+    # без внятного User-Agent Cloudflare отбивает запрос (403, error code 1010)
+    req.add_header("User-Agent", "triathlon-dashboard/1.0 (+https://github.com/golubev-artur/triathlon)")
+    req.add_header("Accept", "*/*")
     try:
         with urllib.request.urlopen(req, timeout=60) as r:
             body = r.read().decode()
@@ -88,8 +91,9 @@ def main():
     key, athlete = load_env()
 
     if args.whoami or not (args.pull or args.push):
-        me = call(key, "/athlete/0")
-        print(f"Ключ рабочий: {me.get('name')} (id {me.get('id')}), часовой пояс {me.get('timezone')}")
+        me = call(key, f"/athlete/{athlete}/profile")
+        ath = (me or {}).get("athlete", me) or {}
+        print(f"Ключ рабочий: {ath.get('name')} (id {ath.get('id', athlete)}), часовой пояс {ath.get('timezone')}")
         if not (args.pull or args.push):
             return
 
