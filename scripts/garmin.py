@@ -25,10 +25,22 @@ KIND = {"running": "run", "trail_running": "run", "treadmill_running": "run", "i
 def connect():
     import garth
     token_dir = os.path.expanduser("~/.garth")
+
+    # В CI пароль вводить некому: токен передаётся секретом GARTH_TOKEN_B64
+    # (base64 от содержимого ~/.garth, получить: scripts/garth_token.py)
+    tok = os.getenv("GARTH_TOKEN_B64")
+    if tok and not os.path.exists(os.path.join(token_dir, "oauth1_token.json")):
+        import base64, io as _io, tarfile
+        os.makedirs(token_dir, exist_ok=True)
+        with tarfile.open(fileobj=_io.BytesIO(base64.b64decode(tok)), mode="r:gz") as tf:
+            tf.extractall(token_dir)
+
     try:
         garth.resume(token_dir)
         garth.client.username
     except Exception:
+        if not sys.stdin.isatty() and not os.getenv("GARMIN_EMAIL"):
+            raise SystemExit("Нет входа в Garmin: задай GARTH_TOKEN_B64 или GARMIN_EMAIL/GARMIN_PASSWORD")
         email = os.getenv("GARMIN_EMAIL") or input("Garmin email: ")
         password = os.getenv("GARMIN_PASSWORD") or getpass.getpass("Garmin password: ")
         garth.login(email, password)

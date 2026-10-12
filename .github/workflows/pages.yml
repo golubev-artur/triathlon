@@ -2,6 +2,10 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # коммиты из garmin-sync сделаны GITHUB_TOKEN и push-триггер не будят
+  workflow_run:
+    workflows: ["Garmin sync"]
+    types: [completed]
 permissions:
   contents: read
   pages: write

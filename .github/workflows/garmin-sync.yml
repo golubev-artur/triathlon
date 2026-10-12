@@ -1,0 +1,69 @@
+name: Garmin sync
+
+# Каждый день забирает тренировки из Garmin, по воскресеньям строит план
+# на следующую неделю и кладёт его в часы. Результат коммитится в main —
+# дашборд пересобирается сам (pages.yml).
+#
+# Секреты репозитория (Settings → Secrets and variables → Actions):
+#   GARTH_TOKEN_B64  — токен Garmin (предпочтительно, см. scripts/garth_token.py)
+#   или GARMIN_EMAIL + GARMIN_PASSWORD
+
+on:
+  schedule:
+    - cron: "0 4 * * *"      # каждый день 07:00 МСК
+  workflow_dispatch:          # кнопка Run workflow для ручного запуска
+
+permissions:
+  contents: write
+
+concurrency:
+  group: garmin-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GARTH_TOKEN_B64: ${{ secrets.GARTH_TOKEN_B64 }}
+      GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
+      GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Зависимости
+        run: pip install --quiet garth requests
+
+      - name: Забрать тренировки из Garmin
+        run: python scripts/garmin.py --pull --days 90
+
+      - name: План на следующую неделю (по воскресеньям или вручную)
+        run: |
+          if [ "$(date -u +%u)" = "7" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python scripts/autoplan.py --week next
+          else
+            echo "не воскресенье — план не пересобираем"
+          fi
+
+      - name: Тренировки в часы
+        run: |
+          if git diff --quiet garmin-workouts.json; then
+            echo "план не менялся — в часы ничего не шлём"
+          else
+            python scripts/garmin.py --push
+          fi
+
+      - name: Сохранить результаты
+        run: |
+          git config user.name "garmin-sync"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f garmin-activities.json plan-weeks.json garmin-workouts.json
+          if git diff --cached --quiet; then
+            echo "изменений нет"
+          else
+            git commit -m "Garmin: синхронизация $(date -u +%d.%m.%Y)"
+            git push
+          fi
