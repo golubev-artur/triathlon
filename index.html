@@ -301,6 +301,15 @@
     <div id="calendarContent" style="display:none"></div>
   </div>
 
+  <div class="card wide" id="garminHistoryCard" hidden>
+    <h2>История из Garmin</h2>
+    <div class="stat-row" id="ghStats"></div>
+    <div id="ghRaces"></div>
+    <div style="font-size:12px;color:#808090;margin:10px 0 6px">Последние тренировки</div>
+    <div style="overflow-x:auto"><table id="ghRecent" style="width:100%;border-collapse:collapse;font-size:12px"></table></div>
+    <div id="ghUpdated" style="font-size:10px;color:#505060;margin-top:8px"></div>
+  </div>
+
   <div class="card">
     <h2>Текущая форма</h2>
     <div class="stat-row">
@@ -2003,6 +2012,58 @@ function renderSupplements() {
 }
 
 // Init
+// История тренировок из Garmin (garmin-activities.json пишет garmin-sync.yml)
+async function renderGarminHistory() {
+  let data;
+  try {
+    const r = await fetch('garmin-activities.json?t=' + Date.now());
+    if (!r.ok) return;
+    data = await r.json();
+  } catch { return; }
+  const acts = (data.activities || []).filter(a => a.date);
+  if (!acts.length) return;
+
+  const sum = (list, f) => list.reduce((s, a) => s + (a[f] || 0), 0);
+  const of = k => acts.filter(a => a.kind === k);
+  const hours = Math.round(sum(acts, 'minutes') / 60);
+  const year = String(new Date().getFullYear());
+  const thisYear = acts.filter(a => a.date.startsWith(year));
+  const cell = (cls, val, label) => `<div class="stat ${cls}"><div class="val">${val}</div><div class="label">${label}</div></div>`;
+  document.getElementById('ghStats').innerHTML =
+    cell('green', acts.length, `тренировок с ${acts[acts.length - 1].date.slice(0, 7).split('-').reverse().join('.')}`) +
+    cell('blue', hours, 'часов всего') +
+    cell('blue', thisYear.length, `тренировок в ${year}`) +
+    cell('red', Math.round(sum(of('run'), 'km')), 'км бега') +
+    cell('yellow', Math.round(sum(of('bike'), 'km')), 'км вело') +
+    cell('cyan', Math.round(sum(of('swim'), 'km') * 10) / 10, 'км плавания');
+
+  const fmtDur = m => `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`;
+  const races = acts.filter(a => a.race || a.kind === 'tri');
+  document.getElementById('ghRaces').innerHTML = races.length
+    ? `<div style="font-size:12px;color:#808090;margin:4px 0 6px">Гонки и мультиспорт</div>` +
+      races.map(a => `<div style="display:flex;gap:10px;padding:6px 0;border-top:1px solid #1e3a5f;font-size:12px">
+        <span style="color:#fbbf24">🏁</span><span style="color:#a0a0b0;min-width:72px">${a.date.split('-').reverse().join('.')}</span>
+        <span style="flex:1;color:#fff">${a.name || ''}</span><span style="color:#7dd3fc">${fmtDur(a.minutes)}</span>
+        <span style="color:#a0a0b0">${a.km} км</span></div>`).join('')
+    : '';
+
+  const kindRu = { run: 'Бег', bike: 'Вело', swim: 'Плав', tri: 'Мульти', gym: 'Зал', walk: 'Ходьба', other: '—' };
+  const color = { run: '#f87171', bike: '#fbbf24', swim: '#67e8f9', tri: '#e94560' };
+  document.getElementById('ghRecent').innerHTML = acts.slice(0, 10).map(a =>
+    `<tr style="border-top:1px solid #1e3a5f">
+      <td style="padding:5px 6px 5px 0;color:#a0a0b0;white-space:nowrap">${a.date.slice(5).split('-').reverse().join('.')}</td>
+      <td style="padding:5px 6px;color:${color[a.kind] || '#a0a0b0'};white-space:nowrap">${kindRu[a.kind] || a.kind}</td>
+      <td style="padding:5px 6px;color:#e0e0e0">${a.name || ''}</td>
+      <td style="padding:5px 6px;color:#7dd3fc;white-space:nowrap;text-align:right">${a.minutes} мин</td>
+      <td style="padding:5px 6px;color:#a0a0b0;white-space:nowrap;text-align:right">${a.km ? a.km + ' км' : ''}</td>
+      <td style="padding:5px 0 5px 6px;color:#f87171;white-space:nowrap;text-align:right">${a.avgHR ? '♥' + Math.round(a.avgHR) : ''}</td>
+    </tr>`).join('');
+
+  if (data.pulled) document.getElementById('ghUpdated').textContent =
+    'Обновлено ' + new Date(data.pulled).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  document.getElementById('garminHistoryCard').hidden = false;
+}
+
 (async function init() {
   try {
     const resp = await fetch('data.json?t=' + Date.now());
@@ -2025,6 +2086,7 @@ function renderSupplements() {
   renderToday();
   renderWeek();
   renderBloodwork();
+  renderGarminHistory();
   renderSupplements();
   renderCharts(DATA || { runData: [], sleepData: [], hrData: [], swimData: [] });
   addCoachButtons();
