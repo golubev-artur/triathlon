@@ -5,13 +5,18 @@ name: Garmin sync
 # дашборд пересобирается сам (pages.yml).
 #
 # Секреты репозитория (Settings → Secrets and variables → Actions):
-#   GARTH_TOKEN_B64  — токен Garmin (предпочтительно, см. scripts/garth_token.py)
-#   или GARMIN_EMAIL + GARMIN_PASSWORD
+#   GARMIN_EMAIL, GARMIN_PASSWORD
+# Пароль нужен только для первого входа: токен сохраняется в кэше Actions,
+# обновляется сам, и дальше Garmin видит один и тот же вход, а не новый каждый день.
 
 on:
   schedule:
     - cron: "0 4 * * *"      # каждый день 07:00 МСК
-  workflow_dispatch:          # кнопка Run workflow для ручного запуска
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Сколько дней истории забрать (3650 — вся, с гонками)"
+        default: "3650"
 
 permissions:
   contents: write
@@ -24,9 +29,9 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     env:
-      GARTH_TOKEN_B64: ${{ secrets.GARTH_TOKEN_B64 }}
       GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
       GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+      GARMINTOKENS: ~/.garminconnect
     steps:
       - uses: actions/checkout@v4
 
@@ -35,10 +40,24 @@ jobs:
           python-version: "3.12"
 
       - name: Зависимости
-        run: pip install --quiet garth requests
+        run: pip install --quiet garminconnect
+
+      - name: Токен Garmin из прошлых запусков
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.garminconnect
+          key: garmin-tokens-${{ github.run_id }}
+          restore-keys: garmin-tokens-
 
       - name: Забрать тренировки из Garmin
-        run: python scripts/garmin.py --pull --days 90
+        run: python scripts/garmin.py --pull --days "${{ github.event.inputs.days || '90' }}"
+
+      - name: Сохранить токен для следующих запусков
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.garminconnect
+          key: garmin-tokens-${{ github.run_id }}
 
       - name: План на следующую неделю (по воскресеньям или вручную)
         run: |

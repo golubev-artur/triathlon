@@ -2,15 +2,8 @@
 # -*- coding: utf-8 -*-
 """Загрузка тренировок из garmin-workouts.json в Garmin Connect.
 
-Запуск на машине с доступом к аккаунту Garmin:
-
-    pip install garth
-    export GARMIN_EMAIL=...            # или введёт интерактивно
-    export GARMIN_PASSWORD=...
-    python3 scripts/push_to_garmin.py            # создать + поставить в календарь
-    python3 scripts/push_to_garmin.py --dry-run  # только показать, что будет создано
-
-Токен сессии сохраняется в ~/.garth, повторный логин не нужен.
+Сейчас это модуль сборки тренировок (build_workout); вход и отправку делает
+scripts/garmin.py --push. Запуск этого файла просто вызывает его.
 """
 import argparse, getpass, json, os, sys
 
@@ -93,52 +86,10 @@ def build_workout(w):
 
 
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--file", default=os.path.join(os.path.dirname(__file__), "..", "garmin-workouts.json"))
-    ap.add_argument("--dry-run", action="store_true")
-    args = ap.parse_args()
-
-    data = json.load(open(os.path.abspath(args.file), encoding="utf-8"))
-    workouts = data["workouts"]
-
-    if args.dry_run:
-        for w in workouts:
-            print(f"{w['date']}  {w['sport']:8}  {w['name']}  ({w['estimatedDurationMin']} мин)")
-            print(json.dumps(build_workout(w), ensure_ascii=False)[:200] + " ...")
-        print(f"\nВсего: {len(workouts)} тренировок (--dry-run, ничего не отправлено)")
-        return
-
-    import garth
-
-    token_dir = os.path.expanduser("~/.garth")
-    try:
-        garth.resume(token_dir)
-        garth.client.username
-    except Exception:
-        email = os.getenv("GARMIN_EMAIL") or input("Garmin email: ")
-        password = os.getenv("GARMIN_PASSWORD") or getpass.getpass("Garmin password: ")
-        garth.login(email, password)
-        garth.save(token_dir)
-
-    ok, failed = 0, []
-    for w in workouts:
-        try:
-            created = garth.connectapi("/workout-service/workout", method="POST", json=build_workout(w))
-            wid = created["workoutId"]
-            garth.connectapi(f"/workout-service/schedule/{wid}", method="POST", json={"date": w["date"]})
-            print(f"✓ {w['date']}  {w['name']}  (id {wid})")
-            ok += 1
-        except Exception as e:
-            print(f"✗ {w['date']}  {w['name']}: {e}", file=sys.stderr)
-            failed.append(w["name"])
-
-    print(f"\nЗагружено {ok} из {len(workouts)}")
-    if failed:
-        print("Не прошли: " + ", ".join(failed))
-    if data.get("dryLandSwim"):
-        print("\nСухое плавание (в Garmin не загружается, сделай вручную или пропусти):")
-        for d in data["dryLandSwim"]:
-            print(f"  {d['date']}  {d['durationMin']} мин — {d['content']}")
+    # Вход и отправка теперь живут в garmin.py (garth больше не умеет входить в Garmin)
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from garmin import connect, push
+    push(connect())
 
 
 if __name__ == "__main__":

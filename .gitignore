@@ -5,3 +5,4 @@ meals/meals-backups/
 intervals-activities.json
 autoplan.log
 garmin-activities.json
+__pycache__/
