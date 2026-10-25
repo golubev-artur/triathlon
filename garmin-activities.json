@@ -1,5 +1,5 @@
 {
-  "pulled": "2026-10-24T08:35:21",
+  "pulled": "2026-10-25T08:54:30",
   "days": 90,
   "activities": [
     {
@@ -409,23 +409,6 @@
       "elevation": 0,
       "trainingLoad": 45.0299072265625,
       "aerobicTE": 2.5
-    },
-    {
-      "id": 23741816784,
-      "date": "2026-07-26",
-      "time": "13:18",
-      "kind": "swim",
-      "garminType": "open_water_swimming",
-      "race": false,
-      "name": "Котельники Плавание в открытой воде",
-      "minutes": 42,
-      "km": 1.57,
-      "avgHR": 145.0,
-      "maxHR": 164.0,
-      "avgPower": null,
-      "elevation": 0,
-      "trainingLoad": 148.0885467529297,
-      "aerobicTE": 3.700000047683716
     }
   ]
 }

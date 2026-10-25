@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-23",
+  "generated": "2026-10-25",
   "note": "Экспорт плана 29.08-13.09 для загрузки в Garmin Connect (Тренировки → Календарь). Плавание исключено: воды нет до старта, заменено сухим плаванием с резиной (в Garmin не загружается). Загружает локальный агент синхронизации, у которого есть доступ к аккаунту Garmin.",
   "athlete": {
     "maxHR": 190,
@@ -558,7 +558,7 @@
       "date": "2026-10-27",
       "sport": "running",
       "name": "Бег темповый Z3",
-      "estimatedDurationMin": 25,
+      "estimatedDurationMin": 20,
       "steps": [
         {
           "type": "warmup",
@@ -608,7 +608,7 @@
       "date": "2026-10-28",
       "sport": "cycling",
       "name": "Вело Sweet Spot",
-      "estimatedDurationMin": 30,
+      "estimatedDurationMin": 25,
       "steps": [
         {
           "type": "warmup",
@@ -694,42 +694,6 @@
       "date": "2026-10-31",
       "sport": "cycling",
       "name": "Длинное вело + брик",
-      "estimatedDurationMin": 60,
-      "steps": [
-        {
-          "type": "warmup",
-          "durationMin": 10,
-          "target": {
-            "type": "hr",
-            "low": 121,
-            "high": 136
-          }
-        },
-        {
-          "type": "interval",
-          "durationMin": 45,
-          "target": {
-            "type": "hr",
-            "low": 136,
-            "high": 150
-          },
-          "note": "60 мин (вело 45 + брик-бег 15), ЧСС до 155, питание каждые 20 мин"
-        },
-        {
-          "type": "cooldown",
-          "durationMin": 5,
-          "target": {
-            "type": "hr",
-            "low": 111,
-            "high": 136
-          }
-        }
-      ]
-    },
-    {
-      "date": "2026-11-01",
-      "sport": "running",
-      "name": "Длинный бег Z2",
       "estimatedDurationMin": 55,
       "steps": [
         {
@@ -749,7 +713,43 @@
             "low": 136,
             "high": 150
           },
-          "note": "55 мин, ЧСС 136-150, питьё каждые 20 мин"
+          "note": "55 мин (вело 40 + брик-бег 15), ЧСС до 155, питание каждые 20 мин"
+        },
+        {
+          "type": "cooldown",
+          "durationMin": 5,
+          "target": {
+            "type": "hr",
+            "low": 111,
+            "high": 136
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-11-01",
+      "sport": "running",
+      "name": "Длинный бег Z2",
+      "estimatedDurationMin": 45,
+      "steps": [
+        {
+          "type": "warmup",
+          "durationMin": 10,
+          "target": {
+            "type": "hr",
+            "low": 121,
+            "high": 136
+          }
+        },
+        {
+          "type": "interval",
+          "durationMin": 30,
+          "target": {
+            "type": "hr",
+            "low": 136,
+            "high": 150
+          },
+          "note": "45 мин, ЧСС 136-150, питьё каждые 20 мин"
         },
         {
           "type": "cooldown",
