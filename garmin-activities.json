@@ -1,5 +1,5 @@
 {
-  "pulled": "2026-11-01T10:59:41",
+  "pulled": "2026-11-02T11:58:03",
   "days": 90,
   "activities": [
     {
@@ -358,23 +358,6 @@
       "elevation": 0,
       "trainingLoad": 81.44232177734375,
       "aerobicTE": 3.0
-    },
-    {
-      "id": 23841372718,
-      "date": "2026-08-03",
-      "time": "14:05",
-      "kind": "run",
-      "garminType": "running",
-      "race": false,
-      "name": "Арзамасский район - Бег лёгкий Z2 — 40 м",
-      "minutes": 40,
-      "km": 7.43,
-      "avgHR": 145.0,
-      "maxHR": 161.0,
-      "avgPower": 339.0,
-      "elevation": 38,
-      "trainingLoad": 125.42259216308594,
-      "aerobicTE": 3.700000047683716
     }
   ]
 }
