@@ -301,6 +301,11 @@
     <div id="calendarContent" style="display:none"></div>
   </div>
 
+  <div class="card wide" id="weeksSummaryCard">
+    <h2>Сводка по неделям — план / факт</h2>
+    <div id="weeksSummaryBody" style="display:flex;flex-direction:column;gap:6px"></div>
+  </div>
+
   <div class="card wide" id="garminHistoryCard" hidden>
     <h2>История из Garmin</h2>
     <div class="stat-row" id="ghStats"></div>
@@ -1045,6 +1050,63 @@ function changeWeek(dir) {
   currentWeekIdx = next;
   if (calendarMode) { calendarMode = false; toggleCalendarView(); }
   renderWeek();
+}
+
+function renderWeeksSummary() {
+  const el = document.getElementById('weeksSummaryBody');
+  if (!el) return;
+  const msk = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+  const _todayDStr = String(msk.getDate()).padStart(2, '0') + '.' + String(msk.getMonth() + 1).padStart(2, '0');
+  let html = '';
+  for (let wi = 0; wi < allWeeks.length; wi++) {
+    const week = allWeeks[wi];
+    const days = week.days;
+    let planMin = 0, factMin = 0, done = 0, total = 0;
+    let hasAnyDay = false;
+    for (const d of days) {
+      const dateObj = new Date('2026-' + d.date.split('.').reverse().join('-'));
+      const isPast = dateObj < new Date(msk.toDateString());
+      const isToday = d.date === _todayDStr;
+      for (const t of d.trainings) {
+        if (t.movedTo) continue;
+        if (!t.movedFrom) {
+          total++;
+          const durMatch = t.details.match(/(\d+)\s*мин/);
+          planMin += durMatch ? parseInt(durMatch[1]) : 0;
+        }
+        if (t.done) {
+          done++;
+          const ga = d.actual && d.actual.find(a => a.type === t.type);
+          const durMatch = t.details.match(/(\d+)\s*мин/);
+          factMin += ga ? ga.duration : (durMatch ? parseInt(durMatch[1]) : 0);
+        }
+      }
+      if (d.extra) for (const e of d.extra) { done++; factMin += e.duration || 0; }
+      if (isPast || isToday) hasAnyDay = true;
+    }
+    if (total === 0 && done === 0) continue;
+    const pct = planMin > 0 ? Math.round(factMin / planMin * 100) : 0;
+    const isCurrent = wi === currentWeekIdx;
+    const barColor = !hasAnyDay ? '#3b3b5c' : pct >= 90 ? '#4ade80' : pct >= 50 ? '#fbbf24' : '#f87171';
+    const bg = isCurrent ? '#1e3a5f' : '#16213e';
+    const planH = Math.floor(planMin / 60), planM = planMin % 60;
+    const factH = Math.floor(factMin / 60), factM = factMin % 60;
+    const planStr = planH + 'ч' + (planM ? ' ' + planM + 'м' : '');
+    const factStr = factH + 'ч' + (factM ? ' ' + factM + 'м' : '');
+    html += `<div style="background:${bg};border-radius:8px;padding:8px 10px;cursor:pointer;border:${isCurrent ? '1px solid #e94560' : '1px solid transparent'}" onclick="currentWeekIdx=${wi};renderWeek();renderWeeksSummary()">`;
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">`;
+    html += `<span style="font-size:12px;font-weight:600;color:${isCurrent ? '#fff' : '#a0a0b0'}">${week.range}</span>`;
+    html += `<span style="font-size:11px;color:#808090">${done}/${total} трен.</span>`;
+    html += `</div>`;
+    html += `<div style="display:flex;align-items:center;gap:8px">`;
+    html += `<div style="flex:1;background:#2a2a4a;border-radius:4px;height:8px;overflow:hidden">`;
+    html += `<div style="width:${Math.min(pct, 100)}%;height:100%;background:${barColor};border-radius:4px;transition:width .3s"></div>`;
+    html += `</div>`;
+    html += `<span style="font-size:11px;color:${barColor};min-width:80px;text-align:right">${factStr} / ${planStr}</span>`;
+    html += `</div>`;
+    html += `</div>`;
+  }
+  el.innerHTML = html;
 }
 
 function toggleCalendar() {
@@ -2125,6 +2187,7 @@ function applyGarminActuals(data, weekStatus) {
 
   renderToday();
   renderWeek();
+  renderWeeksSummary();
   renderBloodwork();
   renderGarminHistory(GARMIN);
   renderSupplements();
