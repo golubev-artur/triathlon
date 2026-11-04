@@ -1012,7 +1012,7 @@ function renderWeek() {
     } else if (isPast && !isRest && d.trainings.length > 0 && (!d.actual || d.actual.length === 0)) {
       const notMoved = d.trainings.filter(t => !dayR.movedFrom.find(r => r.training === t.name));
       if (notMoved.length > 0 && notMoved.some(t => !t.done)) {
-        whtml += `<div class="wt" style="font-size:10px;color:#f87171;margin-top:2px;border-top:1px solid #1e3a5f;padding-top:2px">⚠ Нет данных Garmin</div>`;
+        whtml += `<div class="wt" style="font-size:10px;color:#f87171;margin-top:2px;border-top:1px solid #1e3a5f;padding-top:2px">⚠ ${d.garminChecked ? 'Не выполнено' : 'Нет данных Garmin'}</div>`;
       }
     }
     if (d.extra && d.extra.length > 0) {
@@ -2013,13 +2013,8 @@ function renderSupplements() {
 
 // Init
 // История тренировок из Garmin (garmin-activities.json пишет garmin-sync.yml)
-async function renderGarminHistory() {
-  let data;
-  try {
-    const r = await fetch('garmin-activities.json?t=' + Date.now());
-    if (!r.ok) return;
-    data = await r.json();
-  } catch { return; }
+function renderGarminHistory(data) {
+  if (!data) return;
   const acts = (data.activities || []).filter(a => a.date);
   if (!acts.length) return;
 
@@ -2064,6 +2059,44 @@ async function renderGarminHistory() {
   document.getElementById('garminHistoryCard').hidden = false;
 }
 
+// Факт по дням из Garmin: совпавшие по виду тренировки отмечаются выполненными,
+// остальное идёт в «бонус» (с пометкой, что это замена плана) — и всё считается в недельное время.
+// Дни, по которым есть ручные отметки в data.json (weekStatus), не трогаем.
+function applyGarminActuals(data, weekStatus) {
+  const acts = (data && data.activities) || [];
+  if (!acts.length) return;
+  const cutoff = (weekStatus || []).reduce((m, w) => w.date > m ? w.date : m, '');
+  const pulled = (data.pulled || '').slice(0, 10);
+  const byDate = {};
+  for (const a of acts) (byDate[a.date] = byDate[a.date] || []).push(a);
+  const ru = { run: 'бег', bike: 'вело', swim: 'плавание', gym: 'зал', tri: 'мультиспорт' };
+
+  for (const week of allWeeks) {
+    for (const d of week.days) {
+      if (!d.garminDate || d.garminDate <= cutoff || (pulled && d.garminDate > pulled)) continue;
+      const pool = (byDate[d.garminDate] || []).map(a => ({
+        type: a.kind, name: a.name || ru[a.kind] || a.kind, duration: a.minutes,
+        distance: a.km || null, avgHR: a.avgHR ? Math.round(a.avgHR) : null,
+      }));
+      const matched = [];
+      d.trainings.forEach(t => {
+        if (t.movedTo || t.movedFrom) return;
+        const i = pool.findIndex(a => a.type === t.type);
+        t.done = i >= 0;
+        if (i >= 0) matched.push(pool.splice(i, 1)[0]);
+      });
+      const missed = d.trainings.filter(t => !t.done && !t.movedTo && ['run', 'bike', 'swim'].includes(t.type));
+      d.garminChecked = true;
+      d.actual = matched;
+      d.extra = pool.map(a => ({
+        ...a,
+        name: missed.length && ['run', 'bike', 'swim'].includes(a.type)
+          ? `${a.name} (вместо: ${missed.map(t => ru[t.type] || t.type).join(', ')})` : a.name,
+      }));
+    }
+  }
+}
+
 (async function init() {
   try {
     const resp = await fetch('data.json?t=' + Date.now());
@@ -2081,12 +2114,19 @@ async function renderGarminHistory() {
     showUpdatedTime(DATA.updated);
   }
 
+  let GARMIN = null;
+  try {
+    const gr = await fetch('garmin-activities.json?t=' + Date.now());
+    if (gr.ok) GARMIN = await gr.json();
+  } catch {}
+  applyGarminActuals(GARMIN, DATA && DATA.weekStatus);
+
   try { const rr = await fetch(FOOD_API + '/reschedules'); if (rr.ok) reschedules = await rr.json(); } catch {}
 
   renderToday();
   renderWeek();
   renderBloodwork();
-  renderGarminHistory();
+  renderGarminHistory(GARMIN);
   renderSupplements();
   renderCharts(DATA || { runData: [], sleepData: [], hrData: [], swimData: [] });
   addCoachButtons();
