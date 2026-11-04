@@ -17,6 +17,9 @@ on:
       days:
         description: "Сколько дней истории забрать (3650 — вся, с гонками)"
         default: "3650"
+      autoplan:
+        description: "Пересобрать план автопланировщиком (true/false)"
+        default: "false"
 
 permissions:
   contents: write
@@ -59,12 +62,12 @@ jobs:
           path: ~/.garminconnect
           key: garmin-tokens-${{ github.run_id }}
 
-      - name: План на следующую неделю (по воскресеньям или вручную)
+      - name: План на следующую неделю (по воскресеньям или по запросу)
         run: |
-          if [ "$(date -u +%u)" = "7" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          if [ "$(date -u +%u)" = "7" ] || [ "${{ github.event.inputs.autoplan }}" = "true" ]; then
             python scripts/autoplan.py --week next
           else
-            echo "не воскресенье — план не пересобираем"
+            echo "автоплан не запрошен — план не пересобираем"
           fi
 
       - name: Тренировки в часы

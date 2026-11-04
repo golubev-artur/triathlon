@@ -104,6 +104,28 @@ def pull(api, days):
     return got
 
 
+def clean(api):
+    """Удалить все будущие запланированные тренировки из Garmin перед загрузкой новых."""
+    today = dt.date.today().isoformat()
+    try:
+        workouts = api.get_workouts() or []
+    except Exception as e:
+        print(f"⚠ Не удалось получить список тренировок: {e}")
+        return 0
+    removed = 0
+    for w in workouts:
+        sched = (w.get("scheduledDate") or "")[:10]
+        if sched >= today:
+            try:
+                api.delete_workout(w["workoutId"])
+                print(f"✗ удалена: {sched}  {w.get('workoutName', '?')}")
+                removed += 1
+            except Exception as e:
+                print(f"⚠ не удалось удалить {w.get('workoutName')}: {e}")
+    print(f"Очищено {removed} старых тренировок из календаря")
+    return removed
+
+
 def push(api):
     sys.path.insert(0, os.path.join(ROOT, "scripts"))
     from push_to_garmin import build_workout
@@ -113,6 +135,7 @@ def push(api):
     if not upcoming:
         print("В garmin-workouts.json нет тренировок на будущее — сначала построй план (autoplan.py)")
         return
+    clean(api)
     for w in upcoming:
         created = api.upload_workout(build_workout(w))
         api.schedule_workout(created["workoutId"], w["date"])
