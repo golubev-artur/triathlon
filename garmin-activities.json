@@ -1,7 +1,24 @@
 {
-  "pulled": "2026-11-03T11:33:59",
+  "pulled": "2026-11-04T11:48:56",
   "days": 90,
   "activities": [
+    {
+      "id": 24961910345,
+      "date": "2026-11-04",
+      "time": "13:07",
+      "kind": "run",
+      "garminType": "running",
+      "race": false,
+      "name": "Balashikha Running",
+      "minutes": 43,
+      "km": 7.85,
+      "avgHR": 149.0,
+      "maxHR": 170.0,
+      "avgPower": 348.0,
+      "elevation": 33,
+      "trainingLoad": 145.00636291503906,
+      "aerobicTE": 4.099999904632568
+    },
     {
       "id": 24819017611,
       "date": "2026-10-22",
@@ -290,57 +307,6 @@
       "elevation": 0,
       "trainingLoad": 53.364227294921875,
       "aerobicTE": 2.5
-    },
-    {
-      "id": 23865301430,
-      "date": "2026-08-05",
-      "time": "17:43",
-      "kind": "run",
-      "garminType": "running",
-      "race": false,
-      "name": "Арзамасский район Бег",
-      "minutes": 10,
-      "km": 1.85,
-      "avgHR": 143.0,
-      "maxHR": 156.0,
-      "avgPower": 341.0,
-      "elevation": 8,
-      "trainingLoad": 40.606842041015625,
-      "aerobicTE": 2.4000000953674316
-    },
-    {
-      "id": 23865300355,
-      "date": "2026-08-05",
-      "time": "15:18",
-      "kind": "bike",
-      "garminType": "cycling",
-      "race": false,
-      "name": "Арзамасский район Велосипед",
-      "minutes": 145,
-      "km": 69.76,
-      "avgHR": 132.0,
-      "maxHR": 172.0,
-      "avgPower": null,
-      "elevation": 538,
-      "trainingLoad": 148.22439575195312,
-      "aerobicTE": 3.5
-    },
-    {
-      "id": 23865297381,
-      "date": "2026-08-05",
-      "time": "15:10",
-      "kind": "bike",
-      "garminType": "cycling",
-      "race": false,
-      "name": "Велосипед",
-      "minutes": 5,
-      "km": 0.0,
-      "avgHR": 83.0,
-      "maxHR": 110.0,
-      "avgPower": null,
-      "elevation": 0,
-      "trainingLoad": 1.052947998046875,
-      "aerobicTE": 0.0
     }
   ]
 }
