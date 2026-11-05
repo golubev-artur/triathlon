@@ -1,5 +1,5 @@
 {
-  "pulled": "2026-11-04T18:52:26",
+  "pulled": "2026-11-05T07:56:12",
   "days": 90,
   "activities": [
     {
@@ -290,23 +290,6 @@
       "elevation": 21,
       "trainingLoad": 135.97601318359375,
       "aerobicTE": 3.700000047683716
-    },
-    {
-      "id": 23895621129,
-      "date": "2026-08-06",
-      "time": "17:05",
-      "kind": "swim",
-      "garminType": "open_water_swimming",
-      "race": false,
-      "name": "Арзамасский район Плавание в открытой воде",
-      "minutes": 29,
-      "km": 1.1,
-      "avgHR": 126.0,
-      "maxHR": 142.0,
-      "avgPower": null,
-      "elevation": 0,
-      "trainingLoad": 53.364227294921875,
-      "aerobicTE": 2.5
     }
   ]
 }
