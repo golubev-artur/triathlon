@@ -105,24 +105,24 @@ def pull(api, days):
 
 
 def clean(api):
-    """Удалить все будущие запланированные тренировки из Garmin перед загрузкой новых."""
-    today = dt.date.today().isoformat()
+    """Удалить все тренировки-определения из Garmin перед загрузкой новых."""
     try:
         workouts = api.get_workouts() or []
     except Exception as e:
         print(f"⚠ Не удалось получить список тренировок: {e}")
         return 0
+    print(f"Найдено {len(workouts)} тренировок в Garmin, удаляю все…")
     removed = 0
     for w in workouts:
-        sched = (w.get("scheduledDate") or "")[:10]
-        if sched >= today:
-            try:
-                api.delete_workout(w["workoutId"])
-                print(f"✗ удалена: {sched}  {w.get('workoutName', '?')}")
-                removed += 1
-            except Exception as e:
-                print(f"⚠ не удалось удалить {w.get('workoutName')}: {e}")
-    print(f"Очищено {removed} старых тренировок из календаря")
+        wid = w.get("workoutId")
+        name = w.get("workoutName", "?")
+        try:
+            api.delete_workout(wid)
+            print(f"  ✗ {wid}  {name}")
+            removed += 1
+        except Exception as e:
+            print(f"  ⚠ не удалось удалить {name} ({wid}): {e}")
+    print(f"Очищено {removed} тренировок из Garmin")
     return removed
 
 
