@@ -11,7 +11,8 @@ name: Garmin sync
 
 on:
   schedule:
-    - cron: "0 4 * * *"      # каждый день 07:00 МСК
+    - cron: "0 21 * * *"     # основной: 00:00 МСК (с задержкой GH — к утру)
+    - cron: "0 4 * * *"      # резервный: 07:00 МСК
   workflow_dispatch:
     inputs:
       days:
