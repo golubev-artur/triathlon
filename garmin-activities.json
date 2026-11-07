@@ -1,7 +1,24 @@
 {
-  "pulled": "2026-11-06T11:44:51",
+  "pulled": "2026-11-07T09:07:24",
   "days": 90,
   "activities": [
+    {
+      "id": 24989985835,
+      "date": "2026-11-06",
+      "time": "21:46",
+      "kind": "bike",
+      "garminType": "indoor_cycling",
+      "race": false,
+      "name": "Tacx - Вело восстановительное 30'",
+      "minutes": 30,
+      "km": 15.39,
+      "avgHR": null,
+      "maxHR": null,
+      "avgPower": 134.0,
+      "elevation": 0,
+      "trainingLoad": null,
+      "aerobicTE": null
+    },
     {
       "id": 24961910345,
       "date": "2026-11-04",
