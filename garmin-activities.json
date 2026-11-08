@@ -1,5 +1,5 @@
 {
-  "pulled": "2026-11-07T10:51:20",
+  "pulled": "2026-11-08T00:11:20",
   "days": 90,
   "activities": [
     {
@@ -290,23 +290,6 @@
       "elevation": 42,
       "trainingLoad": 139.2652130126953,
       "aerobicTE": 3.9000000953674316
-    },
-    {
-      "id": 23916573638,
-      "date": "2026-08-09",
-      "time": "13:05",
-      "kind": "run",
-      "garminType": "running",
-      "race": false,
-      "name": "Балашиха - База",
-      "minutes": 48,
-      "km": 8.79,
-      "avgHR": 143.0,
-      "maxHR": 155.0,
-      "avgPower": 335.0,
-      "elevation": 21,
-      "trainingLoad": 135.97601318359375,
-      "aerobicTE": 3.700000047683716
     }
   ]
 }

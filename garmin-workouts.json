@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-04",
+  "generated": "2026-11-08",
   "note": "Экспорт плана 29.08-13.09 для загрузки в Garmin Connect (Тренировки → Календарь). Плавание исключено: воды нет до старта, заменено сухим плаванием с резиной (в Garmin не загружается). Загружает локальный агент синхронизации, у которого есть доступ к аккаунту Garmin.",
   "athlete": {
     "maxHR": 190,
@@ -917,55 +917,51 @@
       ]
     },
     {
-      "date": "2026-11-09",
-      "sport": "cycling",
-      "name": "Вело лёгкое 35'",
-      "estimatedDurationMin": 35,
-      "steps": [
-        {
-          "type": "interval",
-          "durationMin": 35,
-          "target": {
-            "type": "hr",
-            "low": 105,
-            "high": 135
-          },
-          "note": "Каденс 85-90, чередовать сидя/стоя каждые 5 мин"
-        }
-      ]
-    },
-    {
       "date": "2026-11-10",
       "sport": "running",
-      "name": "Бег Z2 35'",
+      "name": "Бег темповый Z3",
       "estimatedDurationMin": 35,
       "steps": [
         {
           "type": "warmup",
-          "durationMin": 8,
+          "durationMin": 15,
           "target": {
             "type": "hr",
-            "low": 115,
-            "high": 136
+            "low": 121,
+            "high": 150
           }
         },
         {
-          "type": "interval",
-          "durationMin": 22,
-          "target": {
-            "type": "hr",
-            "low": 136,
-            "high": 148
-          },
-          "note": "Темп 5:50-6:00/км, ровный бег без ускорений"
+          "type": "repeat",
+          "repeats": 3,
+          "steps": [
+            {
+              "type": "interval",
+              "durationMin": 6,
+              "target": {
+                "type": "pace",
+                "low": "5:45",
+                "high": "5:30"
+              }
+            },
+            {
+              "type": "recovery",
+              "durationMin": 2,
+              "target": {
+                "type": "hr",
+                "low": 121,
+                "high": 150
+              }
+            }
+          ]
         },
         {
           "type": "cooldown",
           "durationMin": 5,
           "target": {
             "type": "hr",
-            "low": 110,
-            "high": 130
+            "low": 111,
+            "high": 135
           }
         }
       ]
@@ -973,7 +969,7 @@
     {
       "date": "2026-11-11",
       "sport": "cycling",
-      "name": "Вело Sweet Spot 2×8'",
+      "name": "Вело Sweet Spot",
       "estimatedDurationMin": 40,
       "steps": [
         {
@@ -981,97 +977,150 @@
           "durationMin": 10,
           "target": {
             "type": "power",
-            "low": 105,
+            "low": 107,
             "high": 125
           }
         },
         {
           "type": "repeat",
-          "repeats": 2,
+          "repeats": 3,
           "steps": [
             {
               "type": "interval",
-              "durationMin": 8,
+              "durationMin": 10,
               "target": {
                 "type": "power",
                 "low": 148,
-                "high": 155
-              },
-              "note": "Каденс 85-90"
+                "high": 157
+              }
             },
             {
               "type": "recovery",
-              "durationMin": 4,
+              "durationMin": 5,
               "target": {
                 "type": "power",
-                "low": 105,
-                "high": 115
+                "low": 101,
+                "high": 114
               }
             }
           ]
         },
         {
           "type": "cooldown",
-          "durationMin": 6,
+          "durationMin": 5,
           "target": {
             "type": "power",
-            "low": 100,
-            "high": 115
+            "low": 96,
+            "high": 114
           }
         }
       ]
     },
     {
-      "date": "2026-11-14",
+      "date": "2026-11-12",
       "sport": "running",
-      "name": "Длинный бег Z2 45'",
-      "estimatedDurationMin": 45,
+      "name": "Бег Z2 + страйды",
+      "estimatedDurationMin": 35,
       "steps": [
         {
           "type": "warmup",
           "durationMin": 10,
           "target": {
             "type": "hr",
-            "low": 115,
+            "low": 121,
             "high": 136
           }
         },
         {
           "type": "interval",
-          "durationMin": 30,
+          "durationMin": 20,
           "target": {
             "type": "hr",
             "low": 136,
-            "high": 148
+            "high": 150
           },
-          "note": "Темп 5:50-6:00/км, питьё каждые 20 мин"
+          "note": "35 мин, ЧСС 136-150, в конце 6×20 сек ускорения через 60 сек"
         },
         {
           "type": "cooldown",
           "durationMin": 5,
           "target": {
             "type": "hr",
-            "low": 110,
-            "high": 130
+            "low": 111,
+            "high": 136
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-11-14",
+      "sport": "cycling",
+      "name": "Длинное вело + брик",
+      "estimatedDurationMin": 85,
+      "steps": [
+        {
+          "type": "warmup",
+          "durationMin": 10,
+          "target": {
+            "type": "hr",
+            "low": 121,
+            "high": 136
+          }
+        },
+        {
+          "type": "interval",
+          "durationMin": 70,
+          "target": {
+            "type": "hr",
+            "low": 136,
+            "high": 150
+          },
+          "note": "85 мин (вело 70 + брик-бег 15), ЧСС до 155, питание каждые 20 мин"
+        },
+        {
+          "type": "cooldown",
+          "durationMin": 5,
+          "target": {
+            "type": "hr",
+            "low": 111,
+            "high": 136
           }
         }
       ]
     },
     {
       "date": "2026-11-15",
-      "sport": "cycling",
-      "name": "Вело восстановительное 25'",
-      "estimatedDurationMin": 25,
+      "sport": "running",
+      "name": "Длинный бег Z2",
+      "estimatedDurationMin": 75,
       "steps": [
         {
-          "type": "interval",
-          "durationMin": 25,
+          "type": "warmup",
+          "durationMin": 10,
           "target": {
             "type": "hr",
-            "low": 100,
-            "high": 130
+            "low": 121,
+            "high": 136
+          }
+        },
+        {
+          "type": "interval",
+          "durationMin": 60,
+          "target": {
+            "type": "hr",
+            "low": 136,
+            "high": 150
           },
-          "note": "Если ноги тяжёлые после субботы — пропусти"
+          "note": "75 мин, ЧСС 136-150, питьё каждые 20 мин"
+        },
+        {
+          "type": "cooldown",
+          "durationMin": 5,
+          "target": {
+            "type": "hr",
+            "low": 111,
+            "high": 136
+          }
         }
       ]
     }
