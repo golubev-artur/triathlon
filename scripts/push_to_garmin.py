@@ -9,7 +9,8 @@ import argparse, getpass, json, os, sys
 
 API = "https://connectapi.garmin.com"
 
-SPORT = {"running": (1, "running"), "cycling": (2, "cycling"), "swimming": (4, "lap_swimming")}
+SPORT = {"running": (1, "running"), "cycling": (2, "cycling"), "swimming": (4, "lap_swimming"),
+         "strength_training": (5, "strength_training")}
 STEP = {"warmup": (1, "warmup"), "cooldown": (2, "cooldown"), "interval": (3, "interval"),
         "recovery": (4, "recovery"), "rest": (5, "rest"), "repeat": (6, "repeat")}
 TARGET = {"hr": (4, "heart.rate.zone"), "power": (2, "power.zone"), "pace": (6, "pace.zone")}

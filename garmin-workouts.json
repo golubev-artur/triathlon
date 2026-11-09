@@ -917,6 +917,19 @@
       ]
     },
     {
+      "date": "2026-11-09",
+      "sport": "strength_training",
+      "name": "Сухое плавание (резина) 20'",
+      "estimatedDurationMin": 20,
+      "steps": [
+        {
+          "type": "interval",
+          "durationMin": 20,
+          "note": "Резина на гребок 3×15, вращения плеч 2×12, планка 3×30с, кор"
+        }
+      ]
+    },
+    {
       "date": "2026-11-10",
       "sport": "running",
       "name": "Бег Z2 лёгкий 35'",
@@ -1021,6 +1034,19 @@
             "low": 110,
             "high": 130
           }
+        }
+      ]
+    },
+    {
+      "date": "2026-11-16",
+      "sport": "strength_training",
+      "name": "Сухое плавание (резина) 20'",
+      "estimatedDurationMin": 20,
+      "steps": [
+        {
+          "type": "interval",
+          "durationMin": 20,
+          "note": "Резина на гребок, вращения плеч, кор, мобилити грудного отдела"
         }
       ]
     },
