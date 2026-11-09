@@ -2,7 +2,7 @@
   "_комментарий": "Настройки автопланировщика. Правь руками — скрипт читает их каждый запуск.",
   "raceDate": null,
   "raceName": "",
-  "weeklyHours": 7.0,
+  "weeklyHours": 3.0,
   "swimAvailable": false,
   "restDays": ["fri"],
   "longDays": ["sat", "sun"],
