@@ -1,5 +1,5 @@
 {
-  "pulled": "2026-11-13T11:48:56",
+  "pulled": "2026-11-14T01:16:36",
   "days": 90,
   "activities": [
     {
@@ -273,23 +273,6 @@
       "elevation": 44,
       "trainingLoad": 268.73455810546875,
       "aerobicTE": 5.0
-    },
-    {
-      "id": 23982674737,
-      "date": "2026-08-15",
-      "time": "10:23",
-      "kind": "run",
-      "garminType": "running",
-      "race": false,
-      "name": "Балашиха Бег",
-      "minutes": 45,
-      "km": 8.31,
-      "avgHR": 144.0,
-      "maxHR": 164.0,
-      "avgPower": 334.0,
-      "elevation": 42,
-      "trainingLoad": 139.2652130126953,
-      "aerobicTE": 3.9000000953674316
     }
   ]
 }
