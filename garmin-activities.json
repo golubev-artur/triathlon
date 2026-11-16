@@ -1,7 +1,24 @@
 {
-  "pulled": "2026-11-16T00:45:25",
+  "pulled": "2026-11-16T12:23:52",
   "days": 90,
   "activities": [
+    {
+      "id": 25093181300,
+      "date": "2026-11-16",
+      "time": "06:30",
+      "kind": "bike",
+      "garminType": "indoor_cycling",
+      "race": false,
+      "name": "Вело станок Sweet Spot",
+      "minutes": 59,
+      "km": 28.13,
+      "avgHR": 124.0,
+      "maxHR": 143.0,
+      "avgPower": 128.0,
+      "elevation": 0,
+      "trainingLoad": 59.45701599121094,
+      "aerobicTE": 3.0999999046325684
+    },
     {
       "id": 25090608638,
       "date": "2026-11-15",
