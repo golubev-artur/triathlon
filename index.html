@@ -973,7 +973,8 @@ function renderWeek() {
           const toDate = t.movedTo || (isMovedAway && isMovedAway.toDate);
           whtml += `<div class="wt" style="opacity:0.4;text-decoration:line-through">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span>${durLabel}<span style="color:#d4b87a;font-size:9px;margin-left:4px">→${toDate}</span></div>`;
         } else {
-          let si; if (t.done) { si = ICONS.done; doneCount++; const ga = d.actual && d.actual.find(a => a.type === t.type); factMin += ga ? ga.duration : tMin; } else if (isToday) si = ICONS.today_marker; else if (isPast) si = ICONS.miss; else si = ICONS.pending;
+          const _tm = (p, a) => p === a || (p === 'treadmill' && a === 'run') || (p === 'run' && a === 'treadmill');
+          let si; if (t.done) { si = ICONS.done; doneCount++; const ga = d.actual && d.actual.find(a => _tm(t.type, a.type)); factMin += ga ? ga.duration : tMin; } else if (isToday) si = ICONS.today_marker; else if (isPast) si = ICONS.miss; else si = ICONS.pending;
           whtml += `<div class="wt">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span>${durLabel}<span class="wt-status">${si}</span></div>`;
         }
       }
@@ -985,7 +986,7 @@ function renderWeek() {
       const planned = d.trainings.filter(t => !dayR.movedFrom.find(r => r.training === t.name));
       for (const a of d.actual) {
         const paceStr = a.pace ? ` ${Math.floor(a.pace/60)}:${String(a.pace%60).padStart(2,'0')}/км` : '';
-        const matchedPlan = planned.find(t => t.type === a.type);
+        const matchedPlan = planned.find(t => t.type === a.type || (t.type === 'treadmill' && a.type === 'run') || (t.type === 'run' && a.type === 'treadmill'));
         let mismatchHtml = '';
         if (planned.length > 0 && !matchedPlan) {
           const expectedTypes = planned.map(t => t.type === 'run' ? 'бег' : t.type === 'bike' ? 'вело' : t.type === 'swim' ? 'плавание' : t.type).join('/');
@@ -1068,7 +1069,7 @@ function renderWeeksSummary() {
         }
         if (t.done) {
           done++;
-          const ga = d.actual && d.actual.find(a => a.type === t.type);
+          const ga = d.actual && d.actual.find(a => a.type === t.type || (t.type === 'treadmill' && a.type === 'run') || (t.type === 'run' && a.type === 'treadmill'));
           const durMatch = t.details.match(/(\d+)\s*мин/);
           factMin += ga ? ga.duration : (durMatch ? parseInt(durMatch[1]) : 0);
         }
@@ -2080,14 +2081,15 @@ function applyGarminActuals(data, weekStatus) {
         type: a.kind, name: a.name || ru[a.kind] || a.kind, duration: a.minutes,
         distance: a.km || null, avgHR: a.avgHR ? Math.round(a.avgHR) : null,
       }));
+      const typeMatch = (plan, actual) => plan === actual || (plan === 'treadmill' && actual === 'run') || (plan === 'run' && actual === 'treadmill');
       const matched = [];
       d.trainings.forEach(t => {
         if (t.movedTo || t.movedFrom) return;
-        const i = pool.findIndex(a => a.type === t.type);
+        const i = pool.findIndex(a => typeMatch(t.type, a.type));
         t.done = i >= 0;
         if (i >= 0) matched.push(pool.splice(i, 1)[0]);
       });
-      const missed = d.trainings.filter(t => !t.done && !t.movedTo && ['run', 'bike', 'swim'].includes(t.type));
+      const missed = d.trainings.filter(t => !t.done && !t.movedTo && ['run', 'treadmill', 'bike', 'swim'].includes(t.type));
       d.garminChecked = true;
       d.actual = matched;
       d.extra = pool.map(a => ({
