@@ -1,6 +1,6 @@
 {
   "generated": "2026-11-15",
-  "note": "План тренировок для загрузки в Garmin Connect. Плавание заменено сухим плаванием с резиной (dryLandSwim — в Garmin не загружается, только на дашборде). Загружает GitHub Actions по cron или вручную.",
+  "note": "План тренировок для загрузки в Garmin Connect. Плавание заменено сухим плаванием с резиной (dryLandSwim — в Garmin не загружается, только на дашборде). Бег на улице заменён бегом на дорожке дома (treadmill_running). Загружает GitHub Actions по cron или вручную.",
   "athlete": {
     "maxHR": 190,
     "lthrRun": 175,
@@ -1039,8 +1039,8 @@
     },
     {
       "date": "2026-11-17",
-      "sport": "running",
-      "name": "Бег темповый Z3",
+      "sport": "treadmill_running",
+      "name": "Дорожка темповый Z3",
       "estimatedDurationMin": 20,
       "steps": [
         {
@@ -1139,8 +1139,8 @@
     },
     {
       "date": "2026-11-19",
-      "sport": "running",
-      "name": "Бег Z2 + страйды",
+      "sport": "treadmill_running",
+      "name": "Дорожка Z2 + страйды",
       "estimatedDurationMin": 20,
       "steps": [
         {
@@ -1211,8 +1211,8 @@
     },
     {
       "date": "2026-11-22",
-      "sport": "running",
-      "name": "Длинный бег Z2",
+      "sport": "treadmill_running",
+      "name": "Длинная дорожка Z2",
       "estimatedDurationMin": 35,
       "steps": [
         {
