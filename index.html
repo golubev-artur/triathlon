@@ -11,26 +11,26 @@
     #weekCard, #weekCard * { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
     #tab-nutrition input, #tab-nutrition select, #tab-nutrition textarea, #tab-nutrition button { font-size: 16px !important; touch-action: manipulation; }
 
-    .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 20px; border-bottom: 2px solid #e94560; }
+    .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 20px; border-bottom: 2px solid #c97b84; }
     .header h1 { font-size: 20px; font-weight: 700; color: #fff; }
     .header .sub { color: #a0a0b0; font-size: 13px; margin-top: 4px; }
-    .countdown { display: inline-block; background: #e94560; color: #fff; padding: 4px 12px; border-radius: 16px; font-weight: 700; font-size: 13px; margin-top: 8px; }
+    .countdown { display: inline-block; background: #c97b84; color: #fff; padding: 4px 12px; border-radius: 16px; font-weight: 700; font-size: 13px; margin-top: 8px; }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; padding: 12px; max-width: 1400px; margin: 0 auto; }
     .card { background: #1a1a2e; border-radius: 12px; padding: 16px; border: 1px solid #2a2a4a; }
     .card h2 { font-size: 13px; color: #a0a0b0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
     .card.wide { grid-column: 1 / -1; }
-    .card.today { border-color: #e94560; border-width: 2px; order: -1; }
+    .card.today { border-color: #c97b84; border-width: 2px; order: -1; }
 
     .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
     .stat { background: #16213e; border-radius: 8px; padding: 10px 12px; flex: 1; min-width: 80px; }
     .stat .val { font-size: 20px; font-weight: 700; color: #fff; }
     .stat .label { font-size: 10px; color: #808090; margin-top: 2px; }
-    .stat.green .val { color: #4ade80; }
-    .stat.red .val { color: #f87171; }
-    .stat.blue .val { color: #60a5fa; }
-    .stat.yellow .val { color: #fbbf24; }
-    .stat.cyan .val { color: #67e8f9; }
+    .stat.green .val { color: #8bbd9e; }
+    .stat.red .val { color: #d4908f; }
+    .stat.blue .val { color: #8aaccf; }
+    .stat.yellow .val { color: #d4b87a; }
+    .stat.cyan .val { color: #8ec8d8; }
 
     .chart-wrap { position: relative; height: 220px; }
 
@@ -38,10 +38,10 @@
     .today-plan li { padding: 10px 12px; background: #16213e; border-radius: 8px; margin-bottom: 8px; font-size: 14px; line-height: 1.5; display: flex; align-items: flex-start; gap: 10px; }
     .today-plan .sport-icon { flex-shrink: 0; margin-top: 2px; }
     .today-plan .info { flex: 1; }
-    .today-plan .time { color: #fbbf24; font-weight: 600; font-size: 13px; }
+    .today-plan .time { color: #d4b87a; font-weight: 600; font-size: 13px; }
     .today-plan .type { font-weight: 700; color: #fff; }
     .today-plan .details { color: #a0a0b0; font-size: 12px; margin-top: 4px; }
-    .today-plan .rest { color: #4ade80; font-style: italic; }
+    .today-plan .rest { color: #8bbd9e; font-style: italic; }
 
     .week-days { display: flex; flex-direction: column; gap: 6px; }
     .wday { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #16213e; border-radius: 8px; font-size: 13px; }
@@ -52,30 +52,30 @@
     .wday .wt { display: flex; align-items: center; gap: 6px; font-size: 12px; }
     .wday .wt-name { color: #c0c0d0; }
     .wday .wt-status { flex-shrink: 0; margin-left: auto; }
-    .wday.is-today { border: 2px solid #e94560; }
+    .wday.is-today { border: 2px solid #c97b84; }
     .wday.is-past .wt-name { color: #808090; }
     .wday.is-rest { opacity: 0.5; }
-    .wday .rest-text { color: #4ade80; font-size: 12px; font-style: italic; }
+    .wday .rest-text { color: #8bbd9e; font-size: 12px; font-style: italic; }
 
     .icon { display: inline-block; width: 20px; height: 20px; vertical-align: middle; }
     .icon-sm { width: 16px; height: 16px; }
     .icon-xs { width: 14px; height: 14px; }
 
-    .wakeup { font-size: 11px; color: #a78bfa; font-weight: 600; }
-    .wakeup-today { font-size: 13px; color: #a78bfa; font-weight: 600; display: block; margin-bottom: 8px; }
+    .wakeup { font-size: 11px; color: #a89bc8; font-weight: 600; }
+    .wakeup-today { font-size: 13px; color: #a89bc8; font-weight: 600; display: block; margin-bottom: 8px; }
 
     .race-table { width: 100%; border-collapse: collapse; font-size: 12px; }
     .race-table th { text-align: left; color: #808090; padding: 6px 6px; border-bottom: 1px solid #2a2a4a; font-weight: 600; font-size: 11px; }
     .race-table td { padding: 6px 6px; border-bottom: 1px solid #1f1f3a; white-space: nowrap; }
-    .race-table tr.pr td { color: #4ade80; font-weight: 600; }
+    .race-table tr.pr td { color: #8bbd9e; font-weight: 600; }
 
     .footer { text-align: center; padding: 16px; color: #505060; font-size: 11px; }
-    .footer a { color: #7dd3fc; text-decoration: none; border-bottom: 1px solid rgba(125,211,252,.3); }
-    .footer a:hover { color: #a5e4ff; }
+    .footer a { color: #8aaccf; text-decoration: none; border-bottom: 1px solid rgba(138,172,207,.3); }
+    .footer a:hover { color: #a8c8e0; }
 
     .tabs { display: flex; gap: 0; padding: 0 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .tab { background: #16213e; border: 1px solid #2a2a4a; border-bottom: none; color: #808090; padding: 10px 16px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; border-radius: 8px 8px 0 0; transition: all 0.2s; }
-    .tab.active { background: #1a1a2e; color: #fff; border-color: #e94560; border-bottom: 2px solid #1a1a2e; }
+    .tab.active { background: #1a1a2e; color: #fff; border-color: #c97b84; border-bottom: 2px solid #1a1a2e; }
     .tab:hover { color: #c0c0d0; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
@@ -84,17 +84,17 @@
     .lab-zones { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 12px; }
     .lab-zones th { text-align: left; color: #808090; padding: 6px; border-bottom: 1px solid #2a2a4a; font-size: 11px; }
     .lab-zones td { padding: 6px; border-bottom: 1px solid #1f1f3a; }
-    .lab-zones tr:nth-child(2) td { color: #4ade80; }
-    .lab-zones tr:nth-child(3) td { color: #60a5fa; }
-    .lab-zones tr:nth-child(4) td { color: #fbbf24; }
-    .lab-zones tr:nth-child(5) td { color: #f87171; }
-    .lab-zones tr:nth-child(6) td { color: #e94560; }
+    .lab-zones tr:nth-child(2) td { color: #8bbd9e; }
+    .lab-zones tr:nth-child(3) td { color: #8aaccf; }
+    .lab-zones tr:nth-child(4) td { color: #d4b87a; }
+    .lab-zones tr:nth-child(5) td { color: #d4908f; }
+    .lab-zones tr:nth-child(6) td { color: #c97b84; }
     .lab-steps { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 8px; }
     .lab-steps th { text-align: left; color: #808090; padding: 4px 6px; border-bottom: 1px solid #2a2a4a; font-size: 10px; }
     .lab-steps td { padding: 4px 6px; border-bottom: 1px solid #1f1f3a; }
 
     .lab-upload { background: #16213e; border: 2px dashed #2a2a4a; border-radius: 12px; padding: 24px; text-align: center; margin-top: 16px; cursor: pointer; transition: border-color 0.2s; }
-    .lab-upload:hover { border-color: #60a5fa; }
+    .lab-upload:hover { border-color: #8aaccf; }
     .lab-upload input { display: none; }
     .lab-upload-icon { font-size: 32px; margin-bottom: 8px; }
     .lab-upload-text { font-size: 13px; color: #808090; }
@@ -102,29 +102,29 @@
     .lab-link-input { background: #0f1117; border: 1px solid #2a2a4a; border-radius: 8px; padding: 8px 12px; color: #e0e0e0; font-size: 13px; width: 100%; max-width: 400px; }
 
     .next-test { background: linear-gradient(135deg, #1a2e1a 0%, #16213e 100%); border: 1px solid #2a4a2a; border-radius: 8px; padding: 12px; margin-top: 12px; font-size: 13px; color: #d0e0d0; }
-    .next-test-date { color: #fbbf24; font-weight: 700; }
+    .next-test-date { color: #d4b87a; font-weight: 700; }
 
     .meal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 12px; }
     .meal-item { background: #16213e; border-radius: 8px; overflow: hidden; position: relative; }
     .meal-item img { width: 100%; height: 120px; object-fit: cover; display: block; cursor: pointer; }
     .meal-item .meal-info { padding: 8px; font-size: 11px; }
     .meal-item .meal-date { color: #808090; font-size: 10px; }
-    .meal-item .meal-kcal { color: #fbbf24; font-weight: 700; font-size: 13px; margin-top: 4px; }
+    .meal-item .meal-kcal { color: #d4b87a; font-weight: 700; font-size: 13px; margin-top: 4px; }
     .meal-item .meal-macros { color: #a0a0b0; font-size: 10px; margin-top: 2px; display: flex; gap: 6px; flex-wrap: wrap; }
     .meal-item .meal-macros span { white-space: nowrap; }
     .meal-item .meal-foods { color: #c0c0d0; font-size: 10px; margin-top: 4px; line-height: 1.4; }
-    .meal-item .meal-delete { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); border: none; color: #f87171; border-radius: 50%; width: 22px; height: 22px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .meal-item .meal-reanalyze { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.6); border: none; color: #60a5fa; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .meal-item .meal-delete { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); border: none; color: #d4908f; border-radius: 50%; width: 22px; height: 22px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .meal-item .meal-reanalyze { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.6); border: none; color: #8aaccf; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .meal-item.analyzing img { opacity: 0.5; }
-    .meal-item .meal-loader { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); color: #60a5fa; font-size: 11px; font-weight: 600; text-align: center; }
-    .meal-item .meal-loader::after { content: ''; display: block; width: 20px; height: 20px; margin: 6px auto 0; border: 2px solid #60a5fa; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .meal-item .meal-loader { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); color: #8aaccf; font-size: 11px; font-weight: 600; text-align: center; }
+    .meal-item .meal-loader::after { content: ''; display: block; width: 20px; height: 20px; margin: 6px auto 0; border: 2px solid #8aaccf; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
     .meal-add { background: #16213e; border: 2px dashed #2a2a4a; border-radius: 8px; min-height: 120px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-direction: column; gap: 4px; color: #606070; font-size: 24px; transition: border-color 0.2s; }
-    .meal-add:hover { border-color: #60a5fa; }
+    .meal-add:hover { border-color: #8aaccf; }
     .meal-add input { display: none; }
     .meal-add-label { font-size: 11px; }
     .meal-daily-summary { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; padding: 10px 14px; background: linear-gradient(135deg, #1a2e1a 0%, #16213e 100%); border: 1px solid #2a4a2a; border-radius: 8px; align-items: center; }
     .meal-daily-summary .daily-title { font-size: 12px; color: #808090; font-weight: 600; }
-    .meal-daily-summary .daily-val { font-size: 16px; font-weight: 700; color: #fbbf24; }
+    .meal-daily-summary .daily-val { font-size: 16px; font-weight: 700; color: #d4b87a; }
     .meal-daily-summary .daily-macro { font-size: 11px; color: #a0a0b0; }
     .meal-daily-summary .daily-macro b { color: #e0e0e0; }
     .meal-daily-progress { height: 4px; background: #2a2a4a; border-radius: 2px; flex: 1; min-width: 100px; overflow: hidden; }
@@ -132,20 +132,19 @@
     .meal-photo-overlay { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
     .meal-photo-overlay.active { display: flex; }
     .meal-photo-overlay img { max-width: 90vw; max-height: 80vh; border-radius: 8px; }
-    .meal-photo-overlay .close-btn { position: fixed; top: 10px; right: 14px; z-index: 2001; background: #e94560; color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .meal-photo-overlay .close-btn { position: fixed; top: 10px; right: 14px; z-index: 2001; background: #c97b84; color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .meal-photo-overlay .overlay-info { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #16213e; border: 1px solid #2a2a4a; border-radius: 12px; padding: 14px 20px; max-width: 90vw; font-size: 13px; line-height: 1.6; color: #d0e0d0; white-space: pre-line; }
 
     .health-table { width: 100%; border-collapse: collapse; font-size: 12px; }
     .health-table th { text-align: left; color: #808090; padding: 6px; border-bottom: 1px solid #2a2a4a; font-size: 11px; }
     .health-table td { padding: 6px; border-bottom: 1px solid #1f1f3a; }
-    .health-delta.up { color: #f87171; }
-    .health-delta.down { color: #4ade80; }
+    .health-delta.up { color: #d4908f; }
+    .health-delta.down { color: #8bbd9e; }
 
     .card { position: relative; }
-    .card-expand { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; opacity: 0.3; pointer-events: none; }
 
     .refresh-bar { display: flex; align-items: center; gap: 8px; padding: 0 20px 0; }
-    .refresh-btn { background: #16213e; border: 1px solid #2a2a4a; color: #60a5fa; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s; }
+    .refresh-btn { background: #16213e; border: 1px solid #2a2a4a; color: #8aaccf; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s; }
     .refresh-btn:hover { background: #1e3050; }
     .refresh-btn:active { transform: scale(0.96); }
     .refresh-btn.loading { opacity: 0.5; pointer-events: none; }
@@ -154,7 +153,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .refresh-time { font-size: 11px; color: #505060; }
 
-    .chat-fab { position: fixed; bottom: 20px; right: 20px; width: 52px; height: 52px; border-radius: 50%; background: #e94560; border: none; color: #fff; cursor: pointer; z-index: 1000; box-shadow: 0 4px 12px rgba(233,69,96,0.4); display: flex; align-items: center; justify-content: center; }
+    .chat-fab { position: fixed; bottom: 20px; right: 20px; width: 52px; height: 52px; border-radius: 50%; background: #c97b84; border: none; color: #fff; cursor: pointer; z-index: 1000; box-shadow: 0 4px 12px rgba(201,123,132,0.3); display: flex; align-items: center; justify-content: center; }
     .chat-fab svg { width: 26px; height: 26px; }
     .chat-panel { display: none; position: fixed; bottom: 80px; right: 12px; width: 340px; max-width: calc(100vw - 24px); height: 440px; max-height: 60vh; background: #0f1117; border: 1px solid #2a2a4a; border-radius: 16px; z-index: 1001; flex-direction: column; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
     .chat-panel.open { display: flex; }
@@ -162,7 +161,7 @@
     .chat-header select { background: #0f1117; border: 1px solid #2a2a4a; color: #e0e0e0; border-radius: 6px; padding: 4px 8px; font-size: 13px; flex: 1; }
     .chat-spec-btns { display: flex; gap: 4px; flex: 1; }
     .chat-spec-btn { background: #0f1117; border: 1px solid #2a2a4a; color: #808090; border-radius: 6px; padding: 5px 8px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px; flex: 1; justify-content: center; white-space: nowrap; }
-    .chat-spec-btn.active { border-color: #e94560; color: #e0e0e0; background: #1e1e3e; }
+    .chat-spec-btn.active { border-color: #c97b84; color: #e0e0e0; background: #1e1e3e; }
     .chat-spec-btn svg { width: 14px; height: 14px; }
     .chat-header .chat-close { background: none; border: none; color: #808090; font-size: 18px; cursor: pointer; padding: 0 4px; }
     .chat-messages { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
@@ -172,18 +171,18 @@
     .chat-msg.typing { color: #808090; font-style: italic; }
     .chat-input-row { padding: 8px 10px; border-top: 1px solid #2a2a4a; display: flex; gap: 6px; }
     .chat-input-row input { flex: 1; background: #16213e; border: 1px solid #2a2a4a; border-radius: 8px; padding: 8px 12px; color: #e0e0e0; font-size: 14px; }
-    .chat-input-row button { background: #e94560; border: none; color: #fff; border-radius: 8px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+    .chat-input-row button { background: #c97b84; border: none; color: #fff; border-radius: 8px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
 
     .coach-panel { display: none; margin: 0 12px; padding: 16px; background: linear-gradient(135deg, #1a2e1a 0%, #16213e 100%); border: 1px solid #2a4a2a; border-radius: 12px; font-size: 14px; line-height: 1.6; color: #d0e0d0; white-space: pre-line; }
     .coach-panel.active { display: block; }
-    .coach-panel .coach-title { font-weight: 700; color: #4ade80; font-size: 15px; margin-bottom: 8px; }
+    .coach-panel .coach-title { font-weight: 700; color: #8bbd9e; font-size: 15px; margin-bottom: 8px; }
 
     .week-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
     .week-nav h2 { margin: 0; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .week-nav-btns { display: flex; gap: 6px; flex-shrink: 0; }
     .week-nav-btns button { background: #16213e; border: 1px solid #2a2a4a; color: #a0a0b0; border-radius: 6px; width: 32px; height: 32px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .week-nav-btns button:hover { background: #1e3050; color: #fff; }
-    .week-nav-btns button.active { background: #e94560; color: #fff; border-color: #e94560; }
+    .week-nav-btns button.active { background: #c97b84; color: #fff; border-color: #c97b84; }
     .week-nav-btns button:disabled { opacity: 0.3; cursor: default; }
 
     .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
@@ -191,26 +190,17 @@
     .cal-day { background: #16213e; border-radius: 6px; padding: 6px 4px; min-height: 60px; text-align: left; font-size: 11px; position: relative; overflow: hidden; cursor: default; transition: all 0.2s; }
     .cal-day.empty { background: transparent; min-height: 0; }
     .cal-day .cal-num { color: #808090; font-weight: 600; margin-bottom: 3px; text-align: center; }
-    .cal-day.is-today .cal-num { color: #e94560; font-weight: 700; }
-    .cal-day.is-race { border: 2px solid #e94560; background: #2a1020; }
-    .cal-day.is-race .cal-num { color: #e94560; font-weight: 700; }
+    .cal-day.is-today .cal-num { color: #c97b84; font-weight: 700; }
+    .cal-day.is-race { border: 2px solid #c97b84; background: #2a2030; }
+    .cal-day.is-race .cal-num { color: #c97b84; font-weight: 700; }
     .cal-train { display: flex; align-items: center; gap: 2px; margin-bottom: 2px; }
     .cal-train-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
     .cal-train-name { font-size: 8px; color: #c0c0d0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
     .cal-train-details { display: none; font-size: 8px; color: #909090; line-height: 1.3; margin-left: 8px; }
-    .cal-day.expanded { position: absolute; z-index: 10; min-height: auto; width: 180px; box-shadow: 0 4px 16px rgba(0,0,0,0.6); }
-    .cal-day.expanded .cal-train-name { white-space: normal; font-size: 10px; }
-    .cal-day.expanded .cal-train-details { display: block; }
-    .cal-race-label { font-size: 7px; color: #e94560; font-weight: 700; margin-top: 2px; line-height: 1.1; text-align: center; }
+    .cal-race-label { font-size: 7px; color: #c97b84; font-weight: 700; margin-top: 2px; line-height: 1.1; text-align: center; }
     .cal-month-title { grid-column: 1 / -1; text-align: center; font-size: 13px; color: #a0a0b0; font-weight: 600; padding: 8px 0 4px; }
-    .cal-rest { font-size: 8px; color: #4ade80; text-align: center; font-style: italic; }
+    .cal-rest { font-size: 8px; color: #8bbd9e; text-align: center; font-style: italic; }
 
-    .card-overlay { display: none; }
-    .card-overlay.active { display: block; position: fixed; inset: 0; z-index: 1000; background: #0f1117; overflow-y: auto; padding: 0; }
-    .card-overlay.active .card-inner { min-height: 100vh; padding: 16px; padding-top: 48px; }
-    .card-overlay.active .chart-wrap { height: 45vh; }
-    .card-overlay.active .stat .val { font-size: 24px; }
-    .card-overlay .close-btn { position: fixed; top: 10px; right: 14px; z-index: 1001; background: #e94560; color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
 
     @media (max-width: 700px) {
       .grid { grid-template-columns: 1fr; gap: 10px; padding: 10px; }
@@ -261,10 +251,10 @@
   </div>
 
 
-  <div class="card wide" id="restartCard" style="border-left:3px solid #fbbf24">
+  <div class="card wide" id="restartCard" style="border-left:3px solid #d4b87a">
     <h2>Статус: перезапуск после паузы</h2>
     <div class="stat-row">
-      <div class="stat" style="color:#f87171"><div class="val" id="restartDaysOff">—</div><div class="label">дней без тренировок</div></div>
+      <div class="stat" style="color:#d4908f"><div class="val" id="restartDaysOff">—</div><div class="label">дней без тренировок</div></div>
       <div class="stat yellow"><div class="val">09.08</div><div class="label">последняя (бег 8.8 км)</div></div>
       <div class="stat cyan"><div class="val">0</div><div class="label">плавание доступно</div></div>
       <div class="stat green"><div class="val" id="restartDaysLeft">—</div><div class="label">дней до старта</div></div>
@@ -275,7 +265,7 @@
       Возвращение начинается 29.08: бег Z2 40 мин, на следующий день вело + короткий брик. Набирать форму уже поздно, задача другая — за 9 дней безопасно вернуть привычку к нагрузке и одну длинную каждого вида, затем 7 дней тейпера.
       Не пытаться «догнать» пропущенное — на возврате после паузы это прямой путь к травме на первой же длинной.
       <br><br>
-      <b style="color:#67e8f9">Воды нет до старта.</b> Плавательные тренировки заменены сухим плаванием с резиной 2 раза в неделю (Пн и Чт, 20–25 мин): гребок, плечи, ротаторы, кор.
+      <b style="color:#8ec8d8">Воды нет до старта.</b> Плавательные тренировки заменены сухим плаванием с резиной 2 раза в неделю (Пн и Чт, 20–25 мин): гребок, плечи, ротаторы, кор.
       Это держит мышцы гребка, но не даёт чувства воды — поэтому на старте плыть подчёркнуто спокойно, у края группы, sighting чаще обычного, и заложить +2–3 мин к плавательному сплиту (1.9 км ≈ 40–42 мин вместо 38).
       Sub-5 остаётся достижимым, но за счёт вело и бега, не плавания.
     </div>
@@ -289,7 +279,7 @@
       </div>
       <h2 id="weekTitle">Неделя</h2>
       <div class="week-nav-btns">
-        <button id="coachBtn" onclick="toggleCoach()" title="Тренер" style="color:#4ade80;border-color:#2a4a2a;display:inline-flex;align-items:center;gap:4px;width:auto;padding:0 10px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span style="font-size:12px;font-weight:600">Тренер</span></button>
+        <button id="coachBtn" onclick="toggleCoach()" title="Тренер" style="color:#8bbd9e;border-color:#2a4a2a;display:inline-flex;align-items:center;gap:4px;width:auto;padding:0 10px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span style="font-size:12px;font-weight:600">Тренер</span></button>
         <button id="weekSyncBtn" onclick="syncWeekData()" title="Обновить из Garmin"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
         <button id="calToggle" onclick="toggleCalendar()" title="Календарь">&#9776;</button>
       </div>
@@ -385,7 +375,7 @@
       <div class="stat"><div class="val">7.9</div><div class="label">Лактат макс</div></div>
       <div class="stat"><div class="val">89%</div><div class="label">ПАНО/VO2max</div></div>
     </div>
-    <div style="margin-top:8px;font-size:12px;color:#a0a0b0">Профиль: <span style="color:#4ade80;font-weight:600">Стайер</span> &middot; Trisystems Москва &middot; Беговая дорожка &middot; 78 кг, 173 см</div>
+    <div style="margin-top:8px;font-size:12px;color:#a0a0b0">Профиль: <span style="color:#8bbd9e;font-weight:600">Стайер</span> &middot; Trisystems Москва &middot; Беговая дорожка &middot; 78 кг, 173 см</div>
   </div>
 
   <div class="card wide">
@@ -460,25 +450,25 @@
       <div class="daily-macro"><b id="dailyP">0</b> г белка</div>
       <div class="daily-macro"><b id="dailyF">0</b> г жиров</div>
       <div class="daily-macro"><b id="dailyC">0</b> г углев.</div>
-      <div class="meal-daily-progress"><div class="bar" id="dailyBar" style="width:0%;background:#4ade80"></div></div>
+      <div class="meal-daily-progress"><div class="bar" id="dailyBar" style="width:0%;background:#8bbd9e"></div></div>
     </div>
     <div id="waterSection" class="meal-daily-summary" style="margin-top:8px">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12l-2 18H8L6 2z"/><path d="M6 6h12"/><path d="M8.5 12c1.5 1.5 5.5 1.5 7 0" opacity="0.5"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8ec8d8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12l-2 18H8L6 2z"/><path d="M6 6h12"/><path d="M8.5 12c1.5 1.5 5.5 1.5 7 0" opacity="0.5"/></svg>
         <div>
           <div class="daily-title" style="margin:0">Вода</div>
           <div class="daily-val" id="dailyWater">0 / 3000 мл</div>
         </div>
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
-        <button onclick="addWater(200);return false" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+200мл</button>
-        <button onclick="addWater(250);return false" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+250мл</button>
-        <button onclick="addWater(500);return false" style="background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+500мл</button>
-        <input type="number" id="customWaterInput" placeholder="мл" min="1" style="width:60px;background:#16213e;border:1px solid #2a2a4a;color:#67e8f9;border-radius:6px;padding:6px 8px;font-size:16px;text-align:center">
-        <button onclick="addCustomWater();return false" style="background:#0e3a4a;border:1px solid #67e8f9;color:#67e8f9;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+</button>
+        <button onclick="addWater(200);return false" style="background:#16213e;border:1px solid #2a2a4a;color:#8ec8d8;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+200мл</button>
+        <button onclick="addWater(250);return false" style="background:#16213e;border:1px solid #2a2a4a;color:#8ec8d8;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+250мл</button>
+        <button onclick="addWater(500);return false" style="background:#16213e;border:1px solid #2a2a4a;color:#8ec8d8;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+500мл</button>
+        <input type="number" id="customWaterInput" placeholder="мл" min="1" style="width:60px;background:#16213e;border:1px solid #2a2a4a;color:#8ec8d8;border-radius:6px;padding:6px 8px;font-size:16px;text-align:center">
+        <button onclick="addCustomWater();return false" style="background:#0e3a4a;border:1px solid #8ec8d8;color:#8ec8d8;border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer">+</button>
       </div>
       <div style="position:relative;height:22px;background:#16213e;border-radius:11px;overflow:hidden;border:1px solid #2a2a4a">
-        <div id="waterBar" style="position:absolute;left:0;top:0;height:100%;width:0%;background:linear-gradient(90deg,#0e7490,#67e8f9);border-radius:11px;transition:width 0.5s ease"></div>
+        <div id="waterBar" style="position:absolute;left:0;top:0;height:100%;width:0%;background:linear-gradient(90deg,#2a7a8a,#8ec8d8);border-radius:11px;transition:width 0.5s ease"></div>
         <div id="waterPct" style="position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.5)">0%</div>
       </div>
     </div>
@@ -487,11 +477,11 @@
       <div style="font-size:12px;color:#a0a0b0;margin-bottom:8px">Добавь фото еды или опиши текстом что съел/выпил — AI посчитает калории и БЖУ</div>
       <div style="display:flex;gap:6px;margin-bottom:6px">
         <input type="text" id="foodTextInput" placeholder="Например: борщ 300г, хлеб 2 куска, чай с сахаром" style="flex:1;background:#16213e;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:8px;padding:10px 12px;font-size:16px">
-        <button onclick="handleFoodText()" id="foodTextBtn" style="background:#1a3a2a;border:1px solid #4ade80;color:#4ade80;border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;white-space:nowrap">Добавить</button>
+        <button onclick="handleFoodText()" id="foodTextBtn" style="background:#1a3a2a;border:1px solid #8bbd9e;color:#8bbd9e;border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;white-space:nowrap">Добавить</button>
       </div>
       <div style="display:flex;gap:6px">
         <input type="text" id="foodUrlInput" placeholder="Ссылка на фото еды..." style="flex:1;background:#16213e;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:8px;padding:10px 12px;font-size:16px">
-        <button onclick="handleFoodUrl()" id="foodUrlBtn" style="background:#1a2a3a;border:1px solid #60a5fa;color:#60a5fa;border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;white-space:nowrap">📎 Фото</button>
+        <button onclick="handleFoodUrl()" id="foodUrlBtn" style="background:#1a2a3a;border:1px solid #8aaccf;color:#8aaccf;border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;white-space:nowrap">📎 Фото</button>
       </div>
     </div>
     <div class="meal-grid" id="mealGrid">
@@ -505,7 +495,7 @@
 
   <div class="card wide" id="nutritionAnalysisCard">
     <h2>Анализ нутрициолога
-      <button onclick="requestDayAnalysis()" style="float:right;background:#2e2a1a;border:1px solid #4a4a2a;color:#fbbf24;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer">Обновить анализ</button>
+      <button onclick="requestDayAnalysis()" style="float:right;background:#2e2a1a;border:1px solid #4a4a2a;color:#d4b87a;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer">Обновить анализ</button>
     </h2>
     <div id="nutritionAnalysis" style="font-size:13px;line-height:1.7;color:#d0e0d0;white-space:pre-line;padding:8px 0">Добавьте данные по питанию и нажмите "Обновить анализ"</div>
   </div>
@@ -537,10 +527,10 @@
   <div class="card wide">
     <h2>Состав тела <span style="font-size:11px;color:#606070;font-weight:400">25.07.2026</span></h2>
     <div class="stat-row">
-      <div class="stat green"><div class="val">78.1</div><div class="label">Вес, кг <span style="color:#4ade80;font-size:10px">-2.0</span></div></div>
-      <div class="stat green"><div class="val">24.3%</div><div class="label">Жир <span style="color:#4ade80;font-size:10px">-0.7%</span></div></div>
-      <div class="stat yellow"><div class="val">56.10</div><div class="label">Мышцы, кг <span style="color:#fbbf24;font-size:10px">-0.86</span></div></div>
-      <div class="stat green"><div class="val">51.9%</div><div class="label">Вода <span style="color:#4ade80;font-size:10px">+0.5%</span></div></div>
+      <div class="stat green"><div class="val">78.1</div><div class="label">Вес, кг <span style="color:#8bbd9e;font-size:10px">-2.0</span></div></div>
+      <div class="stat green"><div class="val">24.3%</div><div class="label">Жир <span style="color:#8bbd9e;font-size:10px">-0.7%</span></div></div>
+      <div class="stat yellow"><div class="val">56.10</div><div class="label">Мышцы, кг <span style="color:#d4b87a;font-size:10px">-0.86</span></div></div>
+      <div class="stat green"><div class="val">51.9%</div><div class="label">Вода <span style="color:#8bbd9e;font-size:10px">+0.5%</span></div></div>
     </div>
     <div class="stat-row">
       <div class="stat"><div class="val">25.5</div><div class="label">ИМТ</div></div>
@@ -558,17 +548,17 @@
     <div id="bodyHistory" style="display:none">
       <table class="health-table">
         <tr><th>Показатель</th><th>31.05</th><th>12.07</th><th>25.07</th><th>Дельта</th><th>Цель</th></tr>
-        <tr><td>Вес</td><td>76.70</td><td>80.10</td><td style="color:#4ade80;font-weight:600">78.10</td><td class="health-delta down">-2.00</td><td>73 кг</td></tr>
-        <tr><td>Жир %</td><td>23.4%</td><td>25.0%</td><td style="color:#4ade80;font-weight:600">24.3%</td><td class="health-delta down">-0.7%</td><td>18-20%</td></tr>
-        <tr><td>Жир кг</td><td>17.9</td><td>20.0</td><td style="color:#4ade80;font-weight:600">18.98</td><td class="health-delta down">-1.02</td><td>~14 кг</td></tr>
-        <tr><td>Мышцы</td><td>55.69</td><td>56.96</td><td style="color:#fbbf24;font-weight:600">56.10</td><td class="health-delta up">-0.86</td><td>сохранить</td></tr>
-        <tr><td>Вода</td><td>52.4%</td><td>51.4%</td><td style="color:#4ade80;font-weight:600">51.9%</td><td class="health-delta down">+0.5%</td><td>55-60%</td></tr>
-        <tr><td>ИМТ</td><td>25.0</td><td>26.2</td><td style="color:#4ade80;font-weight:600">25.5</td><td class="health-delta down">-0.7</td><td>24.4</td></tr>
-        <tr><td>Оценка тела</td><td>62</td><td>59</td><td style="color:#4ade80;font-weight:600">61</td><td class="health-delta down">+2</td><td>70+</td></tr>
+        <tr><td>Вес</td><td>76.70</td><td>80.10</td><td style="color:#8bbd9e;font-weight:600">78.10</td><td class="health-delta down">-2.00</td><td>73 кг</td></tr>
+        <tr><td>Жир %</td><td>23.4%</td><td>25.0%</td><td style="color:#8bbd9e;font-weight:600">24.3%</td><td class="health-delta down">-0.7%</td><td>18-20%</td></tr>
+        <tr><td>Жир кг</td><td>17.9</td><td>20.0</td><td style="color:#8bbd9e;font-weight:600">18.98</td><td class="health-delta down">-1.02</td><td>~14 кг</td></tr>
+        <tr><td>Мышцы</td><td>55.69</td><td>56.96</td><td style="color:#d4b87a;font-weight:600">56.10</td><td class="health-delta up">-0.86</td><td>сохранить</td></tr>
+        <tr><td>Вода</td><td>52.4%</td><td>51.4%</td><td style="color:#8bbd9e;font-weight:600">51.9%</td><td class="health-delta down">+0.5%</td><td>55-60%</td></tr>
+        <tr><td>ИМТ</td><td>25.0</td><td>26.2</td><td style="color:#8bbd9e;font-weight:600">25.5</td><td class="health-delta down">-0.7</td><td>24.4</td></tr>
+        <tr><td>Оценка тела</td><td>62</td><td>59</td><td style="color:#8bbd9e;font-weight:600">61</td><td class="health-delta down">+2</td><td>70+</td></tr>
         <tr><td>Осн. обмен</td><td>1535</td><td>1586</td><td>1556</td><td>-30</td><td>—</td></tr>
         <tr><td>Висцер. жир</td><td>12</td><td>12</td><td>12</td><td>0</td><td>&lt;9</td></tr>
         <tr><td>Костная масса</td><td>2.98</td><td>3.05</td><td>3.01</td><td class="health-delta up">-0.04</td><td>3.2+</td></tr>
-        <tr><td>Белок</td><td>20.1%</td><td>19.7%</td><td style="color:#4ade80;font-weight:600">19.9%</td><td class="health-delta down">+0.2%</td><td>20%+</td></tr>
+        <tr><td>Белок</td><td>20.1%</td><td>19.7%</td><td style="color:#8bbd9e;font-weight:600">19.9%</td><td class="health-delta down">+0.2%</td><td>20%+</td></tr>
         <tr><td>Возраст тела</td><td>32</td><td>33</td><td>33</td><td>0</td><td>&lt;35</td></tr>
       </table>
       <div style="margin-top:6px;font-size:10px;color:#606070">* замер 12.07 после бега — жир завышен из-за обезвоживания. Дельта = разница 12.07→25.07</div>
@@ -594,12 +584,12 @@
   <div class="card wide">
     <h2>Ключевые выводы (25.07)</h2>
     <ul style="list-style:none;font-size:13px;line-height:2;color:#d0e0d0">
-      <li style="color:#4ade80">▪️ Вес -2 кг за 13 дней (80.1→78.1), цель 77-78 к старту почти достигнута</li>
-      <li style="color:#4ade80">▪️ Жир -1 кг, оценка тела +2 — тренировки работают</li>
-      <li style="color:#fbbf24">▪️ Мышцы -0.86 кг — увеличить белок (1.6-2.0 г/кг) для сохранения массы</li>
-      <li style="color:#f87171">▪️ Висцеральный жир 12 — стабильно выше нормы (&lt;9)</li>
-      <li style="color:#fbbf24">▪️ Вода 51.9% ниже нормы — пить 2.5-3 л/день</li>
-      <li style="color:#fbbf24">▪️ Костная масса 3.01 ниже нормы (3.2+) — кальций, витамин D</li>
+      <li style="color:#8bbd9e">▪️ Вес -2 кг за 13 дней (80.1→78.1), цель 77-78 к старту почти достигнута</li>
+      <li style="color:#8bbd9e">▪️ Жир -1 кг, оценка тела +2 — тренировки работают</li>
+      <li style="color:#d4b87a">▪️ Мышцы -0.86 кг — увеличить белок (1.6-2.0 г/кг) для сохранения массы</li>
+      <li style="color:#d4908f">▪️ Висцеральный жир 12 — стабильно выше нормы (&lt;9)</li>
+      <li style="color:#d4b87a">▪️ Вода 51.9% ниже нормы — пить 2.5-3 л/день</li>
+      <li style="color:#d4b87a">▪️ Костная масса 3.01 ниже нормы (3.2+) — кальций, витамин D</li>
     </ul>
   </div>
 
@@ -649,24 +639,24 @@ document.getElementById('weekCard').addEventListener('dblclick', e => e.preventD
 document.getElementById('weekCard').addEventListener('gesturestart', e => e.preventDefault());
 document.getElementById('weekCard').addEventListener('gesturechange', e => e.preventDefault());
 const ICONS = {
-  run: `<svg class="icon" viewBox="0 0 24 24" fill="#f87171" stroke="#f87171" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="4" r="2.3" stroke="none"/><path d="M15.5 6.5L12 13" stroke-width="3.2" fill="none"/><path d="M12 13L15.5 17L18.5 20.5" stroke-width="2.6" fill="none"/><path d="M12 13L9 16.5L6 20.5" stroke-width="2.6" fill="none"/><path d="M14.5 8L18 9.5L20.5 7.5" stroke-width="2.2" fill="none"/><path d="M14.5 8L11 10L8 8.5" stroke-width="2.2" fill="none"/><rect x="1" y="8.5" width="4.5" height="1.3" rx=".65" stroke="none"/><rect x="1.5" y="11.5" width="4" height="1.3" rx=".65" stroke="none"/><rect x="1" y="14.5" width="4.5" height="1.3" rx=".65" stroke="none"/></svg>`,
-  bike: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l3-7h4l2 4h3"/><path d="M9 10l3 7"/><circle cx="13" cy="6" r="1.5"/></svg>`,
-  swim: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><path d="M2 14c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><circle cx="12" cy="6" r="2"/><path d="M7 10h10"/></svg>`,
-  rest: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>`,
-  done: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#16a34a"/><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  run: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#d4908f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18c.6 0 1-.4 1-1v-2c0-1.7-1.3-3-3-3h-2l-2-4.5C14.6 6.6 13.6 6 12.5 6h-3C8 6 6.7 7 6.3 8.5L4.5 13H3c-.6 0-1 .4-1 1v3c0 .6.4 1 1 1z"/><path d="M7 13v5M11 13v5M15 13v5"/></svg>`,
+  bike: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#d4b87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l3-7h4l2 4h3"/><path d="M9 10l3 7"/><circle cx="13" cy="6" r="1.5"/></svg>`,
+  swim: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#8ec8d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><path d="M2 14c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><circle cx="12" cy="6" r="2"/><path d="M7 10h10"/></svg>`,
+  rest: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#8bbd9e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>`,
+  done: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#4a9068"/><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   pending: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#505060" stroke-width="1.5"/><circle cx="8" cy="8" r="2" fill="#505060"/></svg>`,
-  today_marker: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#e94560" stroke-width="2"/><path d="M8 4v4l3 2" stroke="#e94560" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
-  alarm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3L2 6"/><path d="M22 6l-3-3"/></svg>`,
-  run_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="#f87171" stroke="#f87171" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="4" r="2.3" stroke="none"/><path d="M15.5 6.5L12 13" stroke-width="3.2" fill="none"/><path d="M12 13L15.5 17L18.5 20.5" stroke-width="2.6" fill="none"/><path d="M12 13L9 16.5L6 20.5" stroke-width="2.6" fill="none"/><path d="M14.5 8L18 9.5L20.5 7.5" stroke-width="2.2" fill="none"/><path d="M14.5 8L11 10L8 8.5" stroke-width="2.2" fill="none"/><rect x="1" y="8.5" width="4.5" height="1.3" rx=".65" stroke="none"/><rect x="1.5" y="11.5" width="4" height="1.3" rx=".65" stroke="none"/><rect x="1" y="14.5" width="4.5" height="1.3" rx=".65" stroke="none"/></svg>`,
-  bike_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l3-7h4l2 4h3"/><path d="M9 10l3 7"/><circle cx="13" cy="6" r="1.5"/></svg>`,
-  swim_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><path d="M2 14c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><circle cx="12" cy="6" r="2"/><path d="M7 10h10"/></svg>`,
-  gym: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M20 12h2"/><rect x="4" y="8" width="3" height="8" rx="1"/><rect x="17" y="8" width="3" height="8" rx="1"/><path d="M7 12h10"/></svg>`,
-  gym_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M20 12h2"/><rect x="4" y="8" width="3" height="8" rx="1"/><rect x="17" y="8" width="3" height="8" rx="1"/><path d="M7 12h10"/></svg>`,
-  race: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>`,
-  race_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>`,
-  miss: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#ef4444" stroke-width="1.5"/><path d="M5 5l6 6M11 5l-6 6" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  today_marker: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#c97b84" stroke-width="2"/><path d="M8 4v4l3 2" stroke="#c97b84" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
+  alarm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#a89bc8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3L2 6"/><path d="M22 6l-3-3"/></svg>`,
+  run_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#d4908f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18c.6 0 1-.4 1-1v-2c0-1.7-1.3-3-3-3h-2l-2-4.5C14.6 6.6 13.6 6 12.5 6h-3C8 6 6.7 7 6.3 8.5L4.5 13H3c-.6 0-1 .4-1 1v3c0 .6.4 1 1 1z"/><path d="M7 13v5M11 13v5M15 13v5"/></svg>`,
+  bike_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#d4b87a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l3-7h4l2 4h3"/><path d="M9 10l3 7"/><circle cx="13" cy="6" r="1.5"/></svg>`,
+  swim_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#8ec8d8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><path d="M2 14c1.5-1 3-1.5 4.5 0s3 1 4.5 0 3-1.5 4.5 0 3 1 4.5 0"/><circle cx="12" cy="6" r="2"/><path d="M7 10h10"/></svg>`,
+  gym: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#a89bc8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M20 12h2"/><rect x="4" y="8" width="3" height="8" rx="1"/><rect x="17" y="8" width="3" height="8" rx="1"/><path d="M7 12h10"/></svg>`,
+  gym_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#a89bc8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M20 12h2"/><rect x="4" y="8" width="3" height="8" rx="1"/><rect x="17" y="8" width="3" height="8" rx="1"/><path d="M7 12h10"/></svg>`,
+  race: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#c97b84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>`,
+  race_sm: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="#c97b84" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>`,
+  miss: `<svg class="icon-xs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#d4908f" stroke-width="1.5"/><path d="M5 5l6 6M11 5l-6 6" stroke="#d4908f" stroke-width="1.5" stroke-linecap="round"/></svg>`,
 };
-const typeColor = { run: '#f87171', bike: '#fbbf24', swim: '#67e8f9', gym: '#a78bfa', race: '#e94560' };
+const typeColor = { run: '#d4908f', bike: '#d4b87a', swim: '#8ec8d8', gym: '#a89bc8', race: '#c97b84' };
 const coachIcon = `<svg style="width:14px;height:14px;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
 
 const allWeeks = [
@@ -898,25 +888,25 @@ function renderToday() {
     for (const t of todayEntry.trainings) {
       const isMovedAway = movedFrom.find(r => r.training === t.name);
       if (isMovedAway) {
-        html += `<li style="opacity:0.4;text-decoration:line-through"><div class="sport-icon">${ICONS[t.type]||''}</div><div class="info"><span class="time">${t.time}</span> <span class="type" style="color:${typeColor[t.type]}">${t.name}</span><div class="details" style="color:#f87171">Перенесена на ${isMovedAway.toDate}${isMovedAway.reason ? ' — ' + isMovedAway.reason : ''}</div></div></li>`;
+        html += `<li style="opacity:0.4;text-decoration:line-through"><div class="sport-icon">${ICONS[t.type]||''}</div><div class="info"><span class="time">${t.time}</span> <span class="type" style="color:${typeColor[t.type]}">${t.name}</span><div class="details" style="color:#d4908f">Перенесена на ${isMovedAway.toDate}${isMovedAway.reason ? ' — ' + isMovedAway.reason : ''}</div></div></li>`;
       } else {
         const status = t.done ? ICONS.done : ICONS.today_marker;
         html += `<li><div class="sport-icon">${ICONS[t.type]||''}</div><div class="info"><span class="time">${t.time}</span> <span class="type" style="color:${typeColor[t.type]}">${t.name}</span> ${status}<div class="details">${t.details}</div></div></li>`;
       }
     }
     for (const r of movedTo) {
-      html += `<li style="border-left:3px solid #fbbf24;padding-left:8px"><div class="sport-icon">↩️</div><div class="info"><span class="type" style="color:#fbbf24">${r.training}</span><div class="details" style="color:#fbbf24">Перенесена с ${r.fromDate}${r.reason ? ' — ' + r.reason : ''}</div></div></li>`;
+      html += `<li style="border-left:3px solid #d4b87a;padding-left:8px"><div class="sport-icon">↩️</div><div class="info"><span class="type" style="color:#d4b87a">${r.training}</span><div class="details" style="color:#d4b87a">Перенесена с ${r.fromDate}${r.reason ? ' — ' + r.reason : ''}</div></div></li>`;
     }
     if (todayEntry.actual && todayEntry.actual.length > 0) {
       const activePlans = todayEntry.trainings.filter(t => !movedFrom.find(r => r.training === t.name));
-      html += `<li style="border-top:1px solid #1e3a5f;margin-top:8px;padding-top:8px"><div class="sport-icon">📊</div><div class="info"><span class="type" style="color:#4ade80;font-size:12px">Факт (Garmin):</span>`;
+      html += `<li style="border-top:1px solid #1e3a5f;margin-top:8px;padding-top:8px"><div class="sport-icon">📊</div><div class="info"><span class="type" style="color:#8bbd9e;font-size:12px">Факт (Garmin):</span>`;
       for (const a of todayEntry.actual) {
         const paceStr = a.pace ? `, ${Math.floor(a.pace/60)}:${String(a.pace%60).padStart(2,'0')}/км` : '';
         const matchedPlan = activePlans.find(t => t.type === a.type);
         let note = '';
         if (activePlans.length > 0 && !matchedPlan) {
           const expected = activePlans.map(t => t.type === 'run' ? 'бег' : t.type === 'bike' ? 'вело' : 'плавание').join('/');
-          note = `<div style="color:#f87171;font-size:11px">⚠ По плану: ${expected}, сделано другое</div>`;
+          note = `<div style="color:#d4908f;font-size:11px">⚠ По плану: ${expected}, сделано другое</div>`;
         } else if (matchedPlan) {
           const dM = matchedPlan.details.match(/(\d+)\s*мин/);
           const kM = matchedPlan.details.match(/~?(\d+(?:[.,]\d+)?)\s*км/);
@@ -925,7 +915,7 @@ function renderToday() {
           const nn = [];
           if (pD && Math.abs(a.duration - pD) > 5) nn.push(a.duration < pD ? `⏱ ${a.duration}/${pD} мин (короче)` : `⏱ ${a.duration}/${pD} мин (длиннее)`);
           if (pK && a.distance && (a.distance/pK < 0.8 || a.distance/pK > 1.2)) nn.push(`📏 ${a.distance}/${pK} км`);
-          if (nn.length) note = `<div style="color:#fbbf24;font-size:11px">${nn.join(' ')}</div>`;
+          if (nn.length) note = `<div style="color:#d4b87a;font-size:11px">${nn.join(' ')}</div>`;
         }
         html += `<div class="details" style="color:#a0a0b0">${a.name} — ${a.duration} мин${a.distance ? ', '+a.distance+' км' : ''}${paceStr}${a.avgHR ? ', ♥'+a.avgHR : ''}</div>${note}`;
       }
@@ -933,14 +923,14 @@ function renderToday() {
     }
     if (todayEntry.extra && todayEntry.extra.length > 0) {
       for (const e of todayEntry.extra) {
-        html += `<li style="border-left:3px solid #4ade80;padding-left:8px"><div class="sport-icon">${ICONS[e.type]||'💪'}</div><div class="info"><span class="type" style="color:#4ade80">БОНУС: ${e.name}</span><div class="details">${e.duration} мин${e.distance ? ', '+e.distance+' км' : ''}${e.avgHR ? ', ♥'+e.avgHR : ''}</div></div></li>`;
+        html += `<li style="border-left:3px solid #8bbd9e;padding-left:8px"><div class="sport-icon">${ICONS[e.type]||'💪'}</div><div class="info"><span class="type" style="color:#8bbd9e">БОНУС: ${e.name}</span><div class="details">${e.duration} мин${e.distance ? ', '+e.distance+' км' : ''}${e.avgHR ? ', ♥'+e.avgHR : ''}</div></div></li>`;
       }
     }
     html += '</ul>';
   } else if (todayEntry.extra && todayEntry.extra.length > 0) {
     html += '<ul class="today-plan">';
     for (const e of todayEntry.extra) {
-      html += `<li style="border-left:3px solid #4ade80;padding-left:8px"><div class="sport-icon">${ICONS[e.type]||'💪'}</div><div class="info"><span class="type" style="color:#4ade80">БОНУС: ${e.name}</span><div class="details">${e.duration} мин${e.distance ? ', '+e.distance+' км' : ''}${e.avgHR ? ', ♥'+e.avgHR : ''} (не по плану)</div></div></li>`;
+      html += `<li style="border-left:3px solid #8bbd9e;padding-left:8px"><div class="sport-icon">${ICONS[e.type]||'💪'}</div><div class="info"><span class="type" style="color:#8bbd9e">БОНУС: ${e.name}</span><div class="details">${e.duration} мин${e.distance ? ', '+e.distance+' км' : ''}${e.avgHR ? ', ♥'+e.avgHR : ''} (не по плану)</div></div></li>`;
     }
     html += '</ul>';
   } else {
@@ -979,14 +969,14 @@ function renderWeek() {
         if (!t.movedFrom) planMin += tMin;
         if (isMovedAway || t.movedTo) {
           const toDate = t.movedTo || (isMovedAway && isMovedAway.toDate);
-          whtml += `<div class="wt" style="opacity:0.4;text-decoration:line-through">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span>${durLabel}<span style="color:#fbbf24;font-size:9px;margin-left:4px">→${toDate}</span></div>`;
+          whtml += `<div class="wt" style="opacity:0.4;text-decoration:line-through">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span>${durLabel}<span style="color:#d4b87a;font-size:9px;margin-left:4px">→${toDate}</span></div>`;
         } else {
           let si; if (t.done) { si = ICONS.done; doneCount++; const ga = d.actual && d.actual.find(a => a.type === t.type); factMin += ga ? ga.duration : tMin; } else if (isToday) si = ICONS.today_marker; else if (isPast) si = ICONS.miss; else si = ICONS.pending;
           whtml += `<div class="wt">${ICONS[t.type+'_sm']||''} <span class="wt-name">${t.name}</span>${durLabel}<span class="wt-status">${si}</span></div>`;
         }
       }
       for (const r of dayR.movedTo) {
-        whtml += `<div class="wt" style="border-left:2px solid #fbbf24;padding-left:4px"><span style="color:#fbbf24;font-size:9px">←${r.fromDate}</span> <span class="wt-name" style="color:#fbbf24">${r.training}</span></div>`;
+        whtml += `<div class="wt" style="border-left:2px solid #d4b87a;padding-left:4px"><span style="color:#d4b87a;font-size:9px">←${r.fromDate}</span> <span class="wt-name" style="color:#d4b87a">${r.training}</span></div>`;
       }
     }
     if (d.actual && d.actual.length > 0 && isPast) {
@@ -997,7 +987,7 @@ function renderWeek() {
         let mismatchHtml = '';
         if (planned.length > 0 && !matchedPlan) {
           const expectedTypes = planned.map(t => t.type === 'run' ? 'бег' : t.type === 'bike' ? 'вело' : t.type === 'swim' ? 'плавание' : t.type).join('/');
-          mismatchHtml = `<div style="color:#f87171;font-size:9px;margin-top:1px">⚠ По плану: ${expectedTypes}, сделано другое</div>`;
+          mismatchHtml = `<div style="color:#d4908f;font-size:9px;margin-top:1px">⚠ По плану: ${expectedTypes}, сделано другое</div>`;
         } else if (matchedPlan) {
           const dMatch = matchedPlan.details.match(/(\d+)\s*мин/);
           const kmMatch = matchedPlan.details.match(/~?(\d+(?:[.,]\d+)?)\s*км/);
@@ -1006,25 +996,25 @@ function renderWeek() {
           const notes = [];
           if (planDur && a.duration && Math.abs(a.duration - planDur) > 5) notes.push(a.duration < planDur ? `⏱ ${a.duration}/${planDur} мин (короче)` : `⏱ ${a.duration}/${planDur} мин (длиннее)`);
           if (planDist && a.distance && (a.distance / planDist < 0.8 || a.distance / planDist > 1.2)) notes.push(`📏 ${a.distance}/${planDist} км`);
-          if (notes.length > 0) mismatchHtml = `<div style="color:#fbbf24;font-size:9px;margin-top:1px">${notes.join(' ')}</div>`;
+          if (notes.length > 0) mismatchHtml = `<div style="color:#d4b87a;font-size:9px;margin-top:1px">${notes.join(' ')}</div>`;
         }
-        const factColor = mismatchHtml && mismatchHtml.includes('f87171') ? '#f87171' : '#4ade80';
+        const factColor = mismatchHtml && mismatchHtml.includes('f87171') ? '#d4908f' : '#8bbd9e';
         whtml += `<div class="wt" style="font-size:10px;color:#a0a0b0;margin-top:2px;border-top:1px solid #1e3a5f;padding-top:2px">${ICONS[a.type+'_sm']||'📊'} <span style="color:${factColor}">${a.name}</span> <span>${a.duration}мин${a.distance ? ', '+a.distance+'км' : ''}${paceStr}${a.avgHR ? ', ♥'+a.avgHR : ''}</span>${mismatchHtml}</div>`;
       }
       if (planned.length > 0 && d.actual.length === 0) {
-        whtml += `<div class="wt" style="font-size:10px;color:#f87171;margin-top:2px;border-top:1px solid #1e3a5f;padding-top:2px">⚠ Тренировка не выполнена</div>`;
+        whtml += `<div class="wt" style="font-size:10px;color:#d4908f;margin-top:2px;border-top:1px solid #1e3a5f;padding-top:2px">⚠ Тренировка не выполнена</div>`;
       }
     } else if (isPast && !isRest && d.trainings.length > 0 && (!d.actual || d.actual.length === 0)) {
       const notMoved = d.trainings.filter(t => !dayR.movedFrom.find(r => r.training === t.name));
       if (notMoved.length > 0 && notMoved.some(t => !t.done)) {
-        whtml += `<div class="wt" style="font-size:10px;color:#f87171;margin-top:2px;border-top:1px solid #1e3a5f;padding-top:2px">⚠ ${d.garminChecked ? 'Не выполнено' : 'Нет данных Garmin'}</div>`;
+        whtml += `<div class="wt" style="font-size:10px;color:#d4908f;margin-top:2px;border-top:1px solid #1e3a5f;padding-top:2px">⚠ ${d.garminChecked ? 'Не выполнено' : 'Нет данных Garmin'}</div>`;
       }
     }
     if (d.extra && d.extra.length > 0) {
       for (const e of d.extra) {
         doneCount++;
         factMin += e.duration || 0;
-        whtml += `<div class="wt" style="border-left:2px solid #4ade80;padding-left:4px;margin-top:2px"><span style="color:#4ade80;font-size:9px;font-weight:700">БОНУС</span> ${ICONS[e.type+'_sm']||''} <span class="wt-name" style="color:#4ade80">${e.name}</span><span style="color:#a0a0b0;font-size:10px;margin-left:4px">${e.duration}мин${e.distance ? ', '+e.distance+'км' : ''}</span><span class="wt-status">${ICONS.done}</span></div>`;
+        whtml += `<div class="wt" style="border-left:2px solid #8bbd9e;padding-left:4px;margin-top:2px"><span style="color:#8bbd9e;font-size:9px;font-weight:700">БОНУС</span> ${ICONS[e.type+'_sm']||''} <span class="wt-name" style="color:#8bbd9e">${e.name}</span><span style="color:#a0a0b0;font-size:10px;margin-left:4px">${e.duration}мин${e.distance ? ', '+e.distance+'км' : ''}</span><span class="wt-status">${ICONS.done}</span></div>`;
       }
     }
     whtml += '</div></div>';
@@ -1035,7 +1025,7 @@ function renderWeek() {
   const planH = Math.floor(planMin / 60), planM = planMin % 60;
   const factH = Math.floor(factMin / 60), factM = factMin % 60;
   const pct = planMin > 0 ? Math.round(factMin / planMin * 100) : 0;
-  const pctColor = pct >= 90 ? '#4ade80' : pct >= 60 ? '#fbbf24' : '#f87171';
+  const pctColor = pct >= 90 ? '#8bbd9e' : pct >= 60 ? '#d4b87a' : '#d4908f';
   let statsHtml = `<div class="stat green"><div class="val">${doneCount}/${totalTrainings}</div><div class="label">Тренировок</div></div>`;
   statsHtml += `<div class="stat blue"><div class="val">${planH}ч${planM ? ' '+planM+'м' : ''}</div><div class="label">План</div></div>`;
   statsHtml += `<div class="stat" style="color:${pctColor}"><div class="val">${factH}ч${factM ? ' '+factM+'м' : ''}</div><div class="label">Факт (${pct}%)</div></div>`;
@@ -1087,13 +1077,13 @@ function renderWeeksSummary() {
     if (total === 0 && done === 0) continue;
     const pct = planMin > 0 ? Math.round(factMin / planMin * 100) : 0;
     const isCurrent = wi === currentWeekIdx;
-    const barColor = !hasAnyDay ? '#3b3b5c' : pct >= 90 ? '#4ade80' : pct >= 50 ? '#fbbf24' : '#f87171';
+    const barColor = !hasAnyDay ? '#3b3b5c' : pct >= 90 ? '#8bbd9e' : pct >= 50 ? '#d4b87a' : '#d4908f';
     const bg = isCurrent ? '#1e3a5f' : '#16213e';
     const planH = Math.floor(planMin / 60), planM = planMin % 60;
     const factH = Math.floor(factMin / 60), factM = factMin % 60;
     const planStr = planH + 'ч' + (planM ? ' ' + planM + 'м' : '');
     const factStr = factH + 'ч' + (factM ? ' ' + factM + 'м' : '');
-    html += `<div style="background:${bg};border-radius:8px;padding:8px 10px;cursor:pointer;border:${isCurrent ? '1px solid #e94560' : '1px solid transparent'}" onclick="currentWeekIdx=${wi};renderWeek();renderWeeksSummary()">`;
+    html += `<div style="background:${bg};border-radius:8px;padding:8px 10px;cursor:pointer;border:${isCurrent ? '1px solid #c97b84' : '1px solid transparent'}" onclick="currentWeekIdx=${wi};renderWeek();renderWeeksSummary()">`;
     html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">`;
     html += `<span style="font-size:12px;font-weight:600;color:${isCurrent ? '#fff' : '#a0a0b0'}">${week.range}</span>`;
     html += `<span style="font-size:11px;color:#808090">${done}/${total} трен.</span>`;
@@ -1185,22 +1175,6 @@ function renderCalendar() {
   html += '</div>';
   document.getElementById('calendarContent').innerHTML = html;
 
-  document.querySelectorAll('.cal-day.has-trains').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const wasExpanded = el.classList.contains('expanded');
-      document.querySelectorAll('.cal-day.expanded').forEach(x => { x.classList.remove('expanded'); x.style.position = ''; x.style.width = ''; x.style.zIndex = ''; });
-      if (!wasExpanded) {
-        el.classList.add('expanded');
-        el.style.position = 'relative';
-        el.style.width = '180px';
-        el.style.zIndex = '10';
-      }
-    });
-  });
-  document.addEventListener('click', () => {
-    document.querySelectorAll('.cal-day.expanded').forEach(x => { x.classList.remove('expanded'); x.style.position = ''; x.style.width = ''; x.style.zIndex = ''; });
-  }, { once: false });
 }
 
 function renderSleepStats(sd) {
@@ -1223,51 +1197,51 @@ function renderCharts(d) {
   const rd = d.runData || []; const sd = d.sleepData || []; const hd = d.hrData || []; const swd = d.swimData || [];
 
   makeChart('efficiencyChart', { type: 'scatter', data: { datasets: [
-    { label: 'Тренировки', data: rd.map(r => ({x:r.hr,y:r.pace})), backgroundColor: '#e94560', pointRadius: 5, pointHoverRadius: 7 },
-    { label: 'ПАНО', data: [{x:175,y:305}], backgroundColor: '#fbbf24', pointRadius: 8, pointStyle: 'star' },
-    { label: 'Лаб Z2', data: [{x:145,y:450}], backgroundColor: '#60a5fa', pointRadius: 8, pointStyle: 'triangle' },
+    { label: 'Тренировки', data: rd.map(r => ({x:r.hr,y:r.pace})), backgroundColor: '#c97b84', pointRadius: 5, pointHoverRadius: 7 },
+    { label: 'ПАНО', data: [{x:175,y:305}], backgroundColor: '#d4b87a', pointRadius: 8, pointStyle: 'star' },
+    { label: 'Лаб Z2', data: [{x:145,y:450}], backgroundColor: '#8aaccf', pointRadius: 8, pointStyle: 'triangle' },
   ]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `ЧСС ${ctx.raw.x}, ${fmtPace(ctx.raw.y)}/км` }}}, scales: { x: { title: { display: true, text: 'ЧСС' }, min: 120, max: 180 }, y: { reverse: true, min: 270, max: 460, ticks: { callback: v => fmtPace(v) }}}}});
 
   const weeks = [{w:'М4',run:17.9,bike:0,swim:0},{w:'М5',run:0,bike:43.9,swim:1.02},{w:'И1',run:5.8,bike:57.7,swim:0},{w:'И2',run:21.7,bike:35,swim:0},{w:'И3',run:19.3,bike:52.8,swim:0},{w:'И4',run:11.1,bike:27.6,swim:0},{w:'Ил1',run:14.6,bike:53.4,swim:0},{w:'12-19',run:24.3,bike:67.9,swim:0.73}];
   makeChart('volumeChart', { type: 'bar', data: { labels: weeks.map(w=>w.w), datasets: [
-    { label: 'Бег', data: weeks.map(w=>w.run), backgroundColor: '#f87171', borderRadius: 3 },
-    { label: 'Вело', data: weeks.map(w=>w.bike), backgroundColor: '#fbbf24', borderRadius: 3 },
-    { label: 'Плав', data: weeks.map(w=>w.swim), backgroundColor: '#67e8f9', borderRadius: 3 },
+    { label: 'Бег', data: weeks.map(w=>w.run), backgroundColor: '#d4908f', borderRadius: 3 },
+    { label: 'Вело', data: weeks.map(w=>w.bike), backgroundColor: '#d4b87a', borderRadius: 3 },
+    { label: 'Плав', data: weeks.map(w=>w.swim), backgroundColor: '#8ec8d8', borderRadius: 3 },
   ]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 }}}, scales: { x: { stacked: true }, y: { stacked: true }}}});
 
   function t2m(s) { const p = s.split(':').map(Number); return p[0]*60+p[1]+(p[2]||0)/60; }
   const races = [{n:'Гел 06.24',t:t2m('5:23:51'),s:t2m('0:43:41'),b:t2m('2:41:33'),r:t2m('1:54:16')},{n:'СПб 07.24',t:t2m('5:15:05'),s:t2m('0:42:57'),b:t2m('2:29:36'),r:t2m('1:53:30')},{n:'Мск 08.24',t:t2m('5:06:26'),s:t2m('0:39:31'),b:t2m('2:20:01'),r:t2m('2:00:55')},{n:'СПб 07.25',t:t2m('5:29:57'),s:t2m('0:38:08'),b:t2m('2:38:31'),r:t2m('2:05:53')},{n:'НН 08.25',t:t2m('5:07:07'),s:t2m('0:38:52'),b:t2m('2:32:56'),r:t2m('1:48:52')},{n:'БМТ 05.26',t:t2m('5:36:41'),s:t2m('0:41:33'),b:t2m('2:52:50'),r:t2m('1:55:55')}];
   makeChart('raceChart', { type: 'line', data: { labels: races.map(r=>r.n), datasets: [
-    { label: 'Общее', data: races.map(r=>r.t), borderColor: '#e94560', backgroundColor: '#e9456020', fill: true, tension: 0.3, pointRadius: 4 },
-    { label: 'Вело', data: races.map(r=>r.b), borderColor: '#fbbf24', tension: 0.3, pointRadius: 3 },
-    { label: 'Бег', data: races.map(r=>r.r), borderColor: '#f87171', tension: 0.3, pointRadius: 3 },
-    { label: 'Плав', data: races.map(r=>r.s), borderColor: '#67e8f9', tension: 0.3, pointRadius: 3 },
+    { label: 'Общее', data: races.map(r=>r.t), borderColor: '#c97b84', backgroundColor: '#c97b8420', fill: true, tension: 0.3, pointRadius: 4 },
+    { label: 'Вело', data: races.map(r=>r.b), borderColor: '#d4b87a', tension: 0.3, pointRadius: 3 },
+    { label: 'Бег', data: races.map(r=>r.r), borderColor: '#d4908f', tension: 0.3, pointRadius: 3 },
+    { label: 'Плав', data: races.map(r=>r.s), borderColor: '#8ec8d8', tension: 0.3, pointRadius: 3 },
   ]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 }}, tooltip: { callbacks: { label: ctx => { const v=ctx.raw; return `${ctx.dataset.label}: ${Math.floor(v/60)}:${String(Math.round(v%60)).padStart(2,'0')}`; }}}}, scales: { y: { ticks: { callback: v => `${Math.floor(v/60)}:${String(Math.round(v%60)).padStart(2,'0')}` }}}}});
 
-  makeChart('sportChart', { type: 'doughnut', data: { labels: ['Бег','Вело','Плав'], datasets: [{ data: [145,131,24], backgroundColor: ['#f87171','#fbbf24','#67e8f9'], borderWidth: 0 }]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 }}, tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw} мин` }}}}});
+  makeChart('sportChart', { type: 'doughnut', data: { labels: ['Бег','Вело','Плав'], datasets: [{ data: [145,131,24], backgroundColor: ['#d4908f','#d4b87a','#8ec8d8'], borderWidth: 0 }]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 }}, tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw} мин` }}}}});
 
   makeChart('hrChart', { type: 'bar', data: { labels: hd.map(x=>x.name), datasets: [
-    { label: 'ср.ЧСС', data: hd.map(x=>x.avg), backgroundColor: '#60a5fa', borderRadius: 3 },
-    { label: 'макс', data: hd.map(x=>x.max), backgroundColor: '#f8717140', borderColor: '#f87171', borderWidth: 1, borderRadius: 3 },
+    { label: 'ср.ЧСС', data: hd.map(x=>x.avg), backgroundColor: '#8aaccf', borderRadius: 3 },
+    { label: 'макс', data: hd.map(x=>x.max), backgroundColor: '#d4908f40', borderColor: '#d4908f', borderWidth: 1, borderRadius: 3 },
   ]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 }}}, scales: { y: { min: 100, max: 190 }}}});
 
   makeChart('sleepChart', { type: 'bar', data: { labels: sd.map(x=>x.d), datasets: [
     { label: 'Deep', data: sd.map(x=>x.deep), backgroundColor: '#3b82f6', borderRadius: 2, order: 3 },
-    { label: 'REM', data: sd.map(x=>x.rem), backgroundColor: '#a78bfa', borderRadius: 2, order: 2 },
+    { label: 'REM', data: sd.map(x=>x.rem), backgroundColor: '#a89bc8', borderRadius: 2, order: 2 },
     { label: 'Light', data: sd.map(x=>x.light), backgroundColor: '#1e3a5f', borderRadius: 2, order: 1 },
-    { label: 'Оценка', data: sd.map(x=>(x.score||0)/10), type: 'line', borderColor: '#4ade80', backgroundColor: 'transparent', pointRadius: 2, borderWidth: 2, yAxisID: 'y1', order: 0 },
-    { label: '7.5ч цель', data: sd.map(()=>7.5), type: 'line', borderColor: '#e9456060', borderDash: [4,4], pointRadius: 0, borderWidth: 1, fill: false, order: 0 },
+    { label: 'Оценка', data: sd.map(x=>(x.score||0)/10), type: 'line', borderColor: '#8bbd9e', backgroundColor: 'transparent', pointRadius: 2, borderWidth: 2, yAxisID: 'y1', order: 0 },
+    { label: '7.5ч цель', data: sd.map(()=>7.5), type: 'line', borderColor: '#c97b8460', borderDash: [4,4], pointRadius: 0, borderWidth: 1, fill: false, order: 0 },
   ]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 6, font: { size: 10 }}}, tooltip: { callbacks: { label: ctx => { if (ctx.dataset.label==='Оценка') return `Оценка: ${(ctx.raw*10).toFixed(0)}`; if (ctx.dataset.label==='7.5ч цель') return ''; return `${ctx.dataset.label}: ${ctx.raw.toFixed(1)} ч`; }}}}, scales: { x: { stacked: true, ticks: { maxRotation: 45, font: { size: 9 }}}, y: { stacked: true, title: { display: true, text: 'Часы' }, max: 12 }, y1: { position: 'right', min: 0, max: 10, grid: { display: false }, ticks: { callback: v => (v*10) }, title: { display: true, text: 'Score' }}}}});
 
   makeChart('recoveryChart', { type: 'line', data: { labels: sd.map(x=>x.d), datasets: [
-    { label: 'HRV', data: sd.map(x=>x.hrv), borderColor: '#67e8f9', backgroundColor: '#67e8f920', fill: true, tension: 0.3, pointRadius: 2, borderWidth: 2 },
-    { label: 'Body Battery', data: sd.map(x=>x.bb), borderColor: '#4ade80', tension: 0.3, pointRadius: 2, borderWidth: 2, yAxisID: 'y1' },
-    { label: 'ЧСС покоя', data: sd.map(x=>x.rhr&&x.rhr<55?x.rhr:null), borderColor: '#f87171', tension: 0.3, pointRadius: 2, borderWidth: 2 },
+    { label: 'HRV', data: sd.map(x=>x.hrv), borderColor: '#8ec8d8', backgroundColor: '#8ec8d820', fill: true, tension: 0.3, pointRadius: 2, borderWidth: 2 },
+    { label: 'Body Battery', data: sd.map(x=>x.bb), borderColor: '#8bbd9e', tension: 0.3, pointRadius: 2, borderWidth: 2, yAxisID: 'y1' },
+    { label: 'ЧСС покоя', data: sd.map(x=>x.rhr&&x.rhr<55?x.rhr:null), borderColor: '#d4908f', tension: 0.3, pointRadius: 2, borderWidth: 2 },
   ]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 6, font: { size: 10 }}}}, scales: { x: { ticks: { maxRotation: 45, font: { size: 9 }}}, y: { title: { display: true, text: 'HRV / RHR' }, min: 30, max: 90 }, y1: { position: 'right', min: 0, max: 100, grid: { display: false }, title: { display: true, text: 'BB' }}}}});
 
   makeChart('swimChart', { type: 'bar', data: { labels: swd.map(x=>x.d), datasets: [
-    { label: 'Дистанция (м)', data: swd.map(x=>x.v), backgroundColor: swd.map(x=>x.ow?'#67e8f9':'#164e63'), borderRadius: 3 },
-    { label: 'Цель 1900м', data: swd.map(()=>1900), type: 'line', borderColor: '#e94560', borderDash: [4,4], pointRadius: 0, fill: false },
+    { label: 'Дистанция (м)', data: swd.map(x=>x.v), backgroundColor: swd.map(x=>x.ow?'#8ec8d8':'#164e63'), borderRadius: 3 },
+    { label: 'Цель 1900м', data: swd.map(()=>1900), type: 'line', borderColor: '#c97b84', borderDash: [4,4], pointRadius: 0, fill: false },
   ]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 }}}, scales: { y: { max: 2100 }}}});
 }
 
@@ -1284,10 +1258,10 @@ const expertIcons = {
   nutri: `<svg style="width:14px;height:14px;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
 };
 const expertMap = {
-  health_doctor: { label: 'Спорт. врач', icon: expertIcons.doctor, color: '#60a5fa', bg: '#162e3e', border: '#2a4a6a' },
-  health_endo: { label: 'Эндокринолог', icon: expertIcons.doctor, color: '#a78bfa', bg: '#1e1a2e', border: '#3a2a5a' },
-  nutrition_expert: { label: 'Нутрициолог', icon: expertIcons.nutri, color: '#fbbf24', bg: '#2e2a1a', border: '#4a4a2a' },
-  lab: { label: 'Спорт. врач', icon: expertIcons.doctor, color: '#60a5fa', bg: '#162e3e', border: '#2a4a6a' },
+  health_doctor: { label: 'Спорт. врач', icon: expertIcons.doctor, color: '#8aaccf', bg: '#162e3e', border: '#2a4a6a' },
+  health_endo: { label: 'Эндокринолог', icon: expertIcons.doctor, color: '#a89bc8', bg: '#1e1a2e', border: '#3a2a5a' },
+  nutrition_expert: { label: 'Нутрициолог', icon: expertIcons.nutri, color: '#d4b87a', bg: '#2e2a1a', border: '#4a4a2a' },
+  lab: { label: 'Спорт. врач', icon: expertIcons.doctor, color: '#8aaccf', bg: '#162e3e', border: '#2a4a6a' },
 };
 
 function addCoachButtons() {
@@ -1357,7 +1331,7 @@ function addCoachButtons() {
     const isSpecialist = expertMap[coachKey];
     const btnLabel = isSpecialist ? isSpecialist.label : 'Тренер';
     const btnIcon = isSpecialist ? isSpecialist.icon : coachIcon;
-    const btnColor = isSpecialist ? isSpecialist.color : '#4ade80';
+    const btnColor = isSpecialist ? isSpecialist.color : '#8bbd9e';
     const btnBg = isSpecialist ? isSpecialist.bg : '#1a2e1a';
     const btnBorder = isSpecialist ? isSpecialist.border : '#2a4a2a';
 
@@ -1386,42 +1360,6 @@ function addCoachButtons() {
   });
 }
 
-// Expand / collapse
-const expandIcon = `<svg class="card-expand" viewBox="0 0 24 24" fill="none" stroke="#a0a0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>`;
-
-function setupExpand() {
-  document.querySelectorAll('.card').forEach(card => {
-    if (card.closest('#tab-nutrition')) return;
-    card.insertAdjacentHTML('beforeend', expandIcon);
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('.close-btn') || e.target.closest('.coach-card-btn') || e.target.closest('.coach-tip')) return;
-      if (window.getSelection().toString()) return;
-      const overlay = document.createElement('div');
-      overlay.className = 'card-overlay active';
-      overlay.innerHTML = `<button class="close-btn" aria-label="Close">&times;</button><div class="card-inner"></div>`;
-      const inner = overlay.querySelector('.card-inner');
-      const clone = card.cloneNode(true);
-      clone.style.cssText = 'border:none;cursor:default;';
-      clone.querySelector('.card-expand')?.remove();
-      inner.appendChild(clone);
-      document.body.appendChild(overlay);
-      document.body.style.overflow = 'hidden';
-      clone.querySelectorAll('canvas').forEach(canvas => {
-        const orig = card.querySelector(`#${canvas.id}`);
-        if (!orig) return;
-        const ci = Chart.getChart(orig);
-        if (!ci) return;
-        const nc = document.createElement('canvas');
-        canvas.replaceWith(nc);
-        new Chart(nc, { type: ci.config.type, data: JSON.parse(JSON.stringify(ci.config.data)), options: { ...JSON.parse(JSON.stringify(ci.config.options)), maintainAspectRatio: false }});
-      });
-      function close() { overlay.remove(); document.body.style.overflow = ''; }
-      overlay.querySelector('.close-btn').addEventListener('click', close);
-      overlay.addEventListener('click', (ev) => { if (ev.target === overlay) close(); });
-      document.addEventListener('keydown', function esc(ev) { if (ev.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }});
-    });
-  });
-}
 
 async function syncWeekData() {
   const btn = document.getElementById('weekSyncBtn');
@@ -1508,8 +1446,8 @@ function renderLactateChart() {
   if (Chart.getChart(document.getElementById('lactateChart'))) return;
   const steps = [{s:7,hr:135,la:1.1},{s:8,hr:145,la:1.4},{s:9,hr:156,la:1.6},{s:10,hr:162,la:2.1},{s:11,hr:168,la:2.7},{s:12,hr:177,la:3.9},{s:13,hr:186,la:5.4},{s:15,hr:190,la:7.9}];
   makeChart('lactateChart', { type:'line', data:{ labels: steps.map(s=>s.s+' км/ч'), datasets:[
-    { label:'Лактат', data: steps.map(s=>s.la), borderColor:'#e94560', backgroundColor:'#e9456020', fill:true, tension:0.3, pointRadius:5, yAxisID:'y' },
-    { label:'ЧСС', data: steps.map(s=>s.hr), borderColor:'#60a5fa', tension:0.3, pointRadius:4, yAxisID:'y1' },
+    { label:'Лактат', data: steps.map(s=>s.la), borderColor:'#c97b84', backgroundColor:'#c97b8420', fill:true, tension:0.3, pointRadius:5, yAxisID:'y' },
+    { label:'ЧСС', data: steps.map(s=>s.hr), borderColor:'#8aaccf', tension:0.3, pointRadius:4, yAxisID:'y1' },
   ]}, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{boxWidth:10,padding:8} }, annotation: false }, scales:{ y:{ title:{display:true,text:'Лактат ммоль/л'}, min:0, max:9 }, y1:{ position:'right', title:{display:true,text:'ЧСС'}, min:120, max:200, grid:{display:false} }}}});
 }
 
@@ -1518,9 +1456,9 @@ function renderWeightChart() {
   if (Chart.getChart(document.getElementById('weightChart'))) return;
   const points = [{d:'31.05',w:76.7},{d:'12.07',w:80.1}];
   makeChart('weightChart', { type:'line', data:{ labels: points.map(p=>p.d), datasets:[
-    { label:'Вес', data: points.map(p=>p.w), borderColor:'#f87171', backgroundColor:'#f8717120', fill:true, tension:0.3, pointRadius:6 },
-    { label:'Цель', data: points.map(()=>73), borderColor:'#4ade80', borderDash:[4,4], pointRadius:0, fill:false },
-    { label:'Старт (78 кг)', data: points.map(()=>78), borderColor:'#fbbf24', borderDash:[4,4], pointRadius:0, fill:false },
+    { label:'Вес', data: points.map(p=>p.w), borderColor:'#d4908f', backgroundColor:'#d4908f20', fill:true, tension:0.3, pointRadius:6 },
+    { label:'Цель', data: points.map(()=>73), borderColor:'#8bbd9e', borderDash:[4,4], pointRadius:0, fill:false },
+    { label:'Старт (78 кг)', data: points.map(()=>78), borderColor:'#d4b87a', borderDash:[4,4], pointRadius:0, fill:false },
   ]}, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{boxWidth:10,padding:8} }}, scales:{ y:{ min:70, max:85 }}}});
 }
 
@@ -1574,7 +1512,7 @@ function renderMeals() {
     if (m.date && !m.date.startsWith(todayStr)) return;
     const analyzing = m.analyzing ? ' analyzing' : '';
     const src = getMealImgSrc(m);
-    const sourceTag = m.source === 'telegram' ? '<span style="color:#60a5fa;font-size:9px">TG</span> ' : m.source === 'web-text' ? '<span style="color:#4ade80;font-size:9px">TXT</span> ' : '';
+    const sourceTag = m.source === 'telegram' ? '<span style="color:#8aaccf;font-size:9px">TG</span> ' : m.source === 'web-text' ? '<span style="color:#8bbd9e;font-size:9px">TXT</span> ' : '';
     let infoHtml = `<div class="meal-date">${sourceTag}${m.date}</div>`;
     if (m.caption) infoHtml += `<div style="color:#c0c0d0;font-size:10px;font-style:italic">${m.caption}</div>`;
     if (m.analysis && m.analysis.total) {
@@ -1585,7 +1523,7 @@ function renderMeals() {
         infoHtml += `<div class="meal-foods">${m.analysis.foods.map(f => f.name + ' ' + f.weight).join(', ')}</div>`;
       }
     } else if (m.analysis?.error) {
-      infoHtml += `<div style="color:#f87171;font-size:10px;margin-top:4px">${m.analysis.error}</div>`;
+      infoHtml += `<div style="color:#d4908f;font-size:10px;margin-top:4px">${m.analysis.error}</div>`;
     }
     const imgHtml = src
       ? `<img src="${src}" alt="meal" onclick="openMealOverlay(${i})">`
@@ -1629,7 +1567,7 @@ function updateDailySummary(meals) {
   const kcalPct = Math.min(100, Math.round(kcal / 2500 * 100));
   const bar = document.getElementById('dailyBar');
   bar.style.width = kcalPct + '%';
-  bar.style.background = kcalPct > 100 ? '#f87171' : kcalPct > 80 ? '#fbbf24' : '#4ade80';
+  bar.style.background = kcalPct > 100 ? '#d4908f' : kcalPct > 80 ? '#d4b87a' : '#8bbd9e';
 
   document.getElementById('waterTotal').textContent = water;
   document.getElementById('dailyWater').textContent = water + ' / 3000 мл';
@@ -1637,13 +1575,13 @@ function updateDailySummary(meals) {
   document.getElementById('waterBar').style.width = waterPct + '%';
   document.getElementById('waterPct').textContent = waterPct + '%';
 
-  const glassSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round"><path d="M6 2h12l-2 18H8L6 2z"/><path d="M6 6h12"/></svg>';
+  const glassSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8ec8d8" stroke-width="2" stroke-linecap="round"><path d="M6 2h12l-2 18H8L6 2z"/><path d="M6 6h12"/></svg>';
   const wlog = document.getElementById('waterLog');
   if (waterEntries.length > 0) {
     wlog.innerHTML = waterEntries.map(w => {
-      const src = w.source === 'telegram' ? '<span style="color:#60a5fa;font-size:9px">TG</span> ' : '';
-      const label = w.fromFood ? '<span style="color:#4ade80;font-size:9px">напиток</span> ' : '';
-      const del = w.fromFood ? '' : ` <span onclick="deleteMeal(${w.idx})" style="color:#f87171;cursor:pointer;font-size:13px" title="Удалить">×</span>`;
+      const src = w.source === 'telegram' ? '<span style="color:#8aaccf;font-size:9px">TG</span> ' : '';
+      const label = w.fromFood ? '<span style="color:#8bbd9e;font-size:9px">напиток</span> ' : '';
+      const del = w.fromFood ? '' : ` <span onclick="deleteMeal(${w.idx})" style="color:#d4908f;cursor:pointer;font-size:13px" title="Удалить">×</span>`;
       return `<span style="display:inline-flex;align-items:center;gap:3px">${glassSvg}${src}${label}${w.time} ${w.ml}мл${del}</span>`;
     }).join(' &nbsp; ');
   } else {
@@ -1760,8 +1698,8 @@ function populateReportDates(meals) {
   [...Object.keys(days)].sort().reverse().forEach(d => {
     if (d === todayStr) return;
     const s = days[d];
-    const kcalColor = s.kcal > 2500 ? '#f87171' : s.kcal > 2000 ? '#fbbf24' : '#4ade80';
-    const waterColor = s.water >= 3000 ? '#4ade80' : s.water >= 2000 ? '#67e8f9' : '#f87171';
+    const kcalColor = s.kcal > 2500 ? '#d4908f' : s.kcal > 2000 ? '#d4b87a' : '#8bbd9e';
+    const waterColor = s.water >= 3000 ? '#8bbd9e' : s.water >= 2000 ? '#8ec8d8' : '#d4908f';
     const id = 'dayItems_' + d.replace('.','');
     html += `<div style="background:#16213e;border-radius:8px;padding:10px 12px">`;
     html += `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">`;
@@ -1771,7 +1709,7 @@ function populateReportDates(meals) {
     html += `<span style="color:#a0a0b0;font-size:11px">Б${fmtMacro(s.p)} Ж${fmtMacro(s.f)} У${fmtMacro(s.c)}</span>`;
     html += `<span style="color:${waterColor};font-size:11px">${s.water} мл</span>`;
     html += `<span style="color:#606070;font-size:10px">${s.meals} приёмов</span>`;
-    html += `<button onclick="showDayDetail('${d}')" style="margin-left:auto;background:#2e2a1a;border:1px solid #4a4a2a;color:#fbbf24;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer">Анализ</button>`;
+    html += `<button onclick="showDayDetail('${d}')" style="margin-left:auto;background:#2e2a1a;border:1px solid #4a4a2a;color:#d4b87a;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer">Анализ</button>`;
     html += `</div>`;
     html += `<div id="${id}" style="display:none;margin-top:8px;padding-top:8px;border-top:1px solid #1e3a5f">`;
     if (s.items.length > 0) {
@@ -1789,9 +1727,9 @@ function populateReportDates(meals) {
     const urlId = 'dayUrl_' + d.replace('.','');
     const photoId = 'dayPhoto_' + d.replace('.','');
     html += `<div style="margin-top:10px;padding-top:8px;border-top:1px solid #1e3a5f;display:flex;flex-direction:column;gap:6px">`;
-    html += `<div style="display:flex;gap:6px"><input id="${inputId}" type="text" placeholder="Добавить еду текстом..." style="flex:1;background:#0f172a;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:6px;padding:6px 10px;font-size:14px"><button onclick="addPastDayText('${d}','${inputId}')" style="background:#1a3a2a;border:1px solid #4ade80;color:#4ade80;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer">+</button></div>`;
-    html += `<div style="display:flex;gap:6px"><input id="${urlId}" type="text" placeholder="Ссылка на фото еды..." style="flex:1;background:#0f172a;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:6px;padding:6px 10px;font-size:14px"><button onclick="addPastDayPhotoUrl('${d}','${urlId}')" style="background:#1a2a3a;border:1px solid #60a5fa;color:#60a5fa;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer">📎</button></div>`;
-    html += `<div style="display:flex;gap:6px;align-items:center"><input id="${photoId}" type="file" accept="image/*" capture="environment" onchange="addPastDayPhoto('${d}',this)" style="display:none"><button onclick="document.getElementById('${photoId}').click()" style="background:#1a2a3a;border:1px solid #60a5fa;color:#60a5fa;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;width:100%">📷 Добавить фото</button></div>`;
+    html += `<div style="display:flex;gap:6px"><input id="${inputId}" type="text" placeholder="Добавить еду текстом..." style="flex:1;background:#0f172a;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:6px;padding:6px 10px;font-size:14px"><button onclick="addPastDayText('${d}','${inputId}')" style="background:#1a3a2a;border:1px solid #8bbd9e;color:#8bbd9e;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer">+</button></div>`;
+    html += `<div style="display:flex;gap:6px"><input id="${urlId}" type="text" placeholder="Ссылка на фото еды..." style="flex:1;background:#0f172a;border:1px solid #2a2a4a;color:#e0e0e0;border-radius:6px;padding:6px 10px;font-size:14px"><button onclick="addPastDayPhotoUrl('${d}','${urlId}')" style="background:#1a2a3a;border:1px solid #8aaccf;color:#8aaccf;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer">📎</button></div>`;
+    html += `<div style="display:flex;gap:6px;align-items:center"><input id="${photoId}" type="file" accept="image/*" capture="environment" onchange="addPastDayPhoto('${d}',this)" style="display:none"><button onclick="document.getElementById('${photoId}').click()" style="background:#1a2a3a;border:1px solid #8aaccf;color:#8aaccf;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;width:100%">📷 Добавить фото</button></div>`;
     html += `</div>`;
     html += `</div></div>`;
   });
@@ -1880,7 +1818,7 @@ async function showDayDetail(dateStr) {
   const detail = document.getElementById('dayReportDetail');
   const content = document.getElementById('dayReportContent');
   detail.style.display = 'block';
-  content.innerHTML = `<div style="color:#fbbf24;font-weight:600;margin-bottom:8px">${dateStr} — загрузка анализа...</div>`;
+  content.innerHTML = `<div style="color:#d4b87a;font-weight:600;margin-bottom:8px">${dateStr} — загрузка анализа...</div>`;
   try {
     const resp = await fetch(FOOD_API + '/day-analysis?date=' + dateStr);
     const data = await resp.json();
@@ -1968,7 +1906,7 @@ function handleLabUpload(e) {
   const file = e.target.files[0];
   if (!file) return;
   const el = document.getElementById('labUploadResult');
-  el.innerHTML = `<div style="background:#16213e;border-radius:8px;padding:12px;font-size:13px"><span style="color:#4ade80">✓</span> Загружен: <b>${file.name}</b> (${(file.size/1024).toFixed(0)} KB)<br><span style="color:#808090;font-size:11px">Файл сохранён локально. Для анализа отправь тренеру.</span></div>`;
+  el.innerHTML = `<div style="background:#16213e;border-radius:8px;padding:12px;font-size:13px"><span style="color:#8bbd9e">✓</span> Загружен: <b>${file.name}</b> (${(file.size/1024).toFixed(0)} KB)<br><span style="color:#808090;font-size:11px">Файл сохранён локально. Для анализа отправь тренеру.</span></div>`;
 }
 
 function fmtLabDate(iso) {
@@ -1977,7 +1915,7 @@ function fmtLabDate(iso) {
   return `${d}.${m}.${y}`;
 }
 
-const LAB_COLORS = { ok: '#4ade80', warn: '#fbbf24', bad: '#f87171' };
+const LAB_COLORS = { ok: '#8bbd9e', warn: '#d4b87a', bad: '#d4908f' };
 const LAB_MARKS = { ok: 'норма', warn: 'внимание', bad: 'отклонение' };
 
 function renderBloodwork() {
@@ -1999,7 +1937,7 @@ function renderBloodwork() {
           + `<td style="color:#d0e0d0;font-weight:600;white-space:nowrap">${fmtLabDate(x.date)}</td>`
           + `<td style="color:#a0a0b0">${x.panel || ''}</td>`
           + `<td style="color:#808090">${x.lab || ''}</td>`
-          + `<td style="color:#4ade80">${x.note || ''}</td></tr>`).join('')
+          + `<td style="color:#8bbd9e">${x.note || ''}</td></tr>`).join('')
       + `</table>`;
   }
 
@@ -2020,7 +1958,7 @@ function renderBloodwork() {
       + `<td style="color:${c}">${LAB_MARKS[m.status] || ''}</td>`
       + `<td style="color:#a0a0b0">${m.comment || ''}</td></tr>`;
   }).join('');
-  const missing = (bw.missing || []).map(x => `<li style="color:#fbbf24">▪️ ${x}</li>`).join('');
+  const missing = (bw.missing || []).map(x => `<li style="color:#d4b87a">▪️ ${x}</li>`).join('');
 
   body.innerHTML = `<div style="overflow-x:auto"><table class="health-table">${head}${rows}</table></div>`
     + (bw.note ? `<div style="margin-top:8px;font-size:11px;color:#606070">${bw.note}</div>` : '')
@@ -2035,7 +1973,7 @@ function renderSupplements() {
   const dateEl = document.getElementById('supplementsDate');
   if (dateEl) dateEl.textContent = sup.updated ? fmtLabDate(sup.updated) : '';
 
-  const badge = { now: ['#4ade80', 'принимать'], test: ['#fbbf24', 'после анализа'] };
+  const badge = { now: ['#8bbd9e', 'принимать'], test: ['#d4b87a', 'после анализа'] };
   const rows = (sup.items || []).map((it, i) => {
     const [c, label] = badge[it.status] || ['#d0e0d0', ''];
     return `<tr class="supp-row" data-i="${i}" style="cursor:pointer">`
@@ -2047,11 +1985,11 @@ function renderSupplements() {
       + `<td style="color:${c};white-space:nowrap">${label}</td></tr>`
       + `<tr id="suppDetail${i}" style="display:none"><td colspan="6" style="padding:0 6px 10px">`
       + `<div style="background:linear-gradient(135deg,#1e1a2e,#16213e);border:1px solid #3a2a5a;border-radius:8px;padding:12px;font-size:13px;line-height:1.6;color:#d0e0d0;white-space:pre-line">`
-      + `<div style="font-weight:700;color:#a78bfa;font-size:14px;margin-bottom:6px">Комментарий врача — ${it.name}</div>${it.detail || ''}</div></td></tr>`;
+      + `<div style="font-weight:700;color:#a89bc8;font-size:14px;margin-bottom:6px">Комментарий врача — ${it.name}</div>${it.detail || ''}</div></td></tr>`;
   }).join('');
 
   const avoid = (sup.avoid || []).map(a =>
-    `<li style="color:#f87171;margin-bottom:4px">▪️ <b>${a.name}</b> <span style="color:#808090">— ${a.reason}</span></li>`).join('');
+    `<li style="color:#d4908f;margin-bottom:4px">▪️ <b>${a.name}</b> <span style="color:#808090">— ${a.reason}</span></li>`).join('');
 
   body.innerHTML = (sup.basis ? `<div style="font-size:12px;color:#808090;margin-bottom:10px">${sup.basis}</div>` : '')
     + `<div style="overflow-x:auto"><table class="health-table">`
@@ -2099,13 +2037,13 @@ function renderGarminHistory(data) {
   document.getElementById('ghRaces').innerHTML = races.length
     ? `<div style="font-size:12px;color:#808090;margin:4px 0 6px">Гонки и мультиспорт</div>` +
       races.map(a => `<div style="display:flex;gap:10px;padding:6px 0;border-top:1px solid #1e3a5f;font-size:12px">
-        <span style="color:#fbbf24">🏁</span><span style="color:#a0a0b0;min-width:72px">${a.date.split('-').reverse().join('.')}</span>
+        <span style="color:#d4b87a">🏁</span><span style="color:#a0a0b0;min-width:72px">${a.date.split('-').reverse().join('.')}</span>
         <span style="flex:1;color:#fff">${a.name || ''}</span><span style="color:#7dd3fc">${fmtDur(a.minutes)}</span>
         <span style="color:#a0a0b0">${a.km} км</span></div>`).join('')
     : '';
 
   const kindRu = { run: 'Бег', bike: 'Вело', swim: 'Плав', tri: 'Мульти', gym: 'Зал', walk: 'Ходьба', other: '—' };
-  const color = { run: '#f87171', bike: '#fbbf24', swim: '#67e8f9', tri: '#e94560' };
+  const color = { run: '#d4908f', bike: '#d4b87a', swim: '#8ec8d8', tri: '#c97b84' };
   document.getElementById('ghRecent').innerHTML = acts.slice(0, 10).map(a =>
     `<tr style="border-top:1px solid #1e3a5f">
       <td style="padding:5px 6px 5px 0;color:#a0a0b0;white-space:nowrap">${a.date.slice(5).split('-').reverse().join('.')}</td>
@@ -2113,7 +2051,7 @@ function renderGarminHistory(data) {
       <td style="padding:5px 6px;color:#e0e0e0">${a.name || ''}</td>
       <td style="padding:5px 6px;color:#7dd3fc;white-space:nowrap;text-align:right">${a.minutes} мин</td>
       <td style="padding:5px 6px;color:#a0a0b0;white-space:nowrap;text-align:right">${a.km ? a.km + ' км' : ''}</td>
-      <td style="padding:5px 0 5px 6px;color:#f87171;white-space:nowrap;text-align:right">${a.avgHR ? '♥' + Math.round(a.avgHR) : ''}</td>
+      <td style="padding:5px 0 5px 6px;color:#d4908f;white-space:nowrap;text-align:right">${a.avgHR ? '♥' + Math.round(a.avgHR) : ''}</td>
     </tr>`).join('');
 
   if (data.pulled) document.getElementById('ghUpdated').textContent =
@@ -2193,7 +2131,6 @@ function applyGarminActuals(data, weekStatus) {
   renderSupplements();
   renderCharts(DATA || { runData: [], sleepData: [], hrData: [], swimData: [] });
   addCoachButtons();
-  setupExpand();
   loadMealsFromServer().then(() => renderMeals());
 
   document.getElementById('foodTextInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') handleFoodText(); });
