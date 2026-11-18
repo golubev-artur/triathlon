@@ -1,7 +1,24 @@
 {
-  "pulled": "2026-11-17T19:02:05",
+  "pulled": "2026-11-18T02:43:25",
   "days": 90,
   "activities": [
+    {
+      "id": 25112604977,
+      "date": "2026-11-17",
+      "time": "22:16",
+      "kind": "run",
+      "garminType": "treadmill_running",
+      "race": false,
+      "name": "Бег темповый Z3",
+      "minutes": 44,
+      "km": 7.19,
+      "avgHR": 138.0,
+      "maxHR": 163.0,
+      "avgPower": 298.0,
+      "elevation": 0,
+      "trainingLoad": 91.89472961425781,
+      "aerobicTE": 3.299999952316284
+    },
     {
       "id": 25093181300,
       "date": "2026-11-16",
