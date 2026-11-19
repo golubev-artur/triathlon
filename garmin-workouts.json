@@ -1139,6 +1139,42 @@
     },
     {
       "date": "2026-11-19",
+      "sport": "indoor_cycling",
+      "name": "Станок Z2 30'",
+      "estimatedDurationMin": 30,
+      "steps": [
+        {
+          "type": "warmup",
+          "durationMin": 8,
+          "target": {
+            "type": "power",
+            "low": 90,
+            "high": 110
+          }
+        },
+        {
+          "type": "interval",
+          "durationMin": 18,
+          "target": {
+            "type": "hr",
+            "low": 115,
+            "high": 140
+          },
+          "note": "Каденс 85-90, мощность 110-130W, ровное кручение"
+        },
+        {
+          "type": "cooldown",
+          "durationMin": 4,
+          "target": {
+            "type": "power",
+            "low": 85,
+            "high": 105
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-11-19",
       "sport": "treadmill_running",
       "name": "Дорожка Z2 + страйды",
       "estimatedDurationMin": 20,
