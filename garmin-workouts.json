@@ -1212,8 +1212,8 @@
     {
       "date": "2026-11-22",
       "sport": "treadmill_running",
-      "name": "Длинная дорожка Z2",
-      "estimatedDurationMin": 35,
+      "name": "Длинная дорожка Z2 50'",
+      "estimatedDurationMin": 50,
       "steps": [
         {
           "type": "warmup",
@@ -1226,13 +1226,13 @@
         },
         {
           "type": "interval",
-          "durationMin": 20,
+          "durationMin": 35,
           "target": {
             "type": "hr",
             "low": 136,
             "high": 150
           },
-          "note": "35 мин, ЧСС 136-150, питьё каждые 20 мин"
+          "note": "50 мин, ЧСС 136-150, темп 6:00+/км, питьё каждые 20 мин"
         },
         {
           "type": "cooldown",
