@@ -1,5 +1,5 @@
 {
-  "pulled": "2026-11-21T12:01:37",
+  "pulled": "2026-11-22T00:56:36",
   "days": 90,
   "activities": [
     {
@@ -341,23 +341,6 @@
       "elevation": 0,
       "trainingLoad": 33.040191650390625,
       "aerobicTE": 2.200000047683716
-    },
-    {
-      "id": 24082063453,
-      "date": "2026-08-23",
-      "time": "09:50",
-      "kind": "run",
-      "garminType": "running",
-      "race": false,
-      "name": "Бег",
-      "minutes": 50,
-      "km": 9.43,
-      "avgHR": 159.0,
-      "maxHR": 181.0,
-      "avgPower": 323.0,
-      "elevation": 44,
-      "trainingLoad": 268.73455810546875,
-      "aerobicTE": 5.0
     }
   ]
 }
