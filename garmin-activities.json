@@ -1,5 +1,5 @@
 {
-  "pulled": "2026-11-25T13:50:26",
+  "pulled": "2026-11-26T03:22:17",
   "days": 90,
   "activities": [
     {
@@ -324,23 +324,6 @@
       "elevation": 24,
       "trainingLoad": 164.2245330810547,
       "aerobicTE": 4.300000190734863
-    },
-    {
-      "id": 24141410379,
-      "date": "2026-08-27",
-      "time": "23:08",
-      "kind": "bike",
-      "garminType": "indoor_cycling",
-      "race": false,
-      "name": "Вел 0:33 лайт",
-      "minutes": 33,
-      "km": 14.36,
-      "avgHR": 120.0,
-      "maxHR": 145.0,
-      "avgPower": 127.0,
-      "elevation": 0,
-      "trainingLoad": 33.040191650390625,
-      "aerobicTE": 2.200000047683716
     }
   ]
 }
